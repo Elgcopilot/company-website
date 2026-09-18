@@ -1,0 +1,62 @@
+{
+  "astro.config.mjs": {
+    "mtime": 1789714031.9050813,
+    "seen": 1789715604.588387,
+    "ast_hash": "9a2692a5a07f5f81108e8f8db1f9bcf0",
+    "semantic_hash": "9a2692a5a07f5f81108e8f8db1f9bcf0"
+  },
+  "package.json": {
+    "mtime": 1789713847.7167945,
+    "seen": 1789715604.5883908,
+    "ast_hash": "799bc68966031a58df2b59663aaa19ec",
+    "semantic_hash": "799bc68966031a58df2b59663aaa19ec"
+  },
+  "src/components/Metric.astro": {
+    "mtime": 1789713893.4598846,
+    "seen": 1789715604.588392,
+    "ast_hash": "7567df8c6f13f38388eee90384310077",
+    "semantic_hash": "7567df8c6f13f38388eee90384310077"
+  },
+  "src/content/config.ts": {
+    "mtime": 1789713873.079868,
+    "seen": 1789715604.588393,
+    "ast_hash": "0347d183af6f7deaeef2ff545f0e7471",
+    "semantic_hash": "0347d183af6f7deaeef2ff545f0e7471"
+  },
+  "src/data/company.ts": {
+    "mtime": 1789713874.8564706,
+    "seen": 1789715604.588394,
+    "ast_hash": "cf90822b34f4e84240b285460b218117",
+    "semantic_hash": "cf90822b34f4e84240b285460b218117"
+  },
+  "src/env.d.ts": {
+    "mtime": 1789714041.5884461,
+    "seen": 1789715604.588395,
+    "ast_hash": "a34c63603f2fc704c29af63d4a960109",
+    "semantic_hash": "a34c63603f2fc704c29af63d4a960109"
+  },
+  "src/layouts/BaseLayout.astro": {
+    "mtime": 1789714070.8871806,
+    "seen": 1789715604.588396,
+    "ast_hash": "cada280f6daf8a7d13b07efebb6108e2",
+    "semantic_hash": "cada280f6daf8a7d13b07efebb6108e2"
+  },
+  "src/pages/index.astro": {
+    "mtime": 1789715549.9880674,
+    "seen": 1789715604.588398,
+    "ast_hash": "9fb4deea56913935c6311fc55f2befb4",
+    "semantic_hash": "9fb4deea56913935c6311fc55f2befb4"
+  },
+  "tailwind.config.mjs": {
+    "mtime": 1789713852.937457,
+    "seen": 1789715604.588398,
+    "ast_hash": "d008a858c7af8f75c47517263a724ac0",
+    "semantic_hash": "d008a858c7af8f75c47517263a724ac0"
+  },
+  "tsconfig.json": {
+    "mtime": 1789713851.2849867,
+    "seen": 1789715604.5883992,
+    "ast_hash": "98eac568a0de1e3a0619276a350ce9ad",
+    "semantic_hash": "98eac568a0de1e3a0619276a350ce9ad"
+  }
+}

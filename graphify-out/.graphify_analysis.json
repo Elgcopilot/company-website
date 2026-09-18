@@ -1,0 +1,170 @@
+{
+  "communities": {
+    "0": [
+      "package",
+      "package_name",
+      "package_private",
+      "package_type",
+      "package_version",
+      "ref_astro",
+      "ref_astrojs_check",
+      "ref_clsx",
+      "ref_fontsource_variable_inter",
+      "ref_lenis",
+      "ref_react",
+      "ref_react_dom",
+      "ref_tailwind_merge",
+      "ref_tailwindcss",
+      "ref_types_react",
+      "ref_types_react_dom",
+      "ref_typescript"
+    ],
+    "1": [
+      "package_dependencies",
+      "package_dependencies_astro",
+      "package_dependencies_astrojs_check",
+      "package_dependencies_astrojs_react",
+      "package_dependencies_astrojs_tailwind",
+      "package_dependencies_clsx",
+      "package_dependencies_fontsource_variable_inter",
+      "package_dependencies_fontsource_variable_jetbrains_mono",
+      "package_dependencies_lenis",
+      "package_dependencies_react",
+      "package_dependencies_react_dom",
+      "package_dependencies_tailwind_merge",
+      "package_dependencies_tailwindcss",
+      "package_dependencies_typescript"
+    ],
+    "2": [
+      "inter",
+      "jetbrains_mono",
+      "ref_fontsource_variable_jetbrains_mono",
+      "src_components_metric",
+      "src_data_company",
+      "src_data_company_architecture_layers",
+      "src_data_company_capability_modules",
+      "src_data_company_company",
+      "src_layouts_baselayout",
+      "src_pages_index"
+    ],
+    "3": [
+      "ref_astro_tsconfigs_strict",
+      "tsconfig",
+      "tsconfig_compileroptions",
+      "tsconfig_compileroptions_baseurl",
+      "tsconfig_compileroptions_jsx",
+      "tsconfig_compileroptions_jsximportsource",
+      "tsconfig_compileroptions_paths",
+      "tsconfig_exclude",
+      "tsconfig_extends",
+      "tsconfig_include"
+    ],
+    "4": [
+      "ref_astro_content",
+      "src_content_config",
+      "src_content_config_architecturelayerschema",
+      "src_content_config_capabilitymoduleschema",
+      "src_content_config_casestudies",
+      "src_content_config_collections",
+      "src_content_config_industries",
+      "src_content_config_metricschema",
+      "src_content_config_solutions"
+    ],
+    "5": [
+      "package_scripts",
+      "package_scripts_astro",
+      "package_scripts_build",
+      "package_scripts_check",
+      "package_scripts_dev",
+      "package_scripts_preview",
+      "package_scripts_typecheck"
+    ],
+    "6": [
+      "astro_config",
+      "ref_astro_config",
+      "ref_astrojs_react",
+      "ref_astrojs_tailwind"
+    ],
+    "7": [
+      "package_devdependencies",
+      "package_devdependencies_types_react",
+      "package_devdependencies_types_react_dom"
+    ],
+    "8": [
+      "tailwind_config",
+      "tailwindcss"
+    ],
+    "9": [
+      "src_env_d"
+    ]
+  },
+  "cohesion": {
+    "0": 0.11764705882352941,
+    "1": 0.14285714285714285,
+    "2": 0.3111111111111111,
+    "3": 0.2,
+    "4": 0.2222222222222222,
+    "5": 0.2857142857142857,
+    "6": 0.5,
+    "7": 0.6666666666666666,
+    "8": 1.0,
+    "9": 1.0
+  },
+  "gods": [
+    {
+      "id": "package_scripts",
+      "label": "scripts",
+      "degree": 7
+    },
+    {
+      "id": "tsconfig_compileroptions",
+      "label": "compilerOptions",
+      "degree": 5
+    },
+    {
+      "id": "src_data_company_company",
+      "label": "COMPANY",
+      "degree": 3
+    },
+    {
+      "id": "ref_astrojs_react",
+      "label": "@astrojs/react",
+      "degree": 2
+    },
+    {
+      "id": "ref_astrojs_tailwind",
+      "label": "@astrojs/tailwind",
+      "degree": 2
+    },
+    {
+      "id": "ref_fontsource_variable_jetbrains_mono",
+      "label": "@fontsource-variable/jetbrains-mono",
+      "degree": 2
+    },
+    {
+      "id": "src_data_company_capability_modules",
+      "label": "CAPABILITY_MODULES",
+      "degree": 2
+    },
+    {
+      "id": "src_data_company_architecture_layers",
+      "label": "ARCHITECTURE_LAYERS",
+      "degree": 2
+    },
+    {
+      "id": "package_private",
+      "label": "private",
+      "degree": 1
+    },
+    {
+      "id": "package_scripts_dev",
+      "label": "dev",
+      "degree": 1
+    }
+  ],
+  "surprises": [],
+  "tokens": {
+    "input": 0,
+    "output": 0
+  }
+}
