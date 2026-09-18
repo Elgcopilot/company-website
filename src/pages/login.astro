@@ -1,0 +1,59 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import { COMPANY } from '@/data/company';
+---
+
+<BaseLayout
+  title="Client Login — Telemetry & Docs Gateway"
+  description="Authorized ELG clients and partners: access telemetry streams and board documentation."
+>
+  <PageHero
+    eyebrow="Client Access"
+    title="ELG Client Portal & Telemetry Hub."
+    lede="Enter your authorized organization credentials or contact your project lead for access."
+  />
+  <section class="bg-brand-mist">
+    <div class="mx-auto max-w-md px-4 py-12 sm:px-6 sm:py-16">
+      <form
+        class="rounded-xl border border-brand-line bg-white p-6 sm:p-8"
+        aria-label="Client login"
+        onsubmit="return false;"
+      >
+        <label class="block text-xs font-semibold" for="org-email">
+          Organization email
+          <input
+            id="org-email"
+            type="email"
+            required
+            autocomplete="email"
+            placeholder="you@client-company.com"
+            class="mt-1.5 w-full rounded-md border border-brand-line bg-white px-3 py-2.5 text-sm outline-none transition-all duration-200 focus:border-brand-orange focus:ring-2 focus:ring-brand-orange/20"
+          />
+        </label>
+        <label class="mt-4 block text-xs font-semibold" for="org-pass">
+          Password
+          <input
+            id="org-pass"
+            type="password"
+            required
+            autocomplete="current-password"
+            placeholder="••••••••"
+            class="mt-1.5 w-full rounded-md border border-brand-line bg-white px-3 py-2.5 text-sm outline-none transition-all duration-200 focus:border-brand-orange focus:ring-2 focus:ring-brand-orange/20"
+          />
+        </label>
+        <button
+          type="submit"
+          class="mt-6 w-full rounded-md bg-brand-orange px-4 py-2.5 text-sm font-semibold text-white transition-all duration-200 ease-crisp hover:-translate-y-px hover:bg-brand-ember active:scale-[0.98]"
+        >
+          Sign in
+        </button>
+        <p class="mt-4 text-center text-xs leading-relaxed text-neutral-500">
+          Phase 1: gateway only — live telemetry access is provisioned per project.
+          Need access? Contact your project lead or
+          <a class="font-semibold text-brand-ember hover:underline" href={`mailto:${COMPANY.email}`}> {COMPANY.email}</a>.
+        </p>
+      </form>
+    </div>
+  </section>
+</BaseLayout>

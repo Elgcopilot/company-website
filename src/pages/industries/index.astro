@@ -1,0 +1,52 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import Metric from '@/components/Metric.astro';
+
+const industries = (await getCollection('industries'))
+  .sort((a, b) => a.data.order - b.data.order);
+const cases = await getCollection('case-studies');
+const countFor = (title: string) => cases.filter((c) => c.data.industry === title).length;
+---
+
+<BaseLayout
+  title="Industries — Where ELG Systems Operate"
+  description="Seven operating realities ELG builds for: motorsport, energy, enterprise IoT, agriculture AI, smart buildings, education and events."
+>
+  <PageHero
+    eyebrow="Industries"
+    title="Built for the operating reality, not the bench."
+    lede="Seven environments where ELG systems earn their keep — each one linked to the deployments that prove it."
+  />
+  <section class="bg-brand-mist">
+    <div class="mx-auto grid max-w-7xl gap-5 px-4 py-12 sm:px-6 sm:py-16 md:grid-cols-2 lg:grid-cols-3">
+      {industries.map((ind) => (
+        <article class="flex flex-col rounded-xl border border-brand-line bg-white p-6 transition-all duration-200 ease-crisp hover:-translate-y-1 hover:border-brand-orange/40 hover:shadow-lg">
+          <h2 class="text-lg font-bold tracking-tight">
+            <a href={`/industries/${ind.slug}`} class="hover:text-brand-ember">{ind.data.title}</a>
+          </h2>
+          <p class="mt-2 text-sm leading-relaxed text-neutral-600">{ind.data.tagline}</p>
+          {ind.data.heroMetric && (
+            <div class="mt-4">
+              <Metric
+                label={ind.data.heroMetric.label}
+                value={ind.data.heroMetric.value}
+                subtext={ind.data.heroMetric.subtext}
+                verified={ind.data.heroMetric.verified}
+              />
+            </div>
+          )}
+          <p class="mt-4 border-t border-brand-line pt-3 font-mono text-xs text-neutral-500">
+            {countFor(ind.data.title)} deployment{countFor(ind.data.title) === 1 ? '' : 's'}
+          </p>
+          <a href={`/industries/${ind.slug}`} class="mt-2 text-sm font-semibold text-brand-ember hover:underline">
+            Explore industry →
+          </a>
+        </article>
+      ))}
+    </div>
+  </section>
+  <CtaBand />
+</BaseLayout>

@@ -22,6 +22,36 @@ electrical noise, intermittent connectivity).
 energy, enterprise appliances, smart agriculture, education and events.
 All performance figures on the site are flagged verified or pending-validation.
 
+## Site map
+- Home: https://www.embeddedlinuxgroup.com/
+- Case studies: https://www.embeddedlinuxgroup.com/case-studies
+  - ISUZU Motorsport Telemetry: https://www.embeddedlinuxgroup.com/case-studies/isuzu-motorsport-telemetry
+  - PT Racing Emission Telemetry: https://www.embeddedlinuxgroup.com/case-studies/pt-racing-emission-telemetry
+  - LG Smart Laundry IoT: https://www.embeddedlinuxgroup.com/case-studies/lg-smart-laundry-iot
+  - LNG Gas & Solar Farm Monitoring: https://www.embeddedlinuxgroup.com/case-studies/lng-solar-farm-monitoring
+  - Bee-Sync Zigbee Gateway: https://www.embeddedlinuxgroup.com/case-studies/bee-sync-zigbee-gateway
+  - Smart Home Automation: https://www.embeddedlinuxgroup.com/case-studies/smart-home-automation
+  - Cooler Master RC Streaming: https://www.embeddedlinuxgroup.com/case-studies/cooler-master-rc-streaming
+  - KMITL Edge AI Agriculture Board: https://www.embeddedlinuxgroup.com/case-studies/kmitl-edge-ai-agri-board
+  - Burapha Education Board: https://www.embeddedlinuxgroup.com/case-studies/burapha-education-board
+  - S63 Grass-Cutting Robot: https://www.embeddedlinuxgroup.com/case-studies/s63-grass-cutting-robot
+- Solutions: https://www.embeddedlinuxgroup.com/solutions
+  - Mission-Critical Telemetry: https://www.embeddedlinuxgroup.com/solutions/mission-critical-telemetry
+  - Industrial IoT & Gateways: https://www.embeddedlinuxgroup.com/solutions/industrial-iot-gateways
+  - Smart Product Turnkey: https://www.embeddedlinuxgroup.com/solutions/smart-product-turnkey
+  - Edge AI & Vision: https://www.embeddedlinuxgroup.com/solutions/edge-ai-vision
+- Industries: https://www.embeddedlinuxgroup.com/industries
+  - Automotive & Motorsport: https://www.embeddedlinuxgroup.com/industries/automotive-motorsport
+  - Industrial IoT & Energy: https://www.embeddedlinuxgroup.com/industries/industrial-iot-energy
+  - Enterprise & Commercial IoT: https://www.embeddedlinuxgroup.com/industries/enterprise-commercial-iot
+  - Smart Agriculture & AI: https://www.embeddedlinuxgroup.com/industries/smart-agriculture-ai
+  - Smart Buildings & Infrastructure: https://www.embeddedlinuxgroup.com/industries/smart-buildings-infrastructure
+  - Education & Research: https://www.embeddedlinuxgroup.com/industries/education-research
+  - Entertainment & Events: https://www.embeddedlinuxgroup.com/industries/entertainment-events
+- About: https://www.embeddedlinuxgroup.com/about
+- Contact: https://www.embeddedlinuxgroup.com/contact
+- Thai (stub): https://www.embeddedlinuxgroup.com/th
+
 ## Contact
 - Web: https://www.embeddedlinuxgroup.com/contact
 - Email: elg.info@embeddedlinuxgroup.com

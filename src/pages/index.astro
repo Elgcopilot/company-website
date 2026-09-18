@@ -1,7 +1,13 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import CaseStudyCard from '@/components/CaseStudyCard.astro';
 import Metric from '@/components/Metric.astro';
 import { ARCHITECTURE_LAYERS, CAPABILITY_MODULES, COMPANY } from '@/data/company';
+
+const featured = (await getCollection('case-studies'))
+  .filter((s) => s.data.isFeatured)
+  .sort((a, b) => +b.data.publishedAt - +a.data.publishedAt);
 ---
 
 <BaseLayout
@@ -80,16 +86,32 @@ import { ARCHITECTURE_LAYERS, CAPABILITY_MODULES, COMPANY } from '@/data/company
 
   <section class="bg-white">
     <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20">
-      <h2 class="max-w-2xl text-2xl font-bold tracking-tight sm:text-3xl">Proven where failure is not an option.</h2>
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <h2 class="max-w-2xl text-2xl font-bold tracking-tight sm:text-3xl">Proven where failure is not an option.</h2>
+        <a href="/case-studies" class="text-sm font-semibold text-brand-ember hover:underline">Browse all 10 case studies →</a>
+      </div>
+      <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {featured.map((s) => (
+          <CaseStudyCard
+            slug={s.slug}
+            title={s.data.title}
+            subtitle={s.data.subtitle}
+            industry={s.data.industry}
+            projectType={s.data.projectType}
+            clientPartner={s.data.clientPartner}
+            status={s.data.status}
+            featuredImage={s.data.featuredImage}
+            isPlaceholderImage={s.data.isPlaceholderImage}
+            environmentConstraints={s.data.environmentConstraints}
+          />
+        ))}
+      </div>
       <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Metric label="Telemetry latency" value="Sub-100ms" subtext="Trackside streaming under race conditions." />
         <Metric label="CAN / GPS acquisition" value="25Hz" subtext="High-frequency motorsport data capture." />
         <Metric label="Race-event uptime" value="100%" subtext="Zero-failure operation during competition." />
         <Metric label="Prototype entry" value="MOQ 5" subtext="Pilot runs for startups and trials." verified />
       </div>
-      <a href="/case-studies" class="mt-8 inline-block text-sm font-semibold text-brand-ember hover:underline">
-        Browse all 10 case studies →
-      </a>
     </div>
   </section>
 

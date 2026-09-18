@@ -1,0 +1,95 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Metric from '@/components/Metric.astro';
+import CaseStudyCard from '@/components/CaseStudyCard.astro';
+import CtaBand from '@/components/CtaBand.astro';
+
+export async function getStaticPaths() {
+  const items = await getCollection('industries');
+  return items.map((s) => ({ params: { slug: s.slug }, props: { slug: s.slug } }));
+}
+
+const { slug } = Astro.props;
+const all = await getCollection('industries');
+const entry = all.find((s) => s.slug === slug)!;
+const cases = (await getCollection('case-studies'))
+  .filter((c) => c.data.industry === entry.data.title);
+const { Content } = await entry.render();
+const d = entry.data;
+---
+
+<BaseLayout title={d.title} description={d.tagline}>
+  <section class="border-b border-brand-line bg-white">
+    <div class="mx-auto max-w-7xl px-4 pb-10 pt-14 sm:px-6 sm:pt-16">
+      <p class="flex gap-2 text-xs font-semibold uppercase tracking-widest">
+        <a href="/industries" class="text-brand-ember hover:underline">Industries</a>
+        <span class="text-neutral-400">/</span>
+        <span class="text-neutral-500">{d.title}</span>
+      </p>
+      <h1 class="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-5xl">{d.title}</h1>
+      <p class="mt-4 max-w-2xl text-lg text-neutral-600">{d.tagline}</p>
+    </div>
+  </section>
+  <section class="bg-white">
+    <div class="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-3">
+      <article class="prose-elg lg:col-span-2">
+        <div class="rounded-xl border border-brand-line bg-white p-6 sm:p-8"><Content /></div>
+      </article>
+      <aside>
+        {d.heroMetric && (
+          <Metric
+            label={d.heroMetric.label}
+            value={d.heroMetric.value}
+            subtext={d.heroMetric.subtext}
+            verified={d.heroMetric.verified}
+          />
+        )}
+        <div class="mt-5 rounded-xl bg-brand-ink p-5 text-white">
+          <h2 class="text-sm font-bold">Operating in this reality?</h2>
+          <p class="mt-1 text-sm text-neutral-400">Describe the environment. We engineer around it.</p>
+          <a href="/contact" class="mt-4 block rounded-md bg-brand-orange px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-brand-ember">
+            Talk to our Team
+          </a>
+        </div>
+      </aside>
+    </div>
+  </section>
+  <section class="border-t border-brand-line bg-brand-mist">
+    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6">
+      <h2 class="text-xl font-bold tracking-tight">
+        Deployments in {d.title} ({cases.length})
+      </h2>
+      {cases.length > 0 ? (
+        <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {cases.map((s) => (
+            <CaseStudyCard
+              slug={s.slug}
+              title={s.data.title}
+              subtitle={s.data.subtitle}
+              industry={s.data.industry}
+              projectType={s.data.projectType}
+              clientPartner={s.data.clientPartner}
+              status={s.data.status}
+              featuredImage={s.data.featuredImage}
+              isPlaceholderImage={s.data.isPlaceholderImage}
+              environmentConstraints={s.data.environmentConstraints}
+            />
+          ))}
+        </div>
+      ) : (
+        <p class="mt-4 max-w-2xl text-sm leading-relaxed text-neutral-600">
+          No public deployment in this industry yet — details under NDA.
+          If your environment is harsher than what you see in our case studies,
+          that is exactly the conversation to have.
+          <a href="/contact" class="font-semibold text-brand-ember hover:underline"> Talk to our team →</a>
+        </p>
+      )}
+    </div>
+  </section>
+  <CtaBand />
+</BaseLayout>
+
+<style>
+  .prose-elg p { color: #525252; line-height: 1.75; }
+</style>

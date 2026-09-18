@@ -1,0 +1,86 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Metric from '@/components/Metric.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import { CAPABILITY_MODULES } from '@/data/company';
+
+export async function getStaticPaths() {
+  const items = await getCollection('solutions');
+  return items.map((s) => ({ params: { slug: s.slug }, props: { slug: s.slug } }));
+}
+
+const { slug } = Astro.props;
+const all = await getCollection('solutions');
+const entry = all.find((s) => s.slug === slug)!;
+const cases = await getCollection('case-studies');
+const { Content } = await entry.render();
+const d = entry.data;
+const modName = (m: string) => CAPABILITY_MODULES.find((c) => c.slug === m)?.name ?? m;
+const proof = cases
+  .filter((c) => c.data.capabilityModules.some((m) => d.capabilityModules.includes(m)))
+  .slice(0, 3);
+---
+
+<BaseLayout title={d.title} description={d.tagline}>
+  <section class="border-b border-brand-line bg-white">
+    <div class="mx-auto max-w-7xl px-4 pb-10 pt-14 sm:px-6 sm:pt-16">
+      <p class="flex gap-2 text-xs font-semibold uppercase tracking-widest">
+        <a href="/solutions" class="text-brand-ember hover:underline">Solutions</a>
+        <span class="text-neutral-400">/</span>
+        <span class="text-neutral-500">{d.packageType}</span>
+      </p>
+      <h1 class="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-5xl">{d.title}</h1>
+      <p class="mt-4 max-w-2xl text-lg text-neutral-600">{d.tagline}</p>
+      <div class="mt-5 flex flex-wrap gap-2">
+        {d.capabilityModules.map((m) => (
+          <span class="rounded-full bg-brand-mist px-3 py-1 text-[11px] font-semibold text-neutral-600">{modName(m)}</span>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section class="bg-white">
+    <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6">
+      {d.metrics.length > 0 && (
+        <div class="grid gap-4 sm:grid-cols-3">
+          {d.metrics.map((m) => (
+            <Metric label={m.label} value={m.value} subtext={m.subtext} verified={m.verified} />
+          ))}
+        </div>
+      )}
+      <article class="prose-elg mt-8 max-w-3xl">
+        <div class="rounded-xl border border-brand-line bg-white p-6 sm:p-8"><Content /></div>
+      </article>
+    </div>
+  </section>
+  <section class="border-y border-brand-line bg-brand-mist">
+    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6">
+      <h2 class="text-xl font-bold tracking-tight">Proof it works</h2>
+      <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {proof.map((s) => (
+          <a
+            href={`/case-studies/${s.slug}`}
+            class="group overflow-hidden rounded-xl border border-brand-line bg-white transition-all duration-200 hover:-translate-y-1 hover:border-brand-orange/40 hover:shadow-lg"
+          >
+            <div class="aspect-[16/9] overflow-hidden bg-brand-mist">
+              <img src={s.data.featuredImage} alt={s.data.title} loading="lazy" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+            </div>
+            <div class="p-5">
+              <h3 class="font-semibold leading-snug group-hover:text-brand-ember">{s.data.title}</h3>
+              <p class="mt-1 font-mono text-[11px] uppercase tracking-widest text-neutral-500">{s.data.industry}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CtaBand />
+</BaseLayout>
+
+<style>
+  .prose-elg h2 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 0.75rem; }
+  .prose-elg h2:not(:first-child) { margin-top: 1.75rem; }
+  .prose-elg p { color: #525252; line-height: 1.75; }
+  .prose-elg p + p { margin-top: 0.75rem; }
+  .prose-elg ul { margin-top: 0.75rem; list-style: disc; padding-left: 1.25rem; color: #525252; line-height: 1.75; }
+</style>

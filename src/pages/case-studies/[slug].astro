@@ -1,0 +1,116 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Metric from '@/components/Metric.astro';
+import CaseStudyCard from '@/components/CaseStudyCard.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import { CAPABILITY_MODULES } from '@/data/company';
+
+export async function getStaticPaths() {
+  const studies = await getCollection('case-studies');
+  return studies.map((s) => ({ params: { slug: s.slug }, props: { slug: s.slug } }));
+}
+const { slug } = Astro.props;
+const all = await getCollection('case-studies');
+const entry = all.find((s) => s.slug === slug)!;
+const { Content } = await entry.render();
+const d = entry.data;
+const modName = (m: string) => CAPABILITY_MODULES.find((c) => c.slug === m)?.name ?? m;
+const related = all.filter((s) => s.slug !== slug && (s.data.industry === d.industry || s.data.projectType === d.projectType)).slice(0, 3);
+const relatedFill = related.length >= 3 ? related : [...related, ...all.filter((s) => s.slug !== slug && !related.includes(s))].slice(0, 3);
+---
+<BaseLayout title={d.title} description={d.subtitle}>
+  <section class="border-b border-brand-line bg-white">
+    <div class="mx-auto max-w-7xl px-4 pb-10 pt-14 sm:px-6 sm:pt-16">
+      <p class="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-widest">
+        <a href="/case-studies" class="text-brand-ember hover:underline">Case Studies</a>
+        <span class="text-neutral-400">/</span>
+        <span class="text-neutral-500">{d.industry}</span>
+      </p>
+      <h1 class="mt-4 max-w-3xl text-3xl font-bold leading-tight tracking-tight sm:text-5xl">{d.title}</h1>
+      <p class="mt-4 max-w-2xl text-lg leading-relaxed text-neutral-600">{d.subtitle}</p>
+      <div class="mt-5 flex flex-wrap gap-2 text-[11px] font-semibold uppercase tracking-widest">
+        <span class="rounded-full bg-brand-orange/10 px-3 py-1 text-brand-ember">{d.projectType}</span>
+        <span class="rounded-full bg-brand-mist px-3 py-1 text-neutral-600">{d.industry}</span>
+        <span class="rounded-full border border-brand-line px-3 py-1 font-mono text-neutral-500">{d.status}</span>
+        {d.clientPartner && <span class="rounded-full bg-brand-ink px-3 py-1 font-mono text-white">{d.clientPartner}</span>}
+      </div>
+    </div>
+  </section>
+  <section class="bg-white">
+    <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6">
+      <figure class="overflow-hidden rounded-xl border border-brand-line">
+        <img src={d.featuredImage} alt={d.title} class="aspect-[16/8] w-full object-cover" />
+        {d.isPlaceholderImage && <figcaption class="bg-brand-mist px-4 py-2 text-xs text-neutral-500">[Placeholder Asset] Production photography lands here.</figcaption>}
+      </figure>
+      <div class="mt-8 grid gap-4 sm:grid-cols-3">
+        {d.metrics.map((m) => <Metric label={m.label} value={m.value} subtext={m.subtext} verified={m.verified} />)}
+      </div>
+    </div>
+  </section>
+  <section class="border-y border-brand-line bg-brand-mist">
+    <div class="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-3">
+      <article class="prose-elg lg:col-span-2">
+        <div class="rounded-xl border border-brand-line bg-white p-6 sm:p-8">
+          <Content />
+        </div>
+        {d.architectureLayers && (
+          <div class="mt-6 rounded-xl border border-brand-line bg-brand-coal p-6 text-white sm:p-8">
+            <h2 class="text-lg font-bold tracking-tight">System architecture (overview)</h2>
+            <p class="mt-1 text-xs text-neutral-400">Overview only - per-client internals stay under NDA.</p>
+            <ol class="mt-5 space-y-4">
+              {d.architectureLayers.map((l, i) => (
+                <li class="flex gap-4">
+                  <span class="font-mono text-xs font-bold text-brand-orange">0{i + 1}</span>
+                  <div><h3 class="text-sm font-semibold">{l.layerName}</h3><p class="mt-1 text-sm leading-relaxed text-neutral-400">{l.description}</p></div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
+      </article>
+      <aside class="space-y-5">
+        <div class="rounded-xl border border-brand-line bg-white p-5">
+          <h2 class="text-xs font-semibold uppercase tracking-widest text-neutral-500">Capability modules used</h2>
+          <ul class="mt-3 flex flex-wrap gap-2">
+            {d.capabilityModules.map((m) => <li class="rounded-full bg-brand-mist px-3 py-1 text-xs font-semibold text-neutral-700">{modName(m)}</li>)}
+          </ul>
+        </div>
+        <div class="rounded-xl border border-brand-line bg-white p-5">
+          <h2 class="text-xs font-semibold uppercase tracking-widest text-neutral-500">Operating constraints</h2>
+          <ul class="mt-3 space-y-2 text-sm text-neutral-700">
+            {d.environmentConstraints.map((c) => <li class="flex gap-2"><span class="text-brand-orange">&#9632;</span>{c}</li>)}
+          </ul>
+        </div>
+        <div class="rounded-xl border border-brand-line bg-white p-5">
+          <h2 class="text-xs font-semibold uppercase tracking-widest text-neutral-500">Deliverables</h2>
+          <ul class="mt-3 space-y-2 text-sm text-neutral-700">
+            {d.deliverables.map((x) => <li class="flex gap-2"><span class="font-mono font-bold text-brand-ember">&gt;</span>{x}</li>)}
+          </ul>
+        </div>
+        <div class="rounded-xl bg-brand-ink p-5 text-white">
+          <h2 class="text-sm font-bold">Need a similar ecosystem?</h2>
+          <p class="mt-1 text-sm text-neutral-400">Bring the signal list and the environment spec.</p>
+          <a href="/contact" class="mt-4 block rounded-md bg-brand-orange px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-brand-ember">Talk to our Team</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+  <section class="bg-white">
+    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6">
+      <h2 class="text-xl font-bold tracking-tight">Related field evidence</h2>
+      <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {relatedFill.map((s) => (
+          <CaseStudyCard slug={s.slug} title={s.data.title} subtitle={s.data.subtitle} industry={s.data.industry} projectType={s.data.projectType} clientPartner={s.data.clientPartner} status={s.data.status} featuredImage={s.data.featuredImage} isPlaceholderImage={s.data.isPlaceholderImage} environmentConstraints={s.data.environmentConstraints} />
+        ))}
+      </div>
+    </div>
+  </section>
+  <CtaBand />
+</BaseLayout>
+<style>
+  .prose-elg h2 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 0.75rem; }
+  .prose-elg h2:not(:first-child) { margin-top: 1.75rem; }
+  .prose-elg p { color: #525252; line-height: 1.75; }
+  .prose-elg p + p { margin-top: 0.75rem; }
+</style>

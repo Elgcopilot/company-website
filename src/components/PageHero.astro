@@ -1,0 +1,25 @@
+---
+/**
+ * PageHero — shared inner-page hero (zero JS).
+ * Keeps eyebrow / title / lede rhythm identical across
+ * hub, list, detail, about, contact and login pages.
+ */
+interface Props {
+  eyebrow: string;
+  title: string;
+  lede?: string;
+}
+
+const { eyebrow, title, lede } = Astro.props;
+---
+
+<section class="border-b border-brand-line bg-white">
+  <div class="mx-auto max-w-7xl px-4 pb-12 pt-16 sm:px-6 sm:pb-16 sm:pt-20">
+    <p class="inline-block rounded-full border border-brand-orange/30 bg-brand-orange/10 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-brand-ember">
+      {eyebrow}
+    </p>
+    <h1 class="mt-5 max-w-3xl text-3xl font-bold leading-[1.08] tracking-tight sm:text-5xl">{title}</h1>
+    {lede && <p class="mt-5 max-w-2xl text-lg leading-relaxed text-neutral-600">{lede}</p>}
+    <slot />
+  </div>
+</section>

@@ -1,0 +1,52 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import Metric from '@/components/Metric.astro';
+import { CAPABILITY_MODULES } from '@/data/company';
+
+const solutions = (await getCollection('solutions'))
+  .sort((a, b) => a.data.order - b.data.order);
+const modName = (m: string) => CAPABILITY_MODULES.find((c) => c.slug === m)?.name ?? m;
+---
+
+<BaseLayout
+  title="Solutions — Outcome Packages"
+  description="Four outcome-based packages: mission-critical telemetry, industrial IoT gateways, smart product turnkey, edge AI and vision."
+>
+  <PageHero
+    eyebrow="Solutions"
+    title="Outcome packages, not technology menus."
+    lede="Four ways to engage — each one a business outcome with the capability modules it combines. Pick the outcome; we engineer the stack."
+  />
+  <section class="bg-brand-mist">
+    <div class="mx-auto grid max-w-7xl gap-5 px-4 py-12 sm:px-6 sm:py-16 md:grid-cols-2">
+      {solutions.map((s, i) => (
+        <article class="flex flex-col rounded-xl border border-brand-line bg-white p-6 transition-all duration-200 ease-crisp hover:-translate-y-1 hover:border-brand-orange/40 hover:shadow-lg sm:p-8">
+          <p class="font-mono text-xs font-bold text-brand-orange">0{i + 1}</p>
+          <h2 class="mt-2 text-xl font-bold tracking-tight">
+            <a href={`/solutions/${s.slug}`} class="hover:text-brand-ember">{s.data.title}</a>
+          </h2>
+          <p class="mt-2 text-sm leading-relaxed text-neutral-600">{s.data.tagline}</p>
+          <div class="mt-3 flex flex-wrap gap-1.5">
+            {s.data.capabilityModules.map((m) => (
+              <span class="rounded-full bg-brand-mist px-2 py-1 text-[11px] font-semibold text-neutral-600">{modName(m)}</span>
+            ))}
+          </div>
+          {s.data.metrics.length > 0 && (
+            <div class="mt-4 grid gap-3 sm:grid-cols-2">
+              {s.data.metrics.slice(0, 2).map((m) => (
+                <Metric label={m.label} value={m.value} subtext={m.subtext} verified={m.verified} />
+              ))}
+            </div>
+          )}
+          <a href={`/solutions/${s.slug}`} class="mt-5 text-sm font-semibold text-brand-ember hover:underline">
+            Explore package →
+          </a>
+        </article>
+      ))}
+    </div>
+  </section>
+  <CtaBand />
+</BaseLayout>

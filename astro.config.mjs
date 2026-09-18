@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
+import mdx from '@astrojs/mdx';
 
 // ELG Website — Phase 1 build config.
 // Static output for Vercel. i18n routing (en default, th reserved)
@@ -18,5 +19,6 @@ export default defineConfig({
       include: ['**/react/*'],
     }),
     tailwind(),
+    mdx(),
   ],
 });

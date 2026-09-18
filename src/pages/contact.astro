@@ -1,0 +1,66 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import ContactForm from '@/components/react/ContactForm';
+import { COMPANY } from '@/data/company';
+---
+
+<BaseLayout
+  title="Contact — Schedule an Engineering Consultation"
+  description="Tell ELG your operating reality: domain, scope, constraints and timeline. One engineering reply within one business day. LINE, phone and email."
+>
+  <PageHero
+    eyebrow="Contact"
+    title="Bring us the requirement. We engineer the ecosystem."
+    lede="Four quick steps — domain, scope, environment, contact. Prefer to talk first? LINE and phone are below."
+  />
+  <section class="bg-brand-mist">
+    <div class="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-3">
+      <div class="lg:col-span-2">
+        <ContactForm client:visible />
+        <noscript>
+          <div class="rounded-xl border border-brand-line bg-white p-8">
+            <p class="font-semibold">The interactive form needs JavaScript.</p>
+            <p class="mt-2 text-sm text-neutral-600">
+              Email <a class="font-semibold text-brand-ember" href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a>
+              or LINE <a class="font-semibold text-brand-ember" href={COMPANY.lineUrl}>{COMPANY.lineId}</a> —
+              we reply within one business day.
+            </p>
+          </div>
+        </noscript>
+      </div>
+      <aside class="space-y-5">
+        <div class="rounded-xl border border-brand-line bg-white p-6">
+          <h2 class="text-xs font-semibold uppercase tracking-widest text-neutral-500">Direct lines</h2>
+          <address class="mt-3 space-y-2 text-sm not-italic">
+            <p><a class="font-semibold text-brand-ember hover:underline" href={COMPANY.lineUrl}>LINE: {COMPANY.lineId}</a></p>
+            <p><a class="hover:text-brand-ember" href={COMPANY.phoneHref}>{COMPANY.phone}</a></p>
+            <p><a class="hover:text-brand-ember" href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a></p>
+            <p class="text-neutral-500">{COMPANY.hours}</p>
+            <p class="text-neutral-600">{COMPANY.address}</p>
+          </address>
+        </div>
+        <div class="rounded-xl bg-brand-ink p-6 text-white">
+          <h2 class="text-sm font-bold">Prefer to book directly?</h2>
+          <p class="mt-1 text-sm text-neutral-400">Pick a slot — no back-and-forth email needed.</p>
+          <a
+            href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ2KxT2uJ8wXyZ_example"
+            class="mt-4 block rounded-md bg-brand-orange px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-brand-ember"
+          >
+            Book on Google Calendar
+          </a>
+        </div>
+        <div class="rounded-xl border border-brand-line bg-white p-6">
+          <h2 class="text-xs font-semibold uppercase tracking-widest text-neutral-500">What happens next</h2>
+          <ol class="mt-3 space-y-2 text-sm text-neutral-600">
+            <li><span class="font-mono font-bold text-brand-ember">01</span> — Engineering reply within one business day.</li>
+            <li><span class="font-mono font-bold text-brand-ember">02</span> — 30-min scoping call on your operating reality.</li>
+            <li><span class="font-mono font-bold text-brand-ember">03</span> — Proposal from MOQ 5 pilot units.</li>
+          </ol>
+        </div>
+      </aside>
+    </div>
+  </section>
+  <CtaBand />
+</BaseLayout>

@@ -1,0 +1,28 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import CtaBand from '@/components/CtaBand.astro';
+---
+
+<BaseLayout
+  title="ฉบับภาษาไทย — เร็วๆ นี้"
+  description="เว็บไซต์ ELG ฉบับภาษาไทยกำลังจัดทำ — ติดต่อทีมวิศวกรได้ทันทีทาง LINE และโทรศัพท์"
+  lang="th"
+>
+  <PageHero
+    eyebrow="ภาษาไทย"
+    title="ฉบับภาษาไทยกำลังจัดทำ"
+    lede="เนื้อหาภาษาอังกฤษพร้อมใช้งานแล้ว — หรือคุยกับทีมวิศวกรโดยตรงได้เลย เราตอบภายในหนึ่งวันทำการ"
+  />
+  <section class="bg-brand-mist">
+    <div class="mx-auto flex max-w-7xl flex-wrap gap-3 px-4 py-12 sm:px-6">
+      <a href="/case-studies" class="rounded-md border border-brand-line bg-white px-6 py-3 text-sm font-semibold hover:border-brand-orange/40">
+        ดูผลงาน (English) →
+      </a>
+      <a href="/contact" class="rounded-md bg-brand-orange px-6 py-3 text-sm font-semibold text-white hover:bg-brand-ember">
+        ติดต่อทีมวิศวกร
+      </a>
+    </div>
+  </section>
+  <CtaBand />
+</BaseLayout>

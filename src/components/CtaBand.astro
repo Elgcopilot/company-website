@@ -1,0 +1,34 @@
+---
+/**
+ * CtaBand — shared closing conversion band (zero JS).
+ * Single message everywhere: "Bring us the requirement.
+ * We will engineer the ecosystem."
+ */
+import { COMPANY } from '@/data/company';
+---
+
+<section class="border-t border-brand-line bg-brand-mist">
+  <div class="mx-auto max-w-7xl px-4 py-16 text-center sm:px-6 sm:py-20">
+    <h2 class="mx-auto max-w-2xl text-2xl font-bold tracking-tight sm:text-3xl">
+      Bring us the requirement. We will engineer the ecosystem.
+    </h2>
+    <p class="mx-auto mt-3 max-w-xl text-neutral-600">
+      Tell us the operating reality — LINE, call, or the qualification form.
+      We reply within one business day.
+    </p>
+    <div class="mt-8 flex flex-wrap justify-center gap-3">
+      <a
+        href="/contact"
+        class="rounded-md bg-brand-orange px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-200 ease-crisp hover:-translate-y-px hover:bg-brand-ember active:scale-[0.98]"
+      >
+        Schedule an Engineering Consultation
+      </a>
+      <a
+        href={COMPANY.lineUrl}
+        class="rounded-md border border-brand-line bg-white px-6 py-3 text-sm font-semibold transition-all duration-200 ease-crisp hover:-translate-y-px hover:border-brand-orange/40 active:scale-[0.98]"
+      >
+        LINE: {COMPANY.lineId}
+      </a>
+    </div>
+  </div>
+</section>
