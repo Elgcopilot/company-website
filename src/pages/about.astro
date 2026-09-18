@@ -17,8 +17,9 @@ import { COMPANY } from '@/data/company';
   />
   <section class="bg-white">
     <div class="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-3">
-      <article class="rounded-xl border border-brand-line p-6 sm:p-8 lg:col-span-2">
-        <h2 class="text-xl font-bold tracking-tight">Evidence, not claims.</h2>
+      <article class="rounded-xl border border-brand-line p-6 sm:p-8 lg:col-span-2" data-reveal>
+        <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-500">Who we are</p>
+        <h2 class="mt-3 text-2xl font-semibold tracking-[-0.02em] text-brand-ink sm:text-3xl">Evidence, not claims.</h2>
         <p class="mt-3 leading-relaxed text-neutral-600">
           Every ELG engagement combines the same six building blocks — custom hardware,
           RTOS firmware, embedded Linux, IoT connectivity, edge AI and cloud backends —
@@ -37,7 +38,7 @@ import { COMPANY } from '@/data/company';
           <Metric label="Race-event uptime" value="100%" subtext="Zero-failure operation during competition." />
         </div>
       </article>
-      <aside class="space-y-5">
+      <aside class="space-y-5" data-reveal data-reveal-delay="0.1">
         <div class="rounded-xl border border-brand-line bg-brand-mist p-6">
           <h2 class="text-xs font-semibold uppercase tracking-widest text-neutral-500">Company</h2>
           <p class="mt-3 text-sm font-semibold">{COMPANY.name} Co., Ltd.</p>
@@ -49,7 +50,7 @@ import { COMPANY } from '@/data/company';
         <div class="rounded-xl bg-brand-ink p-6 text-white">
           <h2 class="text-sm font-bold">Meet the build team.</h2>
           <p class="mt-1 text-sm text-neutral-400">One conversation with an engineer beats ten sales decks.</p>
-          <a href="/contact" class="mt-4 block rounded-md bg-brand-orange px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-brand-ember">
+          <a href="/contact" class="mt-4 block rounded-full bg-white px-4 py-2.5 text-center text-sm font-semibold text-brand-ink transition-all duration-200 hover:-translate-y-px active:scale-[0.98]">
             Talk to our Team
           </a>
         </div>

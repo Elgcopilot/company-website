@@ -64,6 +64,9 @@ const caseStudies = defineCollection({
     metrics: z.array(metricSchema),
     featuredImage: z.string(),
     isPlaceholderImage: z.boolean().default(false),
+    // Extra field photos (min 3 per case incl. featuredImage). Shown in the
+    // detail-page evidence gallery; first entry should repeat featuredImage.
+    galleryImages: z.array(z.string()).default([]),
     publishedAt: z.date(),
     isFeatured: z.boolean().default(false),
     // Overview-level layer descriptions only — never per-client internals.

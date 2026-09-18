@@ -1,8 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import Metric from '@/components/Metric.astro';
 import CaseStudyCard from '@/components/CaseStudyCard.astro';
+import Prose from '@/components/Prose.astro';
 import CtaBand from '@/components/CtaBand.astro';
 
 export async function getStaticPaths() {
@@ -20,48 +20,62 @@ const d = entry.data;
 ---
 
 <BaseLayout title={d.title} description={d.tagline}>
+  <!-- Editorial industry hero with mono spec row -->
   <section class="border-b border-brand-line bg-white">
-    <div class="mx-auto max-w-7xl px-4 pb-10 pt-14 sm:px-6 sm:pt-16">
-      <p class="flex gap-2 text-xs font-semibold uppercase tracking-widest">
+    <div class="mx-auto max-w-7xl px-4 pb-10 pt-24 sm:px-6 sm:pb-14 sm:pt-28">
+      <p class="flex flex-wrap items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.18em]">
         <a href="/industries" class="text-brand-ember hover:underline">Industries</a>
-        <span class="text-neutral-400">/</span>
-        <span class="text-neutral-500">{d.title}</span>
+        <span class="text-neutral-300" aria-hidden="true">/</span>
+        <span class="text-neutral-500">{cases.length} deployment{cases.length === 1 ? '' : 's'}</span>
       </p>
-      <h1 class="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-5xl">{d.title}</h1>
-      <p class="mt-4 max-w-2xl text-lg text-neutral-600">{d.tagline}</p>
+      <h1 class="mt-5 max-w-3xl text-4xl font-semibold leading-[1.02] tracking-[-0.03em] text-brand-ink sm:text-5xl md:text-6xl">{d.title}</h1>
+      <p class="mt-5 max-w-2xl text-base leading-relaxed text-neutral-600 sm:text-lg">{d.tagline}</p>
+      {d.heroMetric && (
+        <dl class="mt-7 flex flex-wrap gap-x-8 gap-y-3 border-t border-brand-line pt-5 font-mono">
+          <div>
+            <dt class="text-[10px] font-medium uppercase tracking-[0.18em] text-neutral-500">{d.heroMetric.label}</dt>
+            <dd class="mt-1 text-sm font-bold text-brand-ink">
+              {d.heroMetric.value}{!d.heroMetric.verified && <span class="text-brand-orange" aria-hidden="true">*</span>}
+            </dd>
+          </div>
+          {d.heroMetric.subtext && (
+            <div class="max-w-xs">
+              <dt class="text-[10px] font-medium uppercase tracking-[0.18em] text-neutral-500">Note</dt>
+              <dd class="mt-1 text-xs leading-relaxed text-neutral-500">{d.heroMetric.subtext}</dd>
+            </div>
+          )}
+        </dl>
+      )}
     </div>
   </section>
   <section class="bg-white">
-    <div class="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-3">
-      <article class="prose-elg lg:col-span-2">
-        <div class="rounded-xl border border-brand-line bg-white p-6 sm:p-8"><Content /></div>
+    <div class="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-3">
+      <article class="lg:col-span-2" data-reveal>
+        <Prose><Content /></Prose>
       </article>
-      <aside>
-        {d.heroMetric && (
-          <Metric
-            label={d.heroMetric.label}
-            value={d.heroMetric.value}
-            subtext={d.heroMetric.subtext}
-            verified={d.heroMetric.verified}
-          />
-        )}
-        <div class="mt-5 rounded-xl bg-brand-ink p-5 text-white">
-          <h2 class="text-sm font-bold">Operating in this reality?</h2>
-          <p class="mt-1 text-sm text-neutral-400">Describe the environment. We engineer around it.</p>
-          <a href="/contact" class="mt-4 block rounded-md bg-brand-orange px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-brand-ember">
+      <aside class="lg:sticky lg:top-24 lg:self-start" data-reveal data-reveal-delay="0.1">
+        <div class="rounded-2xl bg-brand-ink p-6 text-white sm:p-7">
+          <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-400">This reality</p>
+          <h2 class="mt-3 text-xl font-semibold tracking-[-0.02em]">Operating in these conditions?</h2>
+          <p class="mt-2 text-sm leading-relaxed text-neutral-400">Describe the environment. We engineer around it.</p>
+          <a href="/contact" class="group mt-6 flex items-center justify-center gap-2 rounded-full bg-white px-4 py-3 text-sm font-semibold text-brand-ink transition-all duration-200 hover:-translate-y-px active:scale-[0.98]">
             Talk to our Team
+            <span aria-hidden="true" class="grid size-5 place-items-center rounded-full bg-brand-orange text-xs leading-none text-white transition-transform duration-200 group-hover:translate-x-0.5">→</span>
           </a>
         </div>
       </aside>
     </div>
   </section>
-  <section class="border-t border-brand-line bg-brand-mist">
-    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-      <h2 class="text-xl font-bold tracking-tight">
-        Deployments in {d.title} ({cases.length})
-      </h2>
+  <section class="border-t border-brand-line bg-brand-paper">
+    <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20">
+      <div class="flex flex-wrap items-end justify-between gap-4" data-reveal>
+        <h2 class="text-2xl font-semibold tracking-[-0.02em] text-brand-ink sm:text-3xl">
+          Deployments in {d.title} ({cases.length})
+        </h2>
+        <a href="/case-studies" class="text-sm font-semibold text-brand-ember hover:underline">All case studies →</a>
+      </div>
       {cases.length > 0 ? (
-        <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {cases.map((s) => (
             <CaseStudyCard
               slug={s.slug}
@@ -78,18 +92,16 @@ const d = entry.data;
           ))}
         </div>
       ) : (
-        <p class="mt-4 max-w-2xl text-sm leading-relaxed text-neutral-600">
-          No public deployment in this industry yet — details under NDA.
-          If your environment is harsher than what you see in our case studies,
-          that is exactly the conversation to have.
-          <a href="/contact" class="font-semibold text-brand-ember hover:underline"> Talk to our team →</a>
-        </p>
+        <div class="mt-8 rounded-2xl border border-brand-line bg-white p-8 sm:p-10" data-reveal>
+          <p class="max-w-2xl text-sm leading-relaxed text-neutral-600">
+            No public deployment in this industry yet — details under NDA.
+            If your environment is harsher than what you see in our case studies,
+            that is exactly the conversation to have.
+            <a href="/contact" class="font-semibold text-brand-ember hover:underline"> Talk to our team →</a>
+          </p>
+        </div>
       )}
     </div>
   </section>
   <CtaBand />
 </BaseLayout>
-
-<style>
-  .prose-elg p { color: #525252; line-height: 1.75; }
-</style>

@@ -1,0 +1,15 @@
+{
+  "0": "package.json",
+  "1": "dependencies",
+  "2": "company.ts",
+  "3": "tsconfig.json",
+  "4": "config.ts",
+  "5": "scripts",
+  "6": "CaseStudyFilters.tsx",
+  "7": "BaseLayout.astro",
+  "8": "tailwind.config.mjs",
+  "9": "env.d.ts",
+  "10": "astro:content",
+  "11": "solutions/[slug].astro",
+  "12": "industries/[slug].astro"
+}

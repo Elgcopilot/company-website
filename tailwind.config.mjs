@@ -7,6 +7,7 @@ export default {
         // ELG Clean-Tech palette (Brand.md §2) — monochrome + signature orange.
         brand: {
           white: '#FFFFFF',
+          paper: '#FAFAFA',
           mist: '#F4F4F6',
           line: '#E5E7EB',
           mute: '#D1D5DB',

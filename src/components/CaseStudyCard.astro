@@ -1,6 +1,8 @@
 ---
 /**
  * CaseStudyCard — static `.astro` card (zero JS).
+ * Homepage design language: editorial image, mono eyebrow line,
+ * tight-tracked title, hairline footer with status + arrow link.
  * Evidence-first: unverified metrics are never stated as fact;
  * placeholder images carry an explicit flag per Brand.md §4.
  */
@@ -31,41 +33,44 @@ const {
 } = Astro.props;
 ---
 
-<article class="group flex flex-col overflow-hidden rounded-xl border border-brand-line bg-white transition-all duration-200 ease-crisp hover:-translate-y-1 hover:border-brand-orange/40 hover:shadow-lg">
+<article class="group flex h-full flex-col overflow-hidden rounded-2xl border border-brand-line bg-white transition-all duration-300 hover:-translate-y-1 hover:border-brand-ink/20 hover:shadow-[0_24px_48px_-24px_rgb(0_0_0/0.25)]" data-reveal>
   <a href={`/case-studies/${slug}`} class="flex h-full flex-col" aria-label={`Read case study: ${title}`}>
     <div class="relative aspect-[16/9] overflow-hidden bg-brand-mist">
       <img
         src={featuredImage}
         alt={title}
         loading="lazy"
-        class="h-full w-full object-cover transition-transform duration-500 ease-crisp group-hover:scale-105"
+        class="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
       />
+      <span class="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true"></span>
       {isPlaceholderImage && (
-        <span class="absolute left-3 top-3 rounded-md bg-brand-ink/85 px-2 py-1 text-[11px] font-medium text-white">
+        <span class="absolute left-3 top-3 rounded-lg bg-brand-ink/85 px-2 py-1 text-[11px] font-medium text-white">
           [Placeholder Asset]
         </span>
       )}
       {clientPartner && (
-        <span class="absolute right-3 top-3 rounded-md bg-white/90 px-2 py-1 font-mono text-[11px] font-semibold text-brand-ink backdrop-blur">
+        <span class="absolute left-3 top-3 rounded-lg bg-white/90 px-2.5 py-1 font-mono text-[11px] font-bold tracking-wider text-brand-ink backdrop-blur">
           {clientPartner}
         </span>
       )}
+      <span class="absolute bottom-3 left-3 rounded-lg bg-black/55 px-2.5 py-1 font-mono text-[11px] font-medium text-white backdrop-blur">
+        {status}
+      </span>
     </div>
-    <div class="flex flex-1 flex-col p-5">
-      <div class="flex flex-wrap gap-2 text-[11px] font-semibold uppercase tracking-widest">
-        <span class="rounded-full bg-brand-mist px-2 py-1 text-neutral-600">{industry}</span>
-        <span class="rounded-full bg-brand-orange/10 px-2 py-1 text-brand-ember">{projectType}</span>
-      </div>
-      <h3 class="mt-3 font-semibold leading-snug tracking-tight group-hover:text-brand-ember">{title}</h3>
+    <div class="flex flex-1 flex-col p-6">
+      <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-ember">
+        {industry} · {projectType}
+      </p>
+      <h3 class="mt-2.5 text-lg font-semibold leading-snug tracking-tight text-brand-ink transition-colors group-hover:text-brand-ember">{title}</h3>
       <p class="mt-2 line-clamp-2 text-sm leading-relaxed text-neutral-600">{subtitle}</p>
-      <div class="mt-3 flex flex-wrap gap-1.5">
-        {environmentConstraints.slice(0, 2).map((c) => (
-          <span class="rounded-md border border-brand-line px-2 py-1 text-[11px] text-neutral-500">{c}</span>
-        ))}
-      </div>
-      <p class="mt-4 flex items-center justify-between border-t border-brand-line pt-3 text-xs">
-        <span class="font-mono font-semibold text-neutral-500">{status}</span>
-        <span class="font-semibold text-brand-ember">Read evidence →</span>
+      {environmentConstraints.length > 0 && (
+        <p class="mt-3 font-mono text-[11px] leading-relaxed text-neutral-500">
+          <span class="font-semibold text-neutral-400">Field:</span> {environmentConstraints.slice(0, 2).join(' · ')}
+        </p>
+      )}
+      <p class="mt-4 flex items-center justify-between border-t border-brand-line pt-4 text-sm">
+        <span class="font-semibold text-brand-ink">Read the evidence</span>
+        <span aria-hidden="true" class="grid size-6 place-items-center rounded-full border border-brand-line text-xs transition-all duration-200 group-hover:border-brand-ember group-hover:bg-brand-ember group-hover:text-white">→</span>
       </p>
     </div>
   </a>

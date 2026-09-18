@@ -21,7 +21,7 @@ const { label, value, subtext, verified = false, dark = false } = Astro.props;
   <p class:list={['mt-1 text-sm font-semibold', dark ? 'text-neutral-200' : 'text-neutral-800']}>{label}</p>
   {subtext && <p class:list={['mt-1 text-xs leading-relaxed', dark ? 'text-neutral-400' : 'text-neutral-500']}>{subtext}</p>}
   {!verified && (
-    <p class="mt-2 inline-block rounded-md bg-brand-orange/10 px-2 py-1 text-[11px] font-medium text-brand-ember">
+    <p class="mt-2 inline-block rounded-lg bg-brand-orange/10 px-2 py-1 text-[11px] font-medium text-brand-ember">
       Pending validation — details under NDA
     </p>
   )}

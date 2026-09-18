@@ -1,0 +1,75 @@
+---
+/**
+ * StackExplode — scroll-driven exploded view of the 5 architecture layers.
+ * Desktop: pinned ScrollTrigger scrub fans cards out and back; final rest
+ * state keeps every card's caption readable (compact readable stack, no
+ * overlap at full scrub). Mobile / reduced-motion: static stacked list
+ * (no pin, no scrub).
+ */
+import { ARCHITECTURE_LAYERS } from '@/data/company';
+
+const CAPTIONS = [
+  'Capture point — trackside rugged I/O, 25Hz sampling',
+  'Deterministic loops — sample cadence holds under vibration',
+  'Local buffer — store-and-forward rides out link outages',
+  'Stream ingest — MQTT/gRPC pipelines, sub-100ms delivery',
+  'Operator truth — race-control decisions in one glance',
+];
+---
+
+<section id="stack-explode" class="overflow-hidden bg-brand-paper" aria-label="System architecture">
+  <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28">
+    <div class="grid gap-10 lg:grid-cols-12">
+      <div class="lg:col-span-4">
+        <div id="stack-copy" class="lg:sticky lg:top-28" data-reveal>
+          <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-500">04 — Full stack</p>
+          <h2 class="mt-4 text-3xl font-semibold leading-[1.05] tracking-[-0.03em] text-brand-ink sm:text-5xl">
+            Five layers.<br />One accountable partner.
+          </h2>
+          <p class="mt-4 leading-relaxed text-neutral-600">
+            Scroll to pull the system apart — every layer ELG owns, from sensor to
+            screen. Per-client internals stay under NDA.
+          </p>
+          <p class="mt-6">
+            <a href="/contact" class="text-sm font-semibold text-brand-ember hover:underline">Discuss your stack →</a>
+          </p>
+        </div>
+      </div>
+      <div class="lg:col-span-8">
+        <ol id="stack-cards" class="relative space-y-4 lg:h-[min(78vh,720px)] lg:space-y-0">
+          {ARCHITECTURE_LAYERS.map((layer, i) => (
+            <li
+              data-stack-card
+              data-index={i}
+              class="stack-card relative rounded-2xl border border-brand-line bg-white p-4 pb-5 shadow-[0_8px_30px_-18px_rgb(0_0_0/0.3)] sm:p-5 sm:pb-6 lg:absolute lg:inset-x-0 lg:top-1/2 lg:mt-0"
+              style={`z-index: ${i + 1};`}
+            >
+              <div class="flex items-start gap-3 sm:gap-4">
+                <span aria-hidden="true" class:list={[
+                  'grid size-8 shrink-0 place-items-center rounded-full border font-mono text-[10px] font-bold sm:size-9 sm:text-[11px]',
+                  i === 0 ? 'border-brand-orange bg-brand-orange text-white' : 'border-brand-line bg-brand-paper text-neutral-500',
+                ]}>
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <div class="min-w-0">
+                  <h3 class="text-[15px] font-semibold tracking-tight text-brand-ink sm:text-base">{layer.name}</h3>
+                  <p class="mt-1 text-[13px] leading-relaxed text-neutral-600 sm:text-sm">{layer.blurb}</p>
+                  <p class="mt-2 font-mono text-[10px] font-medium leading-relaxed text-brand-ember sm:text-[11px]">{CAPTIONS[i]}</p>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ol>
+        <p class="mt-4 font-mono text-[11px] text-neutral-400 lg:hidden">Tip: on desktop, scroll to explode the stack.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @media (min-width: 1024px) {
+    .stack-card {
+      transform: translateY(-50%);
+    }
+  }
+</style>

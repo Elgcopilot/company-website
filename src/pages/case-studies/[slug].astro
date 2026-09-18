@@ -1,8 +1,9 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import Metric from '@/components/Metric.astro';
 import CaseStudyCard from '@/components/CaseStudyCard.astro';
+import Gallery from '@/components/Gallery.astro';
+import Prose from '@/components/Prose.astro';
 import CtaBand from '@/components/CtaBand.astro';
 import { CAPABILITY_MODULES } from '@/data/company';
 
@@ -20,97 +21,129 @@ const related = all.filter((s) => s.slug !== slug && (s.data.industry === d.indu
 const relatedFill = related.length >= 3 ? related : [...related, ...all.filter((s) => s.slug !== slug && !related.includes(s))].slice(0, 3);
 ---
 <BaseLayout title={d.title} description={d.subtitle}>
+  <!-- Editorial detail hero: breadcrumb / display title / mono spec row -->
   <section class="border-b border-brand-line bg-white">
-    <div class="mx-auto max-w-7xl px-4 pb-10 pt-14 sm:px-6 sm:pt-16">
-      <p class="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-widest">
+    <div class="mx-auto max-w-7xl px-4 pb-10 pt-24 sm:px-6 sm:pb-14 sm:pt-28">
+      <p class="flex flex-wrap items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.18em]">
         <a href="/case-studies" class="text-brand-ember hover:underline">Case Studies</a>
-        <span class="text-neutral-400">/</span>
+        <span class="text-neutral-300" aria-hidden="true">/</span>
         <span class="text-neutral-500">{d.industry}</span>
       </p>
-      <h1 class="mt-4 max-w-3xl text-3xl font-bold leading-tight tracking-tight sm:text-5xl">{d.title}</h1>
-      <p class="mt-4 max-w-2xl text-lg leading-relaxed text-neutral-600">{d.subtitle}</p>
-      <div class="mt-5 flex flex-wrap gap-2 text-[11px] font-semibold uppercase tracking-widest">
-        <span class="rounded-full bg-brand-orange/10 px-3 py-1 text-brand-ember">{d.projectType}</span>
-        <span class="rounded-full bg-brand-mist px-3 py-1 text-neutral-600">{d.industry}</span>
-        <span class="rounded-full border border-brand-line px-3 py-1 font-mono text-neutral-500">{d.status}</span>
-        {d.clientPartner && <span class="rounded-full bg-brand-ink px-3 py-1 font-mono text-white">{d.clientPartner}</span>}
+      <div class="mt-5 flex flex-wrap items-start justify-between gap-6">
+        <h1 class="max-w-3xl text-4xl font-semibold leading-[1.02] tracking-[-0.03em] text-brand-ink sm:text-5xl md:text-6xl">{d.title}</h1>
+        {d.clientPartner && (
+          <p class="shrink-0 rounded-xl border border-brand-line bg-brand-paper px-4 py-2.5 font-mono text-xs font-bold tracking-wider text-brand-ink">{d.clientPartner}</p>
+        )}
       </div>
+      <p class="mt-5 max-w-2xl text-base leading-relaxed text-neutral-600 sm:text-lg">{d.subtitle}</p>
+      <dl class="mt-7 flex flex-wrap gap-x-8 gap-y-3 border-t border-brand-line pt-5 font-mono">
+        <div>
+          <dt class="text-[10px] font-medium uppercase tracking-[0.18em] text-neutral-500">Type</dt>
+          <dd class="mt-1 text-sm font-bold text-brand-ink">{d.projectType}</dd>
+        </div>
+        <div>
+          <dt class="text-[10px] font-medium uppercase tracking-[0.18em] text-neutral-500">Status</dt>
+          <dd class="mt-1 text-sm font-bold text-brand-ink">{d.status}</dd>
+        </div>
+        {d.metrics[0] && (
+          <div>
+            <dt class="text-[10px] font-medium uppercase tracking-[0.18em] text-neutral-500">{d.metrics[0].label}</dt>
+            <dd class="mt-1 text-sm font-bold text-brand-ember">{d.metrics[0].value}</dd>
+          </div>
+        )}
+      </dl>
+    </div>
+  </section>
+  <!-- Full-bleed evidence photo with metric overlay -->
+  <section class="bg-brand-coal">
+    <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
+      <figure class="relative overflow-hidden rounded-2xl" data-reveal>
+        <img src={d.featuredImage} alt={d.title} class="aspect-[16/8] w-full object-cover" />
+        <span class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" aria-hidden="true"></span>
+        {d.isPlaceholderImage && (
+          <span class="absolute left-4 top-4 rounded-lg bg-brand-ink/85 px-2.5 py-1 text-[11px] font-medium text-white">[Placeholder Asset] Production photography lands here.</span>
+        )}
+        <figcaption class="absolute inset-x-0 bottom-0 grid gap-3 p-5 font-mono sm:grid-cols-3 sm:p-7">
+          {d.metrics.slice(0, 3).map((m) => (
+            <div class="rounded-xl border border-white/15 bg-black/45 px-4 py-3 backdrop-blur-md">
+              <p class="text-lg font-bold tracking-tight text-white">{m.value}{!m.verified && <span class="text-brand-orange" aria-hidden="true">*</span>}</p>
+              <p class="mt-0.5 text-[10px] uppercase tracking-[0.16em] text-neutral-300">{m.label}</p>
+            </div>
+          ))}
+        </figcaption>
+      </figure>
+      <p class="mt-4 font-mono text-[11px] text-neutral-500" data-reveal>
+        * Pending validation — detailed test conditions available under NDA.
+      </p>
     </div>
   </section>
   <section class="bg-white">
-    <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6">
-      <figure class="overflow-hidden rounded-xl border border-brand-line">
-        <img src={d.featuredImage} alt={d.title} class="aspect-[16/8] w-full object-cover" />
-        {d.isPlaceholderImage && <figcaption class="bg-brand-mist px-4 py-2 text-xs text-neutral-500">[Placeholder Asset] Production photography lands here.</figcaption>}
-      </figure>
-      <div class="mt-8 grid gap-4 sm:grid-cols-3">
-        {d.metrics.map((m) => <Metric label={m.label} value={m.value} subtext={m.subtext} verified={m.verified} />)}
-      </div>
-    </div>
-  </section>
-  <section class="border-y border-brand-line bg-brand-mist">
-    <div class="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-3">
-      <article class="prose-elg lg:col-span-2">
-        <div class="rounded-xl border border-brand-line bg-white p-6 sm:p-8">
+    <div class="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-3">
+      <article class="lg:col-span-2" data-reveal>
+        <Prose>
           <Content />
-        </div>
+        </Prose>
         {d.architectureLayers && (
-          <div class="mt-6 rounded-xl border border-brand-line bg-brand-coal p-6 text-white sm:p-8">
-            <h2 class="text-lg font-bold tracking-tight">System architecture (overview)</h2>
-            <p class="mt-1 text-xs text-neutral-400">Overview only - per-client internals stay under NDA.</p>
-            <ol class="mt-5 space-y-4">
+          <div class="rounded-2xl bg-brand-coal p-6 text-white sm:p-10" data-reveal>
+            <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-400">System architecture</p>
+            <h2 class="!mt-3 text-2xl font-semibold tracking-[-0.02em] !text-white sm:text-3xl">Overview, layer by layer.</h2>
+            <p class="!mt-2 text-sm leading-relaxed !text-neutral-400">Overview only — per-client internals stay under NDA.</p>
+            <ol class="!mt-7 space-y-0">
               {d.architectureLayers.map((l, i) => (
-                <li class="flex gap-4">
+                <li class="flex gap-4 border-t border-white/10 !py-5">
                   <span class="font-mono text-xs font-bold text-brand-orange">0{i + 1}</span>
-                  <div><h3 class="text-sm font-semibold">{l.layerName}</h3><p class="mt-1 text-sm leading-relaxed text-neutral-400">{l.description}</p></div>
+                  <div><h3 class="!m-0 text-sm font-semibold !text-white">{l.layerName}</h3><p class="!mb-0 !mt-1 text-sm leading-relaxed !text-neutral-400">{l.description}</p></div>
                 </li>
               ))}
             </ol>
           </div>
         )}
       </article>
-      <aside class="space-y-5">
-        <div class="rounded-xl border border-brand-line bg-white p-5">
-          <h2 class="text-xs font-semibold uppercase tracking-widest text-neutral-500">Capability modules used</h2>
+      <aside class="space-y-5 lg:sticky lg:top-24 lg:self-start" data-reveal data-reveal-delay="0.1">
+        <div class="rounded-2xl border border-brand-line bg-brand-paper p-6">
+          <h2 class="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Capability modules used</h2>
           <ul class="mt-3 flex flex-wrap gap-2">
-            {d.capabilityModules.map((m) => <li class="rounded-full bg-brand-mist px-3 py-1 text-xs font-semibold text-neutral-700">{modName(m)}</li>)}
+            {d.capabilityModules.map((m) => <li class="rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-neutral-700 ring-1 ring-brand-line">{modName(m)}</li>)}
           </ul>
         </div>
-        <div class="rounded-xl border border-brand-line bg-white p-5">
-          <h2 class="text-xs font-semibold uppercase tracking-widest text-neutral-500">Operating constraints</h2>
-          <ul class="mt-3 space-y-2 text-sm text-neutral-700">
-            {d.environmentConstraints.map((c) => <li class="flex gap-2"><span class="text-brand-orange">&#9632;</span>{c}</li>)}
+        <div class="rounded-2xl border border-brand-line bg-white p-6">
+          <h2 class="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Operating constraints</h2>
+          <ul class="mt-3 space-y-2.5 text-sm leading-relaxed text-neutral-700">
+            {d.environmentConstraints.map((c, i) => <li class="flex gap-3"><span class="font-mono text-xs font-bold text-brand-ember">0{i + 1}</span>{c}</li>)}
           </ul>
         </div>
-        <div class="rounded-xl border border-brand-line bg-white p-5">
-          <h2 class="text-xs font-semibold uppercase tracking-widest text-neutral-500">Deliverables</h2>
-          <ul class="mt-3 space-y-2 text-sm text-neutral-700">
-            {d.deliverables.map((x) => <li class="flex gap-2"><span class="font-mono font-bold text-brand-ember">&gt;</span>{x}</li>)}
+        <div class="rounded-2xl border border-brand-line bg-white p-6">
+          <h2 class="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Deliverables</h2>
+          <ul class="mt-3 space-y-2.5 text-sm leading-relaxed text-neutral-700">
+            {d.deliverables.map((x) => <li class="flex gap-2"><span class="font-mono font-bold text-brand-ember" aria-hidden="true">→</span>{x}</li>)}
           </ul>
         </div>
-        <div class="rounded-xl bg-brand-ink p-5 text-white">
-          <h2 class="text-sm font-bold">Need a similar ecosystem?</h2>
-          <p class="mt-1 text-sm text-neutral-400">Bring the signal list and the environment spec.</p>
-          <a href="/contact" class="mt-4 block rounded-md bg-brand-orange px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-brand-ember">Talk to our Team</a>
+        <div class="rounded-2xl bg-brand-ink p-6 text-white">
+          <h2 class="text-base font-semibold tracking-tight">Need a similar ecosystem?</h2>
+          <p class="mt-1.5 text-sm leading-relaxed text-neutral-400">Bring the signal list and the environment spec.</p>
+          <a href="/contact" class="group mt-5 flex items-center justify-center gap-2 rounded-full bg-white px-4 py-3 text-sm font-semibold text-brand-ink transition-all duration-200 hover:-translate-y-px active:scale-[0.98]">
+            Talk to our Team
+            <span aria-hidden="true" class="grid size-5 place-items-center rounded-full bg-brand-orange text-xs leading-none text-white transition-transform duration-200 group-hover:translate-x-0.5">→</span>
+          </a>
         </div>
       </aside>
     </div>
   </section>
-  <section class="bg-white">
-    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-      <h2 class="text-xl font-bold tracking-tight">Related field evidence</h2>
-      <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+  <section class="border-t border-brand-line bg-brand-paper">
+    <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20">
+      <div class="flex flex-wrap items-end justify-between gap-4" data-reveal>
+        <h2 class="text-2xl font-semibold tracking-[-0.02em] text-brand-ink sm:text-3xl">Related field evidence</h2>
+        <a href="/case-studies" class="text-sm font-semibold text-brand-ember hover:underline">All case studies →</a>
+      </div>
+      <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {relatedFill.map((s) => (
           <CaseStudyCard slug={s.slug} title={s.data.title} subtitle={s.data.subtitle} industry={s.data.industry} projectType={s.data.projectType} clientPartner={s.data.clientPartner} status={s.data.status} featuredImage={s.data.featuredImage} isPlaceholderImage={s.data.isPlaceholderImage} environmentConstraints={s.data.environmentConstraints} />
         ))}
       </div>
     </div>
   </section>
+  {d.galleryImages.length > 0 && (
+    <Gallery images={d.galleryImages} title={d.clientPartner ?? d.title} />
+  )}
   <CtaBand />
 </BaseLayout>
-<style>
-  .prose-elg h2 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 0.75rem; }
-  .prose-elg h2:not(:first-child) { margin-top: 1.75rem; }
-  .prose-elg p { color: #525252; line-height: 1.75; }
-  .prose-elg p + p { margin-top: 0.75rem; }
-</style>

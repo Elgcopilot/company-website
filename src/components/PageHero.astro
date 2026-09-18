@@ -1,8 +1,9 @@
 ---
 /**
  * PageHero — shared inner-page hero (zero JS).
- * Keeps eyebrow / title / lede rhythm identical across
- * hub, list, detail, about, contact and login pages.
+ * Homepage design language: mono eyebrow with orange signal dot,
+ * tight-tracked semibold display title, restrained lede.
+ * Used across hub, list, detail, about, contact and login pages.
  */
 interface Props {
   eyebrow: string;
@@ -14,12 +15,13 @@ const { eyebrow, title, lede } = Astro.props;
 ---
 
 <section class="border-b border-brand-line bg-white">
-  <div class="mx-auto max-w-7xl px-4 pb-12 pt-16 sm:px-6 sm:pb-16 sm:pt-20">
-    <p class="inline-block rounded-full border border-brand-orange/30 bg-brand-orange/10 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-brand-ember">
+  <div class="mx-auto max-w-7xl px-4 pb-12 pt-24 sm:px-6 sm:pb-16 sm:pt-28">
+    <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-500">
+      <span class="mr-2 inline-block size-1.5 rounded-full bg-brand-orange align-middle" aria-hidden="true"></span>
       {eyebrow}
     </p>
-    <h1 class="mt-5 max-w-3xl text-3xl font-bold leading-[1.08] tracking-tight sm:text-5xl">{title}</h1>
-    {lede && <p class="mt-5 max-w-2xl text-lg leading-relaxed text-neutral-600">{lede}</p>}
+    <h1 class="mt-4 max-w-3xl text-4xl font-semibold leading-[1.02] tracking-[-0.03em] text-brand-ink sm:text-5xl md:text-6xl">{title}</h1>
+    {lede && <p class="mt-5 max-w-2xl text-base leading-relaxed text-neutral-600 sm:text-lg">{lede}</p>}
     <slot />
   </div>
 </section>

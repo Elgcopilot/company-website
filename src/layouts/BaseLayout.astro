@@ -1,5 +1,6 @@
 ---
-// Base layout: header + footer, semantic HTML, JSON-LD Organization schema.
+// Base layout: fixed glass header, Lenis smooth scroll + GSAP reveals,
+// refined footer with JSON-LD Organization schema.
 import '@fontsource-variable/inter';
 import '@fontsource-variable/jetbrains-mono';
 import { COMPANY } from '@/data/company';
@@ -8,9 +9,10 @@ interface Props {
   title: string;
   description: string;
   lang?: string;
+  noindex?: boolean;
 }
 
-const { title, description, lang = 'en' } = Astro.props;
+const { title, description, lang = 'en', noindex = false } = Astro.props;
 const pageTitle = `${title} — ${COMPANY.name}`;
 ---
 
@@ -20,8 +22,12 @@ const pageTitle = `${title} — ${COMPANY.name}`;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="64x64" href="/favicon-64.png" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <title>{pageTitle}</title>
     <script
       type="application/ld+json"
@@ -33,17 +39,56 @@ const pageTitle = `${title} — ${COMPANY.name}`;
         email: COMPANY.email,
         telephone: COMPANY.phone,
         address: COMPANY.address,
+        logo: `${COMPANY.domain}/images/brand/elg-logo-dark-pill.png`,
       })}
     />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+    <style>
+      ::selection {
+        background: #f28a22;
+        color: #fff;
+      }
+      html.lenis,
+      html.lenis body {
+        height: auto;
+      }
+      .lenis.lenis-smooth {
+        scroll-behavior: auto !important;
+      }
+      .lenis.lenis-stopped {
+        overflow: hidden;
+      }
+      #site-header.is-scrolled {
+        border-color: rgb(229 231 235 / 0.9);
+        background-color: rgb(255 255 255 / 0.86);
+        box-shadow: 0 12px 32px -16px rgb(0 0 0 / 0.18);
+      }
+      /* Pre-hide hero elements only when JS motion will run them in. */
+      .js:not(.reduced-motion) [data-hero] {
+        opacity: 0;
+      }
+    </style>
   </head>
-  <body class="bg-brand-white font-sans text-brand-ink antialiased">
-    <header class="sticky top-0 z-50 border-b border-brand-line/70 bg-white/80 backdrop-blur-xl">
+  <body class="bg-white font-sans text-brand-ink antialiased">
+    <header
+      id="site-header"
+      class="fixed inset-x-0 top-0 z-50 border-b border-transparent bg-white/70 backdrop-blur-xl transition-all duration-300"
+    >
       <nav aria-label="Primary" class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
-        <a href="/" class="flex items-center gap-2" aria-label="ELG home">
-          <span class="grid size-8 place-items-center rounded-md bg-brand-ink font-mono text-xs font-bold text-white">ELG</span>
-          <span class="text-sm font-semibold tracking-tight">Embedded Linux Group</span>
+        <a href="/" class="flex items-center" aria-label="ELG home — Embedded Linux Group">
+          <img
+            src="/images/brand/elg-logo-dark-pill.png"
+            alt="Embedded Linux Group Co., Ltd."
+            width="640"
+            height="264"
+            loading="eager"
+            fetchpriority="high"
+            class="h-8 w-auto sm:h-9"
+          />
         </a>
-        <div class="hidden items-center gap-7 text-sm font-medium md:flex">
+        <div class="hidden items-center gap-8 text-sm font-medium text-neutral-700 md:flex">
           <a class="transition-colors hover:text-brand-ember" href="/solutions">Solutions</a>
           <a class="transition-colors hover:text-brand-ember" href="/industries">Industries</a>
           <a class="transition-colors hover:text-brand-ember" href="/case-studies">Case Studies</a>
@@ -52,61 +97,235 @@ const pageTitle = `${title} — ${COMPANY.name}`;
         <div class="flex items-center gap-3">
           <a
             href="/contact"
-            class="rounded-md bg-brand-orange px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 ease-crisp hover:-translate-y-px hover:bg-brand-ember active:scale-[0.98]"
+            class="hidden rounded-full bg-brand-ink px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-brand-ember active:scale-[0.98] sm:inline-flex"
           >
             Talk to our Team
           </a>
+          <button
+            id="menu-btn"
+            type="button"
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+            class="grid size-10 place-items-center rounded-full border border-brand-line text-sm font-semibold md:hidden"
+          >
+            <span id="menu-label">Menu</span>
+          </button>
         </div>
       </nav>
+      <div id="mobile-menu" class="hidden border-t border-brand-line bg-white md:hidden">
+        <nav aria-label="Mobile" class="space-y-1 px-4 py-4 text-[15px] font-medium">
+          <a class="block rounded-lg px-3 py-2.5 hover:bg-brand-mist" href="/solutions">Solutions</a>
+          <a class="block rounded-lg px-3 py-2.5 hover:bg-brand-mist" href="/industries">Industries</a>
+          <a class="block rounded-lg px-3 py-2.5 hover:bg-brand-mist" href="/case-studies">Case Studies</a>
+          <a class="block rounded-lg px-3 py-2.5 hover:bg-brand-mist" href="/about">About</a>
+          <a
+            class="mt-2 block rounded-full bg-brand-ink px-5 py-3 text-center text-sm font-semibold text-white transition-all duration-200 active:scale-[0.98]"
+            href="/contact"
+          >
+            Talk to our Team
+          </a>
+        </nav>
+      </div>
     </header>
 
     <main>
       <slot />
     </main>
 
-    <footer class="border-t border-brand-line bg-brand-mist">
-      <div class="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-4">
-        <div>
-          <p class="text-sm font-semibold">Embedded Linux Group</p>
-          <p class="mt-2 max-w-xs text-sm leading-relaxed text-neutral-600">
-            Hardware &amp; Software House customizing ecosystems to client requirements —
-            especially real-time data transfer in harsh environments.
-          </p>
+    <footer class="overflow-hidden border-t border-brand-line bg-brand-mist">
+      <div class="mx-auto max-w-7xl px-4 pt-16 sm:px-6 sm:pt-20">
+        <div class="grid gap-10 md:grid-cols-12">
+          <div class="md:col-span-4">
+            <p class="flex items-center">
+              <img
+                src="/images/brand/elg-logo-dark-pill.png"
+                alt="Embedded Linux Group Co., Ltd."
+                width="640"
+                height="264"
+                loading="lazy"
+                class="h-9 w-auto"
+              />
+            </p>
+            <p class="mt-4 max-w-xs text-sm leading-relaxed text-neutral-600">
+              Hardware &amp; Software House customizing ecosystems to client requirements —
+              especially real-time data transfer in harsh environments.
+            </p>
+            <ul class="mt-5 flex flex-wrap gap-x-5 gap-y-2 font-mono text-xs font-medium text-neutral-500">
+              {COMPANY.socials.map((s) => (
+                <li><a class="transition-colors hover:text-brand-ember" href={s.href}>{s.label} ↗</a></li>
+              ))}
+            </ul>
+          </div>
+          <nav aria-label="Solutions" class="md:col-span-2">
+            <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Solutions</p>
+            <ul class="mt-4 space-y-2.5 text-sm font-medium">
+              <li><a class="transition-colors hover:text-brand-ember" href="/solutions/mission-critical-telemetry">Mission-Critical Telemetry</a></li>
+              <li><a class="transition-colors hover:text-brand-ember" href="/solutions/industrial-iot-gateways">Industrial IoT &amp; Gateways</a></li>
+              <li><a class="transition-colors hover:text-brand-ember" href="/solutions/smart-product-turnkey">Smart Product Turnkey</a></li>
+              <li><a class="transition-colors hover:text-brand-ember" href="/solutions/edge-ai-vision">Edge AI &amp; Vision</a></li>
+            </ul>
+          </nav>
+          <nav aria-label="Company" class="md:col-span-2">
+            <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Company</p>
+            <ul class="mt-4 space-y-2.5 text-sm font-medium">
+              <li><a class="transition-colors hover:text-brand-ember" href="/case-studies">Case Studies</a></li>
+              <li><a class="transition-colors hover:text-brand-ember" href="/industries">Industries</a></li>
+              <li><a class="transition-colors hover:text-brand-ember" href="/about">About</a></li>
+              <li><a class="transition-colors hover:text-brand-ember" href="/contact">Contact</a></li>
+            </ul>
+          </nav>
+          <div class="md:col-span-4">
+            <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Get in touch</p>
+            <address class="mt-4 space-y-1.5 font-mono text-[13px] not-italic leading-relaxed text-neutral-700">
+              <p>{COMPANY.address}</p>
+              <p><a class="transition-colors hover:text-brand-ember" href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a></p>
+              <p><a class="transition-colors hover:text-brand-ember" href={COMPANY.phoneHref}>{COMPANY.phone}</a></p>
+              <p>LINE <a class="transition-colors hover:text-brand-ember" href={COMPANY.lineUrl}>{COMPANY.lineId}</a></p>
+              <p class="text-neutral-500">{COMPANY.hours}</p>
+            </address>
+          </div>
         </div>
-        <nav aria-label="Solutions">
-          <p class="text-xs font-semibold uppercase tracking-widest text-neutral-500">Solutions</p>
-          <ul class="mt-3 space-y-2 text-sm">
-            <li><a class="hover:text-brand-ember" href="/solutions/mission-critical-telemetry">Mission-Critical Telemetry</a></li>
-            <li><a class="hover:text-brand-ember" href="/solutions/industrial-iot-gateways">Industrial IoT &amp; Gateways</a></li>
-            <li><a class="hover:text-brand-ember" href="/solutions/smart-product-turnkey">Smart Product Turnkey</a></li>
-            <li><a class="hover:text-brand-ember" href="/solutions/edge-ai-vision">Edge AI &amp; Vision</a></li>
-          </ul>
-        </nav>
-        <nav aria-label="Company">
-          <p class="text-xs font-semibold uppercase tracking-widest text-neutral-500">Company</p>
-          <ul class="mt-3 space-y-2 text-sm">
-            <li><a class="hover:text-brand-ember" href="/case-studies">Case Studies</a></li>
-            <li><a class="hover:text-brand-ember" href="/industries">Industries</a></li>
-            <li><a class="hover:text-brand-ember" href="/about">About</a></li>
-            <li><a class="hover:text-brand-ember" href="/contact">Contact</a></li>
-          </ul>
-        </nav>
-        <div>
-          <p class="text-xs font-semibold uppercase tracking-widest text-neutral-500">Get in touch</p>
-          <address class="mt-3 space-y-1 text-sm not-italic text-neutral-700">
-            <p>{COMPANY.address}</p>
-            <p><a class="hover:text-brand-ember" href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a></p>
-            <p><a class="hover:text-brand-ember" href={COMPANY.phoneHref}>{COMPANY.phone}</a></p>
-            <p>LINE: <a class="hover:text-brand-ember" href={COMPANY.lineUrl}>{COMPANY.lineId}</a></p>
-            <p class="text-neutral-500">{COMPANY.hours}</p>
-          </address>
-        </div>
+        <p aria-hidden="true" class="pointer-events-none mt-14 select-none overflow-hidden text-center text-[22vw] font-semibold leading-[0.8] tracking-[-0.05em] text-brand-ink/[0.05] md:text-[13rem]">ELG</p>
       </div>
-      <div class="border-t border-brand-line">
-        <p class="mx-auto max-w-7xl px-4 py-5 text-xs text-neutral-500 sm:px-6">© 2026 Embedded Linux Group Co., Ltd. All rights reserved.</p>
+      <div class="border-t border-brand-line bg-brand-mist">
+        <p class="mx-auto max-w-7xl px-4 py-5 font-mono text-[11px] text-neutral-500 sm:px-6">© 2026 Embedded Linux Group Co., Ltd. — All rights reserved.</p>
       </div>
     </footer>
+
+    <script is:inline>
+      const menuBtn = document.getElementById('menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const menuLabel = document.getElementById('menu-label');
+      menuBtn?.addEventListener('click', () => {
+        const open = mobileMenu?.classList.toggle('hidden');
+        const isOpen = open === false;
+        menuBtn.setAttribute('aria-expanded', String(isOpen));
+        if (menuLabel) menuLabel.textContent = isOpen ? 'Close' : 'Menu';
+      });
+    </script>
+
+    <script>
+      import gsap from 'gsap';
+      import { ScrollTrigger } from 'gsap/ScrollTrigger';
+      import Lenis from 'lenis';
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced) {
+        document.documentElement.classList.add('reduced-motion');
+      }
+
+      const header = document.getElementById('site-header');
+      const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+
+      if (!prefersReduced) {
+        // Lenis smooth scroll, driven by GSAP's ticker (Apple-style inertia).
+        const lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+        (window as unknown as { __lenis?: Lenis }).__lenis = lenis;
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => lenis.raf(time * 1000));
+        gsap.ticker.lagSmoothing(0);
+
+        // Hero entrance — crisp rise, staggered, ease-out only.
+        // Guarded: inner pages (contact, about…) have no [data-hero].
+        if (document.querySelector('[data-hero]')) {
+          gsap.to('[data-hero]', {
+            opacity: 1,
+            duration: 1,
+            ease: 'power3.out',
+            stagger: 0.12,
+            delay: 0.15,
+            startAt: { y: 32 },
+            y: 0,
+          });
+        }
+
+        // Scroll reveals — 28px rise, once per element.
+        // Cards inside the pinned explode view are driven by the scrub instead.
+        const items = gsap.utils.toArray<HTMLElement>('[data-reveal]');
+        items.forEach((el) => {
+          if (el.closest('#stack-explode')) return;
+          gsap.fromTo(
+            el,
+            { y: 28, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 0.9,
+              ease: 'power3.out',
+              delay: parseFloat(el.dataset.revealDelay || '0'),
+              scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+            },
+          );
+        });
+
+        // Stack explode scrub — pinned fan-out of the 5 architecture layers.
+        // Desktop + fine pointers only; mobile keeps the stacked list, and
+        // reduced-motion users skip pinning entirely.
+        // Smooth-entry fix: pre-set the centered stack (yPercent -50 + y 0) so
+        // pinning never snaps from the CSS fallback, and use a gentler scrub
+        // so the section eases down instead of warping.
+        const stackSection = document.getElementById('stack-explode');
+        const stackCards = gsap.utils.toArray<HTMLElement>('[data-stack-card]');
+        const finePointer = window.matchMedia('(pointer: fine)').matches;
+        if (stackSection && stackCards.length > 1 && finePointer && window.innerWidth >= 1024) {
+          const mid = (stackCards.length - 1) / 2;
+          // Fit-to-window fan: the whole 5-card spread always fits inside the
+          // visible pinned area (below the 64px fixed header) so card 05 is
+          // never cut off — no extra scroll needed to see it.
+          const measure = () => {
+            const vh = window.innerHeight || 900;
+            const maxCardH = Math.max(
+              ...stackCards.map((c) => c.getBoundingClientRect().height),
+            );
+            // Usable vertical budget: viewport minus fixed header (64) and
+            // breathing room top/bottom (48). Total fan = 4 gaps + card height.
+            const budget = Math.max(320, vh - 64 - 48);
+            const rawGap = (budget - maxCardH) / (stackCards.length - 1);
+            const gap = Math.max(72, Math.min(150, Math.floor(rawGap)));
+            return { gap, maxCardH };
+          };
+          let { gap } = measure();
+          const spreadOf = (g: number) => stackCards.map((_, i) => (i - mid) * g - 12);
+          const tilt = stackCards.map((_, i) => (mid - i) * 0.8);
+          gsap.set(stackCards, { yPercent: -50, y: 0, rotate: 0, scale: 1 });
+          ScrollTrigger.refresh();
+          // Re-measure after set (transforms cleared) so the budget math uses
+          // true heights; recompute on refresh (resize/orientation change).
+          gap = measure().gap;
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: stackSection,
+              start: 'top top+=64',
+              end: '+=2200',
+              scrub: 1.2,
+              pin: true,
+              anticipatePin: 1,
+              invalidateOnRefresh: true,
+              onRefresh: () => {
+                gap = measure().gap;
+              },
+            },
+          });
+          stackCards.forEach((card, i) => {
+            tl.to(
+              card,
+              { y: spreadOf(gap)[i], rotate: tilt[i], scale: i === Math.round(mid) ? 1.02 : 0.97, ease: 'power1.inOut', duration: 1 },
+              0,
+            );
+          });
+          tl.fromTo(
+            '#stack-copy',
+            { opacity: 0.35 },
+            { opacity: 1, ease: 'power1.inOut', duration: 0.5 },
+            0,
+          );
+        }
+      }
+    </script>
   </body>
 </html>
-
 

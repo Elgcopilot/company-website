@@ -1,15 +1,15 @@
 {
   "astro.config.mjs": {
-    "mtime": 1789714031.9050813,
-    "seen": 1789715604.588387,
-    "ast_hash": "9a2692a5a07f5f81108e8f8db1f9bcf0",
-    "semantic_hash": "9a2692a5a07f5f81108e8f8db1f9bcf0"
+    "mtime": 1789716820.0677536,
+    "seen": 1789717082.7747462,
+    "ast_hash": "4731c76b56c48217efa292932b36974b",
+    "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1789713847.7167945,
-    "seen": 1789715604.5883908,
-    "ast_hash": "799bc68966031a58df2b59663aaa19ec",
-    "semantic_hash": "799bc68966031a58df2b59663aaa19ec"
+    "mtime": 1789716811.670515,
+    "seen": 1789717082.774749,
+    "ast_hash": "0b73c2a2696abe211105d18f48b0fa02",
+    "semantic_hash": ""
   },
   "src/components/Metric.astro": {
     "mtime": 1789713893.4598846,
@@ -42,10 +42,10 @@
     "semantic_hash": "cada280f6daf8a7d13b07efebb6108e2"
   },
   "src/pages/index.astro": {
-    "mtime": 1789715549.9880674,
-    "seen": 1789715604.588398,
-    "ast_hash": "9fb4deea56913935c6311fc55f2befb4",
-    "semantic_hash": "9fb4deea56913935c6311fc55f2befb4"
+    "mtime": 1789716041.3301198,
+    "seen": 1789717082.7747579,
+    "ast_hash": "3a33be0cbccf4dda2707ecc8a3ec1620",
+    "semantic_hash": ""
   },
   "tailwind.config.mjs": {
     "mtime": 1789713852.937457,
@@ -58,5 +58,557 @@
     "seen": 1789715604.5883992,
     "ast_hash": "98eac568a0de1e3a0619276a350ce9ad",
     "semantic_hash": "98eac568a0de1e3a0619276a350ce9ad"
+  },
+  "src/components/CaseStudyCard.astro": {
+    "mtime": 1789715824.52838,
+    "seen": 1789717082.77475,
+    "ast_hash": "56bf340f9b00a16805990ec926a34984",
+    "semantic_hash": ""
+  },
+  "src/components/CtaBand.astro": {
+    "mtime": 1789715827.891189,
+    "seen": 1789717082.774751,
+    "ast_hash": "7afe95c29ad7797a016456827f40de4d",
+    "semantic_hash": ""
+  },
+  "src/components/PageHero.astro": {
+    "mtime": 1789715826.2268426,
+    "seen": 1789717082.774753,
+    "ast_hash": "224c264ca536dcd722d4079e6b1e3ca1",
+    "semantic_hash": ""
+  },
+  "src/components/react/CaseStudyFilters.tsx": {
+    "mtime": 1789717010.6975803,
+    "seen": 1789717082.774753,
+    "ast_hash": "ba200116fc6345680ef999b9902cefe3",
+    "semantic_hash": ""
+  },
+  "src/components/react/ContactForm.tsx": {
+    "mtime": 1789717020.8977158,
+    "seen": 1789717082.774754,
+    "ast_hash": "bd033722dd138152c24b464db7092cec",
+    "semantic_hash": ""
+  },
+  "src/pages/about.astro": {
+    "mtime": 1789715971.4752417,
+    "seen": 1789717082.7747571,
+    "ast_hash": "53c65532dd9e95b042e587e846c6298f",
+    "semantic_hash": ""
+  },
+  "src/pages/case-studies/[slug].astro": {
+    "mtime": 1789715910.3444297,
+    "seen": 1789717082.7747571,
+    "ast_hash": "5715dfc822ff26cf747bdf913855fe59",
+    "semantic_hash": ""
+  },
+  "src/pages/case-studies/index.astro": {
+    "mtime": 1789715892.6201067,
+    "seen": 1789717082.7747579,
+    "ast_hash": "3d2839f538ec2e8d5fc571e242fdd4f5",
+    "semantic_hash": ""
+  },
+  "src/pages/contact.astro": {
+    "mtime": 1789715961.1782143,
+    "seen": 1789717082.7747579,
+    "ast_hash": "1d29ef847b7270618f5defd40230857d",
+    "semantic_hash": ""
+  },
+  "src/pages/industries/[slug].astro": {
+    "mtime": 1789715952.8776698,
+    "seen": 1789717082.7747588,
+    "ast_hash": "149542c39a22c1952fd78bcb405e2506",
+    "semantic_hash": ""
+  },
+  "src/pages/industries/index.astro": {
+    "mtime": 1789715943.9270976,
+    "seen": 1789717082.7747588,
+    "ast_hash": "8263a13c0c31d41df7aa9401e79a1adb",
+    "semantic_hash": ""
+  },
+  "src/pages/login.astro": {
+    "mtime": 1789715977.4689999,
+    "seen": 1789717082.77476,
+    "ast_hash": "fe2e6d16e1e3388740530aa2cd314b60",
+    "semantic_hash": ""
+  },
+  "src/pages/solutions/[slug].astro": {
+    "mtime": 1789715936.5638225,
+    "seen": 1789717082.77476,
+    "ast_hash": "389aa11cc6f47de9339c90b61f4657bc",
+    "semantic_hash": ""
+  },
+  "src/pages/solutions/index.astro": {
+    "mtime": 1789715930.9691954,
+    "seen": 1789717082.77476,
+    "ast_hash": "7d369b099c186d4e23e734645f7b1e3c",
+    "semantic_hash": ""
+  },
+  "src/pages/th.astro": {
+    "mtime": 1789715982.7206986,
+    "seen": 1789717082.774761,
+    "ast_hash": "8c0f4b555f1f9841d4a415874b3ce562",
+    "semantic_hash": ""
+  },
+  "public/llms.txt": {
+    "mtime": 1789716048.5079823,
+    "seen": 1789717082.774762,
+    "ast_hash": "21a7262c56143dd5d7fd4d8d8f1dc3fb",
+    "semantic_hash": ""
+  },
+  "src/content/case-studies/bee-sync-zigbee-gateway.mdx": {
+    "mtime": 1789715347.0368996,
+    "seen": 1789717082.774763,
+    "ast_hash": "fc25236f01071a5710ace9545df50d83",
+    "semantic_hash": ""
+  },
+  "src/content/case-studies/burapha-education-board.mdx": {
+    "mtime": 1789715353.6192691,
+    "seen": 1789717082.774763,
+    "ast_hash": "167366157fb98ddc7e13bfa9c0bad56a",
+    "semantic_hash": ""
+  },
+  "src/content/case-studies/cooler-master-rc-streaming.mdx": {
+    "mtime": 1789715350.3287563,
+    "seen": 1789717082.774763,
+    "ast_hash": "b1531d0e5c07dd3120b5480e54bb6410",
+    "semantic_hash": ""
+  },
+  "src/content/case-studies/isuzu-motorsport-telemetry.mdx": {
+    "mtime": 1789715340.3171237,
+    "seen": 1789717082.774764,
+    "ast_hash": "55d43b3fdc49a7fdb023db697b0e9c43",
+    "semantic_hash": ""
+  },
+  "src/content/case-studies/kmitl-edge-ai-agri-board.mdx": {
+    "mtime": 1789715351.9764686,
+    "seen": 1789717082.774764,
+    "ast_hash": "45fea5a31f03fcf5f1d1d4582ebd2108",
+    "semantic_hash": ""
+  },
+  "src/content/case-studies/lg-smart-laundry-iot.mdx": {
+    "mtime": 1789715343.630516,
+    "seen": 1789717082.774764,
+    "ast_hash": "f082bb3c70bfc21628ee89388e7bfa35",
+    "semantic_hash": ""
+  },
+  "src/content/case-studies/lng-solar-farm-monitoring.mdx": {
+    "mtime": 1789715497.322237,
+    "seen": 1789717082.774765,
+    "ast_hash": "266d46ed752709a89e3a8a35eaa409c5",
+    "semantic_hash": ""
+  },
+  "src/content/case-studies/pt-racing-emission-telemetry.mdx": {
+    "mtime": 1789715341.985542,
+    "seen": 1789717082.774765,
+    "ast_hash": "c2b607ce548bce63aace746ca970151c",
+    "semantic_hash": ""
+  },
+  "src/content/case-studies/s63-grass-cutting-robot.mdx": {
+    "mtime": 1789715499.0008106,
+    "seen": 1789717082.774765,
+    "ast_hash": "4b3f246add724d63b613e285288036b9",
+    "semantic_hash": ""
+  },
+  "src/content/case-studies/smart-home-automation.mdx": {
+    "mtime": 1789715348.6847105,
+    "seen": 1789717082.774766,
+    "ast_hash": "55261575300a9c7b6087f0a01c983552",
+    "semantic_hash": ""
+  },
+  "src/content/industries/automotive-motorsport.mdx": {
+    "mtime": 1789715390.3825457,
+    "seen": 1789717082.774766,
+    "ast_hash": "4edd9f5403b2e8851a44c54298da8662",
+    "semantic_hash": ""
+  },
+  "src/content/industries/education-research.mdx": {
+    "mtime": 1789715398.6259854,
+    "seen": 1789717082.774766,
+    "ast_hash": "abf7da36dfca56733d4a045094ad33c4",
+    "semantic_hash": ""
+  },
+  "src/content/industries/enterprise-commercial-iot.mdx": {
+    "mtime": 1789715393.6741035,
+    "seen": 1789717082.774766,
+    "ast_hash": "b410e15869d4a1260f87cc5e17126bdf",
+    "semantic_hash": ""
+  },
+  "src/content/industries/entertainment-events.mdx": {
+    "mtime": 1789715400.2810478,
+    "seen": 1789717082.7747672,
+    "ast_hash": "7c65864ccac7b06a70767a8d50669e66",
+    "semantic_hash": ""
+  },
+  "src/content/industries/industrial-iot-energy.mdx": {
+    "mtime": 1789715392.035098,
+    "seen": 1789717082.7747672,
+    "ast_hash": "5a8b6e7fe10e9a72cae9f267659c5884",
+    "semantic_hash": ""
+  },
+  "src/content/industries/smart-agriculture-ai.mdx": {
+    "mtime": 1789715395.323035,
+    "seen": 1789717082.774768,
+    "ast_hash": "f6bafd54083737008033511dd06691af",
+    "semantic_hash": ""
+  },
+  "src/content/industries/smart-buildings-infrastructure.mdx": {
+    "mtime": 1789715396.9743671,
+    "seen": 1789717082.774768,
+    "ast_hash": "01b45fd9038421d1e7e2d50393f82520",
+    "semantic_hash": ""
+  },
+  "src/content/solutions/edge-ai-vision.mdx": {
+    "mtime": 1789715388.7190487,
+    "seen": 1789717082.774768,
+    "ast_hash": "fb5b211e4a8a584f92e0794781778275",
+    "semantic_hash": ""
+  },
+  "src/content/solutions/industrial-iot-gateways.mdx": {
+    "mtime": 1789715385.3571527,
+    "seen": 1789717082.7747688,
+    "ast_hash": "8c364449882a6d9b442c3e59fceaa93e",
+    "semantic_hash": ""
+  },
+  "src/content/solutions/mission-critical-telemetry.mdx": {
+    "mtime": 1789715383.7078474,
+    "seen": 1789717082.7747688,
+    "ast_hash": "0d14ea63d63f3bb90b6352e2e6f3549d",
+    "semantic_hash": ""
+  },
+  "src/content/solutions/smart-product-turnkey.mdx": {
+    "mtime": 1789715387.0072722,
+    "seen": 1789717082.7747688,
+    "ast_hash": "ca50935c33fd5250476f5ddb602d3ed9",
+    "semantic_hash": ""
+  },
+  "public/favicon.svg": {
+    "mtime": 1789715829.598852,
+    "seen": 1789717082.77477,
+    "ast_hash": "69fd554cdd6cf9ce2a99640340a4b617",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/deck/deck-01.jpg": {
+    "mtime": 1789714869.5983748,
+    "seen": 1789717082.77477,
+    "ast_hash": "c6b2cbbf194e2e966ea3f0e78c41e055",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/deck/deck-02.jpg": {
+    "mtime": 1789714869.6005583,
+    "seen": 1789717082.77477,
+    "ast_hash": "b1884584363ef40620f408d20f89f3bf",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/deck/deck-03.jpg": {
+    "mtime": 1789714869.6048276,
+    "seen": 1789717082.774771,
+    "ast_hash": "64be432183c20742380335ce865059b8",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/deck/deck-04.jpg": {
+    "mtime": 1789714869.6080601,
+    "seen": 1789717082.774771,
+    "ast_hash": "f16b1e54829708c420d07d587e38847e",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/deck/deck-05.jpg": {
+    "mtime": 1789714869.6114862,
+    "seen": 1789717082.774771,
+    "ast_hash": "159690202141254bcf8d938f0abb80a2",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/deck/deck-06.jpg": {
+    "mtime": 1789714869.614616,
+    "seen": 1789717082.774772,
+    "ast_hash": "5bfb3e40409a1edbf829014b7708a0c7",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/deck/deck-07.jpg": {
+    "mtime": 1789714869.6164415,
+    "seen": 1789717082.774772,
+    "ast_hash": "ad1da54527b7a147206461dffa35e6d8",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/deck/deck-08.jpg": {
+    "mtime": 1789714869.619274,
+    "seen": 1789717082.774773,
+    "ast_hash": "f16b1e54829708c420d07d587e38847e",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/deck/deck-09.jpg": {
+    "mtime": 1789714869.6216974,
+    "seen": 1789717082.774773,
+    "ast_hash": "3f781a10dbd3baac14c5872208eaadef",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/deck/deck-10.jpg": {
+    "mtime": 1789714869.626769,
+    "seen": 1789717082.774773,
+    "ast_hash": "9de3602298c14fe1e6bb6427ba42cfe2",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/deck/deck-11.jpg": {
+    "mtime": 1789714869.63047,
+    "seen": 1789717082.774774,
+    "ast_hash": "159690202141254bcf8d938f0abb80a2",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/deck/deck-12.jpg": {
+    "mtime": 1789714869.6316075,
+    "seen": 1789717082.774774,
+    "ast_hash": "b46c04c44798b4d557aac96ab9cfcaaf",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/deck/deck-13.jpg": {
+    "mtime": 1789714869.637414,
+    "seen": 1789717082.774774,
+    "ast_hash": "18c2550221c1de3e9d4eb9020556c24f",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/deck/deck-14.jpg": {
+    "mtime": 1789714869.63985,
+    "seen": 1789717082.774775,
+    "ast_hash": "987311b84a301e15ed9c4c7ab97e1e70",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/deck/deck-15.jpg": {
+    "mtime": 1789714869.6416433,
+    "seen": 1789717082.774775,
+    "ast_hash": "1068b57e064e28246498286176674c11",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/deck/deck-16.jpg": {
+    "mtime": 1789714869.6436515,
+    "seen": 1789717082.774775,
+    "ast_hash": "59bd3380687933de0753f927efa2b11b",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/deck/deck-17.jpg": {
+    "mtime": 1789714869.646945,
+    "seen": 1789717082.774776,
+    "ast_hash": "c6b2cbbf194e2e966ea3f0e78c41e055",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/deck/deck-18.jpg": {
+    "mtime": 1789714869.648981,
+    "seen": 1789717082.774776,
+    "ast_hash": "ffa71c6a8e0526a1dbdb650ff657cb38",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/deck/deck-19.jpg": {
+    "mtime": 1789714869.6524808,
+    "seen": 1789717082.774776,
+    "ast_hash": "7f749005b8f688919f8df4153f38fc92",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/deck/deck-20.jpg": {
+    "mtime": 1789714869.6542883,
+    "seen": 1789717082.7747772,
+    "ast_hash": "7e4366e34a4809c3459feda61cea05b3",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/deck/deck-21.jpg": {
+    "mtime": 1789714869.6560566,
+    "seen": 1789717082.7747772,
+    "ast_hash": "77ff2124874edcdd72416b8e3ccb5063",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/bee-sync-zigbee-gateway-2.jpg": {
+    "mtime": 1789715073.6592488,
+    "seen": 1789717082.7747772,
+    "ast_hash": "a6e225e54b2d9c9361d92b48a5b7e192",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/bee-sync-zigbee-gateway-3.jpg": {
+    "mtime": 1789715073.6671062,
+    "seen": 1789717082.7747781,
+    "ast_hash": "56e355a1931f2226cce7749f99a94d2d",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/bee-sync-zigbee-gateway-4.jpg": {
+    "mtime": 1789715073.6726289,
+    "seen": 1789717082.7747781,
+    "ast_hash": "1a0fd3884528d52e77ee2fad3b87fad3",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/bee-sync-zigbee-gateway-5.jpg": {
+    "mtime": 1789715073.678359,
+    "seen": 1789717082.7747781,
+    "ast_hash": "61e2cd6dc170e05d3eeeb8272fd58090",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/burapha-education-board-2.jpg": {
+    "mtime": 1789715073.86183,
+    "seen": 1789717082.7747788,
+    "ast_hash": "bcb1336b26e25237bc146390f67e8146",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/burapha-education-board-3.jpg": {
+    "mtime": 1789715073.869801,
+    "seen": 1789717082.7747788,
+    "ast_hash": "34fbed934f23513371a584e41370f357",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/burapha-education-board-4.jpg": {
+    "mtime": 1789715073.876643,
+    "seen": 1789717082.7747798,
+    "ast_hash": "a5f645604bc836e5f5536469828530e9",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/burapha-education-board-5.jpg": {
+    "mtime": 1789715073.8799264,
+    "seen": 1789717082.7747798,
+    "ast_hash": "0683a1faec578013684268402ad83dc9",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/cooler-master-rc-streaming-2.jpg": {
+    "mtime": 1789715073.801711,
+    "seen": 1789717082.7747798,
+    "ast_hash": "5b939ed9fe2591727d9b380d87b0c89f",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/cooler-master-rc-streaming-3.jpg": {
+    "mtime": 1789715073.8091414,
+    "seen": 1789717082.774781,
+    "ast_hash": "339d2734704c82048ad34e3135e61964",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/cooler-master-rc-streaming-4.jpg": {
+    "mtime": 1789715073.8165245,
+    "seen": 1789717082.774781,
+    "ast_hash": "7921b863abdbb6df61d6b40b3cc8571a",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/isuzu-motorsport-telemetry-2.jpg": {
+    "mtime": 1789715073.7715926,
+    "seen": 1789717082.774781,
+    "ast_hash": "c9572628ad4a1b51dd8d8c25d3c57bdc",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/isuzu-motorsport-telemetry-3.jpg": {
+    "mtime": 1789715073.783227,
+    "seen": 1789717082.774782,
+    "ast_hash": "8072563d6ffca9f6ad3d53755c9f882f",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/isuzu-motorsport-telemetry-4.jpg": {
+    "mtime": 1789715073.7913742,
+    "seen": 1789717082.774782,
+    "ast_hash": "9eb63f15b0ed61857987a49dcfc3a3dc",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/kmitl-edge-ai-agri-board-2.jpg": {
+    "mtime": 1789715073.8297215,
+    "seen": 1789717082.774783,
+    "ast_hash": "74199ba3030ea988b18ee790933d74cc",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/kmitl-edge-ai-agri-board-3.jpg": {
+    "mtime": 1789715073.8368134,
+    "seen": 1789717082.774783,
+    "ast_hash": "7973894b0dab138c1d65ab860b958d84",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/kmitl-edge-ai-agri-board-4.jpg": {
+    "mtime": 1789715073.8455906,
+    "seen": 1789717082.774783,
+    "ast_hash": "a5002322996d32974c4fcedbc468c924",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/lg-smart-laundry-iot-2.jpg": {
+    "mtime": 1789715073.6197648,
+    "seen": 1789717082.774784,
+    "ast_hash": "6b2ecd69796d6e40ebb595c00faad0a1",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/lg-smart-laundry-iot-3.jpg": {
+    "mtime": 1789715073.6304274,
+    "seen": 1789717082.774785,
+    "ast_hash": "ba841894f1e913d75259d8477a4ffb19",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/lg-smart-laundry-iot-4.jpg": {
+    "mtime": 1789715073.6388757,
+    "seen": 1789717082.774785,
+    "ast_hash": "0a78ec50718ddd143dc8ee55bea91f26",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/lg-smart-laundry-iot-5.jpg": {
+    "mtime": 1789715073.647123,
+    "seen": 1789717082.774785,
+    "ast_hash": "1fee03c91fd1c4a84c57d8822cb270c5",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/lng-solar-farm-monitoring-1.jpg": {
+    "mtime": 1789715073.5909965,
+    "seen": 1789717082.774786,
+    "ast_hash": "f0ed1f427557a0003e30abe9004b7fb7",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/lng-solar-farm-monitoring-2.jpg": {
+    "mtime": 1789715073.6030853,
+    "seen": 1789717082.774786,
+    "ast_hash": "4c84755b9af2dab2d686ef29e137792c",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/lng-solar-farm-monitoring-3.jpg": {
+    "mtime": 1789715073.6126213,
+    "seen": 1789717082.7747872,
+    "ast_hash": "a79e8a69bca8b5d165d244e54b50db69",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/pt-racing-emission-telemetry-2.jpg": {
+    "mtime": 1789715073.7199056,
+    "seen": 1789717082.7747872,
+    "ast_hash": "5e5bfacd022da9d42591524650510779",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/pt-racing-emission-telemetry-3.jpg": {
+    "mtime": 1789715073.7389889,
+    "seen": 1789717082.7747872,
+    "ast_hash": "38f353b7f39f89118c051a9d83ff9bfb",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/pt-racing-emission-telemetry-4.jpg": {
+    "mtime": 1789715073.7549846,
+    "seen": 1789717082.7747881,
+    "ast_hash": "d2d4ab854810257ee8bf5635ae0357b3",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/pt-racing-emission-telemetry-5.jpg": {
+    "mtime": 1789715073.7582073,
+    "seen": 1789717082.7747881,
+    "ast_hash": "ea6ed1a9bfa9c7d421b025a0c3e2d4a6",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/smart-home-automation-1.jpg": {
+    "mtime": 1789715073.6857328,
+    "seen": 1789717082.7747881,
+    "ast_hash": "35db436dbe5a8757297c26f80a82f2e9",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/smart-home-automation-2.jpg": {
+    "mtime": 1789715073.691115,
+    "seen": 1789717082.774789,
+    "ast_hash": "623296fed903116c200992d2e07c99e9",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/smart-home-automation-4.jpg": {
+    "mtime": 1789715073.6955974,
+    "seen": 1789717082.774789,
+    "ast_hash": "b10dbd06e45bffe86059412be2c93d0a",
+    "semantic_hash": ""
+  },
+  "public/images/case-studies/pdf/smart-home-automation-5.jpg": {
+    "mtime": 1789715073.6998482,
+    "seen": 1789717082.774789,
+    "ast_hash": "7bbc365cb3f66b314877468b43ca60d4",
+    "semantic_hash": ""
+  },
+  "public/images/placeholder-board.svg": {
+    "mtime": 1789715495.628631,
+    "seen": 1789717082.7747898,
+    "ast_hash": "1be5bf873d1839e700e1049b4d7567c8",
+    "semantic_hash": ""
   }
 }

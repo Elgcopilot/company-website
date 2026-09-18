@@ -1,0 +1,65 @@
+---
+/**
+ * Prose — shared readable-body wrapper for MDX content sections.
+ * Gives every content page the same hierarchy: ember section eyebrow via
+ * first-word treatment is avoided; instead h2s render as semibold display
+ * subheads, paragraphs airy, lists hairline-ruled. Zero JS.
+ */
+---
+
+<div class="prose-elg rounded-2xl border border-brand-line bg-white p-6 sm:p-10">
+  <slot />
+</div>
+
+<style is:global>
+  .prose-elg > h2:first-child {
+    font-family: ui-monospace, 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #f28a22;
+    margin: 0 0 0.5rem;
+  }
+  .prose-elg > h2:not(:first-child) {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: #111111;
+    margin: 2.25rem 0 0.75rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e5e7eb;
+  }
+  .prose-elg > p {
+    color: #3f3f46;
+    line-height: 1.85;
+    font-size: 1.02rem;
+  }
+  .prose-elg > p + p {
+    margin-top: 1rem;
+  }
+  .prose-elg > p strong {
+    color: #111111;
+    font-weight: 650;
+  }
+  .prose-elg > ul {
+    margin-top: 1rem;
+    display: grid;
+    gap: 0.65rem;
+    list-style: none;
+    padding-left: 0;
+  }
+  .prose-elg > ul li {
+    position: relative;
+    padding-left: 1.5rem;
+    color: #3f3f46;
+    line-height: 1.75;
+  }
+  .prose-elg > ul li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: #ea580c;
+    font-weight: 700;
+  }
+</style>

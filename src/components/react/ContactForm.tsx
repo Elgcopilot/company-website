@@ -51,14 +51,14 @@ export default function ContactForm() {
           Thanks {name.split(' ')[0] || 'there'} - our engineers reply within one business day. Want a slot now?
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <a href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ2KxT2uJ8wXyZ_example" className="rounded-md bg-brand-orange px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-ember">Book on Google Calendar</a>
-          <a href="https://line.me/R/ti/p/@embeddedlinuxgroup" className="rounded-md border border-brand-line bg-white px-5 py-2.5 text-sm font-semibold hover:border-brand-orange/40">Continue on LINE</a>
+          <a href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ2KxT2uJ8wXyZ_example" className="rounded-full bg-brand-ink px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-black active:scale-[0.98]">Book on Google Calendar</a>
+          <a href="https://line.me/R/ti/p/@embeddedlinuxgroup" className="rounded-full border border-brand-line bg-white px-5 py-2.5 text-sm font-semibold text-brand-ink transition-all duration-200 hover:-translate-y-px hover:border-brand-ink active:scale-[0.98]">Continue on LINE</a>
         </div>
       </div>
     );
   }
   const chip = (on: boolean) =>
-    `rounded-full border px-4 py-3 min-h-[44px] inline-flex items-center text-xs font-semibold transition-all duration-200 active:scale-[0.98] ${on ? 'border-brand-orange bg-brand-orange text-white' : 'border-brand-line bg-white text-neutral-600 hover:border-brand-orange/40'}`;
+    `rounded-full border px-4 py-3 min-h-[44px] inline-flex items-center text-xs font-semibold transition-all duration-200 active:scale-[0.98] ${on ? 'border-brand-ink bg-brand-ink text-white' : 'border-brand-line bg-white text-neutral-600 hover:border-brand-ink'}`;
   return (
     <form onSubmit={submit} className="rounded-xl border border-brand-line bg-white p-6 sm:p-8" aria-label="Engineering qualification form">
       <ol className="flex gap-2" aria-label="Form progress">
@@ -114,11 +114,11 @@ export default function ContactForm() {
       </div>
       {error && <p className="mt-3 text-sm font-medium text-red-600" role="alert">{error}</p>}
       <div className="mt-6 flex items-center justify-between gap-3 border-t border-brand-line pt-5">
-        <button type="button" disabled={step === 0} onClick={() => setStep((s) => Math.max(0, s - 1))} className="rounded-md border border-brand-line px-5 py-3 min-h-[44px] text-sm font-semibold text-neutral-600 hover:border-brand-orange/40 disabled:opacity-40">Back</button>
+        <button type="button" disabled={step === 0} onClick={() => setStep((s) => Math.max(0, s - 1))} className="rounded-full border border-brand-line px-5 py-3 min-h-[44px] text-sm font-semibold text-neutral-600 transition-all duration-200 hover:border-brand-ink disabled:opacity-40">Back</button>
         {step < 3 ? (
-          <button key="next" type="button" disabled={!canNext} onClick={() => setStep((s) => Math.min(3, s + 1))} className="rounded-md bg-brand-orange px-6 py-3 min-h-[44px] text-sm font-semibold text-white hover:bg-brand-ember disabled:opacity-40">Continue</button>
+          <button key="next" type="button" disabled={!canNext} onClick={() => setStep((s) => Math.min(3, s + 1))} className="rounded-full bg-brand-ink px-6 py-3 min-h-[44px] text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-black active:scale-[0.98] disabled:opacity-40">Continue</button>
         ) : (
-          <button key="send" type="submit" disabled={!canNext} className="rounded-md bg-brand-orange px-6 py-3 min-h-[44px] text-sm font-semibold text-white hover:bg-brand-ember disabled:opacity-40">Send to engineering</button>
+          <button key="send" type="submit" disabled={!canNext} className="rounded-full bg-brand-ink px-6 py-3 min-h-[44px] text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-black active:scale-[0.98] disabled:opacity-40">Send to engineering</button>
         )}
       </div>
       <p className="mt-3 text-center text-[11px] text-neutral-400">No spam. One engineering reply within one business day.</p>

@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHero from '@/components/PageHero.astro';
 import CtaBand from '@/components/CtaBand.astro';
-import Metric from '@/components/Metric.astro';
+import ClientLogos from '@/components/ClientLogos.astro';
 
 const industries = (await getCollection('industries'))
   .sort((a, b) => a.data.order - b.data.order);
@@ -20,33 +20,44 @@ const countFor = (title: string) => cases.filter((c) => c.data.industry === titl
     title="Built for the operating reality, not the bench."
     lede="Seven environments where ELG systems earn their keep — each one linked to the deployments that prove it."
   />
-  <section class="bg-brand-mist">
-    <div class="mx-auto grid max-w-7xl gap-5 px-4 py-12 sm:px-6 sm:py-16 md:grid-cols-2 lg:grid-cols-3">
-      {industries.map((ind) => (
-        <article class="flex flex-col rounded-xl border border-brand-line bg-white p-6 transition-all duration-200 ease-crisp hover:-translate-y-1 hover:border-brand-orange/40 hover:shadow-lg">
-          <h2 class="text-lg font-bold tracking-tight">
-            <a href={`/industries/${ind.slug}`} class="hover:text-brand-ember">{ind.data.title}</a>
-          </h2>
-          <p class="mt-2 text-sm leading-relaxed text-neutral-600">{ind.data.tagline}</p>
-          {ind.data.heroMetric && (
-            <div class="mt-4">
-              <Metric
-                label={ind.data.heroMetric.label}
-                value={ind.data.heroMetric.value}
-                subtext={ind.data.heroMetric.subtext}
-                verified={ind.data.heroMetric.verified}
-              />
-            </div>
-          )}
-          <p class="mt-4 border-t border-brand-line pt-3 font-mono text-xs text-neutral-500">
-            {countFor(ind.data.title)} deployment{countFor(ind.data.title) === 1 ? '' : 's'}
-          </p>
-          <a href={`/industries/${ind.slug}`} class="mt-2 text-sm font-semibold text-brand-ember hover:underline">
-            Explore industry →
-          </a>
-        </article>
-      ))}
+  <section class="border-b border-brand-line bg-white">
+    <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20">
+      <ol class="divide-y divide-brand-line border-y border-brand-line">
+        {industries.map((ind, i) => {
+          const n = countFor(ind.data.title);
+          return (
+            <li data-reveal>
+              <a
+                href={`/industries/${ind.slug}`}
+                class="group grid items-center gap-2 px-2 py-7 transition-colors duration-200 hover:bg-brand-paper sm:grid-cols-12 sm:gap-4 sm:px-4 sm:py-8"
+              >
+                <span class="font-mono text-xs font-bold text-brand-orange sm:col-span-1">0{i + 1}</span>
+                <span class="sm:col-span-6">
+                  <span class="block text-xl font-semibold tracking-[-0.02em] text-brand-ink transition-colors group-hover:text-brand-ember sm:text-2xl">
+                    {ind.data.title}
+                  </span>
+                  <span class="mt-1.5 block max-w-lg text-sm leading-relaxed text-neutral-600">{ind.data.tagline}</span>
+                </span>
+                <span class="font-mono text-[11px] leading-relaxed text-neutral-500 sm:col-span-3">
+                  {ind.data.heroMetric ? (
+                    <span class="block text-xs font-bold text-brand-ink">
+                      {ind.data.heroMetric.value} <span class="font-medium text-neutral-500">— {ind.data.heroMetric.label}</span>
+                    </span>
+                  ) : (
+                    <span class="block">Proof on request — NDA</span>
+                  )}
+                </span>
+                <span class="font-mono text-[11px] font-medium text-neutral-500 sm:col-span-1">
+                  {n} case{n === 1 ? '' : 's'}
+                </span>
+                <span aria-hidden="true" class="hidden size-9 place-items-center rounded-full border border-brand-line text-sm transition-all duration-200 group-hover:border-brand-ember group-hover:bg-brand-ember group-hover:text-white sm:col-span-1 sm:grid sm:justify-self-end">→</span>
+              </a>
+            </li>
+          );
+        })}
+      </ol>
     </div>
   </section>
+  <ClientLogos />
   <CtaBand />
 </BaseLayout>

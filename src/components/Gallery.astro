@@ -1,0 +1,97 @@
+---
+/**
+ * Gallery — evidence photo gallery for case-study detail pages (zero JS).
+ * Editorial asymmetric grid: 1 wide lead photo + supporting frames, each
+ * with mono index + caption. Pure CSS lightbox via :target (no JS, no deps).
+ */
+interface Props {
+  images: string[];
+  title: string;
+  captions?: string[];
+}
+
+const { images, title, captions = [] } = Astro.props;
+const lead = images[0];
+const rest = images.slice(1);
+const captionFor = (i: number) => captions[i] ?? `Field evidence ${String(i + 1).padStart(2, '0')} — ${title}`;
+---
+
+<section class="border-t border-brand-line bg-white" aria-label="Field photo gallery">
+  <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20">
+    <div class="flex flex-wrap items-end justify-between gap-4" data-reveal>
+      <div>
+        <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-500">Field gallery</p>
+        <h2 class="mt-3 text-2xl font-semibold tracking-[-0.02em] text-brand-ink sm:text-3xl">
+          {images.length} photos from the deployment.
+        </h2>
+      </div>
+      <p class="font-mono text-[11px] text-neutral-400">Select any frame to inspect</p>
+    </div>
+    {lead && (
+      <a
+        href="#gallery-0"
+        class="group relative mt-8 block overflow-hidden rounded-2xl border border-brand-line"
+        data-reveal
+        aria-label={`Enlarge photo 1: ${captionFor(0)}`}
+      >
+        <img src={lead} alt={captionFor(0)} loading="lazy" class="aspect-[16/8] w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]" />
+        <span class="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" aria-hidden="true"></span>
+        <span class="absolute bottom-4 left-4 flex items-center gap-3 font-mono text-[11px] text-white">
+          <span class="rounded-lg bg-brand-orange px-2 py-1 font-bold">01</span>
+          <span class="rounded-lg bg-black/55 px-2.5 py-1 backdrop-blur">{captionFor(0)}</span>
+        </span>
+        <span aria-hidden="true" class="absolute bottom-4 right-4 grid size-9 place-items-center rounded-full bg-white/90 text-sm transition-transform duration-200 group-hover:scale-110">⤢</span>
+      </a>
+    )}
+    {rest.length > 0 && (
+      <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {rest.map((src, i) => (
+          <a
+            href={`#gallery-${i + 1}`}
+            class="group relative block overflow-hidden rounded-2xl border border-brand-line"
+            data-reveal
+            aria-label={`Enlarge photo ${i + 2}: ${captionFor(i + 1)}`}
+          >
+            <img src={src} alt={captionFor(i + 1)} loading="lazy" class="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]" />
+            <span class="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" aria-hidden="true"></span>
+            <span class="absolute bottom-3 left-3 flex items-center gap-2 font-mono text-[11px] text-white">
+              <span class="rounded-lg bg-brand-orange px-2 py-1 font-bold">{String(i + 2).padStart(2, '0')}</span>
+              <span class="rounded-lg bg-black/55 px-2.5 py-1 backdrop-blur">{captionFor(i + 1)}</span>
+            </span>
+          </a>
+        ))}
+      </div>
+    )}
+  </div>
+  {images.map((src, i) => (
+    <div
+      id={`gallery-${i}`}
+      class="gallery-lightbox invisible fixed inset-0 z-[80] flex items-center justify-center bg-black/90 p-4 opacity-0 backdrop-blur transition-all duration-300"
+      role="dialog"
+      aria-modal="true"
+      aria-label={`Photo ${i + 1} enlarged: ${captionFor(i)}`}
+    >
+      <a href="#gallery-close" class="absolute inset-0" aria-label="Close enlarged photo"></a>
+      <figure class="relative max-h-full w-full max-w-5xl">
+        <img src={src} alt={captionFor(i)} class="max-h-[80vh] w-full rounded-2xl object-contain" />
+        <figcaption class="mt-3 flex items-center justify-between gap-4 font-mono text-xs text-neutral-300">
+          <span>{String(i + 1).padStart(2, '0')} / {String(images.length).padStart(2, '0')} — {captionFor(i)}</span>
+          <span class="flex gap-2">
+            {i > 0 && <a href={`#gallery-${i - 1}`} class="grid size-9 place-items-center rounded-full border border-white/25 text-sm transition-colors hover:bg-white hover:text-black" aria-label="Previous photo">←</a>}
+            {i < images.length - 1 && <a href={`#gallery-${i + 1}`} class="grid size-9 place-items-center rounded-full border border-white/25 text-sm transition-colors hover:bg-white hover:text-black" aria-label="Next photo">→</a>}
+            <a href="#gallery-close" class="grid size-9 place-items-center rounded-full bg-white text-sm font-bold text-black" aria-label="Close">✕</a>
+          </span>
+        </figcaption>
+      </figure>
+    </div>
+  ))}
+  <span id="gallery-close" class="hidden" aria-hidden="true"></span>
+</section>
+
+<style is:global>
+  /* Pure-CSS lightbox: :target flips the fixed overlay visible (no JS). */
+  .gallery-lightbox:target {
+    visibility: visible;
+    opacity: 1;
+  }
+</style>

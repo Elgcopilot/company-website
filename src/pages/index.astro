@@ -1,157 +1,40 @@
 ---
+/**
+ * index — ELG homepage (production).
+ * Editorial hero with production-grade telemetry visual → client logos →
+ * proof band → realities → capabilities → field evidence →
+ * scroll-driven stack explode → final CTA.
+ */
 import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import CaseStudyCard from '@/components/CaseStudyCard.astro';
-import Metric from '@/components/Metric.astro';
-import { ARCHITECTURE_LAYERS, CAPABILITY_MODULES, COMPANY } from '@/data/company';
+import Hero from '@/components/Hero.astro';
+import ClientLogos from '@/components/ClientLogos.astro';
+import ProofBand from '@/components/ProofBand.astro';
+import Realities from '@/components/Realities.astro';
+import Capabilities from '@/components/Capabilities.astro';
+import Evidence from '@/components/Evidence.astro';
+import StackExplode from '@/components/StackExplode.astro';
+import FinalCta from '@/components/FinalCta.astro';
 
-const featured = (await getCollection('case-studies'))
-  .filter((s) => s.data.isFeatured)
-  .sort((a, b) => +b.data.publishedAt - +a.data.publishedAt);
+const all = await getCollection('case-studies');
+const bySlug = (slug: string) => all.find((s) => s.slug === slug);
+const feature = bySlug('isuzu-motorsport-telemetry') ?? all.find((s) => s.data.isFeatured) ?? all[0];
+const supporting = ['pt-racing-emission-telemetry', 'lg-smart-laundry-iot']
+  .map(bySlug)
+  .filter((s) => s !== undefined && s.slug !== feature.slug)
+  .slice(0, 2) as Exclude<ReturnType<typeof bySlug>, undefined>[];
 ---
 
 <BaseLayout
   title="Hardware & Software House for Real-Time Systems in Harsh Environments"
   description="ELG customizes end-to-end ecosystems to client requirements — especially real-time data transfer systems that keep working in harsh environments."
 >
-  <section class="border-b border-brand-line bg-white">
-    <div class="mx-auto max-w-7xl px-4 pb-16 pt-20 sm:px-6 sm:pb-24 sm:pt-28">
-      <p class="inline-block rounded-full border border-brand-orange/30 bg-brand-orange/10 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-brand-ember">
-        Hardware &amp; Software House
-      </p>
-      <h1 class="mt-5 max-w-3xl text-4xl font-bold leading-[1.05] tracking-tight sm:text-6xl">
-        Custom ecosystems for real-time data, built to survive the field.
-      </h1>
-      <p class="mt-5 max-w-2xl text-lg leading-relaxed text-neutral-600">
-        ELG engineers the full stack to your exact requirement — custom hardware,
-        firmware, embedded Linux, connectivity and cloud — with a specialty in
-        real-time data transfer systems operating in harsh environments.
-      </p>
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a
-          href="/contact"
-          class="rounded-md bg-brand-orange px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-200 ease-crisp hover:-translate-y-px hover:bg-brand-ember active:scale-[0.98]"
-        >
-          Talk to our Team
-        </a>
-        <a
-          href="/case-studies"
-          class="rounded-md border border-brand-line bg-white px-6 py-3 text-sm font-semibold text-brand-ink transition-all duration-200 ease-crisp hover:-translate-y-px hover:border-brand-orange/40 active:scale-[0.98]"
-        >
-          See Field Evidence
-        </a>
-      </div>
-      <dl class="mt-10 flex flex-wrap gap-x-8 gap-y-2 text-sm text-neutral-600">
-        <div class="flex gap-2"><dt class="font-semibold text-brand-ink">MOQ from</dt><dd class="font-mono font-bold text-brand-ember">5 units</dd></div>
-        <div class="flex gap-2"><dt class="font-semibold text-brand-ink">Response</dt><dd>within one business day</dd></div>
-      </dl>
-    </div>
-  </section>
-
-  <section class="border-y border-brand-line bg-white">
-    <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20">
-      <h2 class="max-w-2xl text-2xl font-bold tracking-tight sm:text-3xl">One partner, six building blocks.</h2>
-      <p class="mt-3 max-w-2xl leading-relaxed text-neutral-600">
-        Every engagement combines the modules your problem actually needs —
-        nothing more. Each case study is tagged with the modules it used.
-      </p>
-      <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {CAPABILITY_MODULES.map((m) => (
-          <li class="rounded-xl border border-brand-line bg-white p-6 transition-all duration-200 ease-crisp hover:-translate-y-1 hover:border-brand-orange/40 hover:shadow-lg">
-            <h3 class="font-semibold">{m.name}</h3>
-            <p class="mt-2 text-sm leading-relaxed text-neutral-600">{m.blurb}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
-  <section class="bg-brand-coal text-white">
-    <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20">
-      <h2 class="max-w-2xl text-2xl font-bold tracking-tight sm:text-3xl">The stack we own end to end.</h2>
-      <p class="mt-3 max-w-2xl leading-relaxed text-neutral-400">
-        Overview only — per-client internals stay under NDA.
-      </p>
-      <ol class="mt-8 grid gap-4 md:grid-cols-5">
-        {ARCHITECTURE_LAYERS.map((l, i) => (
-          <li class="rounded-xl border border-white/10 bg-white/5 p-5">
-            <p class="font-mono text-xs text-brand-orange">0{i + 1}</p>
-            <h3 class="mt-2 text-sm font-semibold">{l.name}</h3>
-            <p class="mt-2 text-xs leading-relaxed text-neutral-400">{l.blurb}</p>
-          </li>
-        ))}
-      </ol>
-    </div>
-  </section>
-
-  <section class="bg-white">
-    <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20">
-      <div class="flex flex-wrap items-end justify-between gap-4">
-        <h2 class="max-w-2xl text-2xl font-bold tracking-tight sm:text-3xl">Proven where failure is not an option.</h2>
-        <a href="/case-studies" class="text-sm font-semibold text-brand-ember hover:underline">Browse all 10 case studies →</a>
-      </div>
-      <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {featured.map((s) => (
-          <CaseStudyCard
-            slug={s.slug}
-            title={s.data.title}
-            subtitle={s.data.subtitle}
-            industry={s.data.industry}
-            projectType={s.data.projectType}
-            clientPartner={s.data.clientPartner}
-            status={s.data.status}
-            featuredImage={s.data.featuredImage}
-            isPlaceholderImage={s.data.isPlaceholderImage}
-            environmentConstraints={s.data.environmentConstraints}
-          />
-        ))}
-      </div>
-      <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Metric label="Telemetry latency" value="Sub-100ms" subtext="Trackside streaming under race conditions." />
-        <Metric label="CAN / GPS acquisition" value="25Hz" subtext="High-frequency motorsport data capture." />
-        <Metric label="Race-event uptime" value="100%" subtext="Zero-failure operation during competition." />
-        <Metric label="Prototype entry" value="MOQ 5" subtext="Pilot runs for startups and trials." verified />
-      </div>
-    </div>
-  </section>
-
-  <section class="border-t border-brand-line bg-brand-mist">
-    <div class="mx-auto max-w-7xl px-4 py-16 text-center sm:px-6 sm:py-20">
-      <h2 class="mx-auto max-w-2xl text-2xl font-bold tracking-tight sm:text-3xl">Bring us the requirement. We will engineer the ecosystem.</h2>
-      <p class="mx-auto mt-3 max-w-xl text-neutral-600">
-        Tell us the operating reality — LINE, call, or the qualification form.
-        We reply within one business day.
-      </p>
-      <div class="mt-8 flex flex-wrap justify-center gap-3">
-        <a
-          href="/contact"
-          class="rounded-md bg-brand-orange px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-200 ease-crisp hover:-translate-y-px hover:bg-brand-ember active:scale-[0.98]"
-        >
-          Schedule an Engineering Consultation
-        </a>
-        <a
-          href={COMPANY.lineUrl}
-          class="rounded-md border border-brand-line bg-white px-6 py-3 text-sm font-semibold transition-all duration-200 ease-crisp hover:-translate-y-px hover:border-brand-orange/40 active:scale-[0.98]"
-        >
-          LINE: {COMPANY.lineId}
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="bg-brand-mist">
-    <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20">
-      <h2 class="max-w-2xl text-2xl font-bold tracking-tight sm:text-3xl">Lab demos are easy. The field is the test.</h2>
-      <p class="mt-3 max-w-2xl leading-relaxed text-neutral-600">
-        Vibration, heat, electrical noise and intermittent links kill prototypes.
-        Our systems are specified, built and proven for the operating reality —
-        not the bench.
-      </p>
-      <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {['High vibration & shock', 'Extreme heat & dust', 'Noisy electrical environments', 'Intermittent connectivity'].map((c) => (
-          <li class="rounded-xl border border-brand-line bg-white p-5 text-sm font-medium">{c}</li>
-        ))}
-      </ul>
-    </div>
-  </section>
+  <Hero />
+  <ClientLogos />
+  <ProofBand />
+  <Realities />
+  <Capabilities />
+  <Evidence feature={feature} supporting={supporting} />
+  <StackExplode />
+  <FinalCta />
 </BaseLayout>

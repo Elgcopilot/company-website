@@ -3,12 +3,15 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHero from '@/components/PageHero.astro';
 import CtaBand from '@/components/CtaBand.astro';
-import Metric from '@/components/Metric.astro';
+import ClientLogos from '@/components/ClientLogos.astro';
 import { CAPABILITY_MODULES } from '@/data/company';
 
 const solutions = (await getCollection('solutions'))
   .sort((a, b) => a.data.order - b.data.order);
+const cases = await getCollection('case-studies');
 const modName = (m: string) => CAPABILITY_MODULES.find((c) => c.slug === m)?.name ?? m;
+const proofCountFor = (mods: readonly string[]) =>
+  cases.filter((c) => c.data.capabilityModules.some((m) => (mods as readonly string[]).includes(m))).length;
 ---
 
 <BaseLayout
@@ -20,33 +23,44 @@ const modName = (m: string) => CAPABILITY_MODULES.find((c) => c.slug === m)?.nam
     title="Outcome packages, not technology menus."
     lede="Four ways to engage — each one a business outcome with the capability modules it combines. Pick the outcome; we engineer the stack."
   />
-  <section class="bg-brand-mist">
-    <div class="mx-auto grid max-w-7xl gap-5 px-4 py-12 sm:px-6 sm:py-16 md:grid-cols-2">
-      {solutions.map((s, i) => (
-        <article class="flex flex-col rounded-xl border border-brand-line bg-white p-6 transition-all duration-200 ease-crisp hover:-translate-y-1 hover:border-brand-orange/40 hover:shadow-lg sm:p-8">
-          <p class="font-mono text-xs font-bold text-brand-orange">0{i + 1}</p>
-          <h2 class="mt-2 text-xl font-bold tracking-tight">
-            <a href={`/solutions/${s.slug}`} class="hover:text-brand-ember">{s.data.title}</a>
-          </h2>
-          <p class="mt-2 text-sm leading-relaxed text-neutral-600">{s.data.tagline}</p>
-          <div class="mt-3 flex flex-wrap gap-1.5">
-            {s.data.capabilityModules.map((m) => (
-              <span class="rounded-full bg-brand-mist px-2 py-1 text-[11px] font-semibold text-neutral-600">{modName(m)}</span>
-            ))}
-          </div>
-          {s.data.metrics.length > 0 && (
-            <div class="mt-4 grid gap-3 sm:grid-cols-2">
-              {s.data.metrics.slice(0, 2).map((m) => (
-                <Metric label={m.label} value={m.value} subtext={m.subtext} verified={m.verified} />
-              ))}
-            </div>
-          )}
-          <a href={`/solutions/${s.slug}`} class="mt-5 text-sm font-semibold text-brand-ember hover:underline">
-            Explore package →
-          </a>
-        </article>
-      ))}
+  <section class="border-b border-brand-line bg-white">
+    <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20">
+      <ol class="divide-y divide-brand-line border-y border-brand-line">
+        {solutions.map((s, i) => {
+          const m0 = s.data.metrics[0];
+          const proofCount = proofCountFor(s.data.capabilityModules);
+          return (
+            <li data-reveal>
+              <a
+                href={`/solutions/${s.slug}`}
+                class="group grid items-center gap-2 px-2 py-7 transition-colors duration-200 hover:bg-brand-paper sm:grid-cols-12 sm:gap-4 sm:px-4 sm:py-9"
+              >
+                <span class="font-mono text-xs font-bold text-brand-orange sm:col-span-1">0{i + 1}</span>
+                <span class="sm:col-span-5">
+                  <span class="block text-xl font-semibold tracking-[-0.02em] text-brand-ink transition-colors group-hover:text-brand-ember sm:text-2xl">
+                    {s.data.title}
+                  </span>
+                  <span class="mt-1.5 block max-w-md text-sm leading-relaxed text-neutral-600">{s.data.tagline}</span>
+                </span>
+                <span class="font-mono text-[11px] leading-relaxed text-neutral-500 sm:col-span-3">
+                  {s.data.capabilityModules.slice(0, 3).map(modName).join(' · ')}
+                  {m0 && (
+                    <span class="mt-1.5 block text-xs font-bold text-brand-ink">
+                      {m0.value} <span class="font-medium text-neutral-500">— {m0.label}</span>
+                    </span>
+                  )}
+                </span>
+                <span class="font-mono text-[11px] font-medium text-neutral-500 sm:col-span-2">
+                  {proofCount} proof case{proofCount === 1 ? '' : 's'}
+                </span>
+                <span aria-hidden="true" class="hidden size-9 place-items-center rounded-full border border-brand-line text-sm transition-all duration-200 group-hover:border-brand-ember group-hover:bg-brand-ember group-hover:text-white sm:col-span-1 sm:grid sm:justify-self-end">→</span>
+              </a>
+            </li>
+          );
+        })}
+      </ol>
     </div>
   </section>
+  <ClientLogos />
   <CtaBand />
 </BaseLayout>

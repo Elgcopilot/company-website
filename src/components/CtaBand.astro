@@ -1,31 +1,35 @@
 ---
 /**
  * CtaBand — shared closing conversion band (zero JS).
+ * Homepage design language: massive centered display type, ink-black
+ * primary action with orange arrow dot (production-grade, not AI-vibe).
  * Single message everywhere: "Bring us the requirement.
  * We will engineer the ecosystem."
  */
 import { COMPANY } from '@/data/company';
 ---
 
-<section class="border-t border-brand-line bg-brand-mist">
-  <div class="mx-auto max-w-7xl px-4 py-16 text-center sm:px-6 sm:py-20">
-    <h2 class="mx-auto max-w-2xl text-2xl font-bold tracking-tight sm:text-3xl">
+<section class="border-t border-brand-line bg-white">
+  <div class="mx-auto max-w-7xl px-4 py-20 text-center sm:px-6 sm:py-28">
+    <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-500" data-reveal>Start</p>
+    <h2 class="mx-auto mt-4 max-w-3xl text-3xl font-semibold leading-[1.05] tracking-[-0.03em] text-brand-ink sm:text-5xl" data-reveal>
       Bring us the requirement. We will engineer the ecosystem.
     </h2>
-    <p class="mx-auto mt-3 max-w-xl text-neutral-600">
+    <p class="mx-auto mt-4 max-w-xl leading-relaxed text-neutral-600" data-reveal>
       Tell us the operating reality — LINE, call, or the qualification form.
       We reply within one business day.
     </p>
-    <div class="mt-8 flex flex-wrap justify-center gap-3">
+    <div class="mt-9 flex flex-wrap justify-center gap-3" data-reveal>
       <a
         href="/contact"
-        class="rounded-md bg-brand-orange px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-200 ease-crisp hover:-translate-y-px hover:bg-brand-ember active:scale-[0.98]"
+        class="group inline-flex items-center gap-2 rounded-full bg-brand-ink px-7 py-3.5 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-black active:scale-[0.98]"
       >
         Schedule an Engineering Consultation
+        <span aria-hidden="true" class="grid size-5 place-items-center rounded-full bg-brand-orange text-xs leading-none transition-transform duration-200 group-hover:translate-x-0.5">→</span>
       </a>
       <a
         href={COMPANY.lineUrl}
-        class="rounded-md border border-brand-line bg-white px-6 py-3 text-sm font-semibold transition-all duration-200 ease-crisp hover:-translate-y-px hover:border-brand-orange/40 active:scale-[0.98]"
+        class="inline-flex items-center gap-2 rounded-full border border-brand-line bg-white px-7 py-3.5 text-sm font-semibold text-brand-ink transition-all duration-200 hover:-translate-y-px hover:border-brand-ink active:scale-[0.98]"
       >
         LINE: {COMPANY.lineId}
       </a>
