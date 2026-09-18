@@ -1,0 +1,28 @@
+---
+// Metric: renders an engineering number. Unverified values are NEVER
+// presented as fact — they carry the NDA/pending-validation badge
+// (Brand Golden Rule: Evidence > Claims).
+interface Props {
+  label: string;
+  value: string;
+  subtext?: string;
+  verified?: boolean;
+  dark?: boolean;
+}
+
+const { label, value, subtext, verified = false, dark = false } = Astro.props;
+---
+
+<div class:list={['rounded-xl border p-5', dark ? 'border-white/10 bg-white/5' : 'border-brand-line bg-white']}>
+  <p class:list={['font-mono text-2xl font-bold tracking-tight', dark ? 'text-white' : 'text-brand-ink']}>
+    {value}
+    {!verified && <span class="text-brand-orange" aria-hidden="true">*</span>}
+  </p>
+  <p class:list={['mt-1 text-sm font-semibold', dark ? 'text-neutral-200' : 'text-neutral-800']}>{label}</p>
+  {subtext && <p class:list={['mt-1 text-xs leading-relaxed', dark ? 'text-neutral-400' : 'text-neutral-500']}>{subtext}</p>}
+  {!verified && (
+    <p class="mt-2 inline-block rounded-md bg-brand-orange/10 px-2 py-1 text-[11px] font-medium text-brand-ember">
+      Pending validation — details under NDA
+    </p>
+  )}
+</div>

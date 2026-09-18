@@ -1,0 +1,112 @@
+---
+// Base layout: header + footer, semantic HTML, JSON-LD Organization schema.
+import '@fontsource-variable/inter';
+import '@fontsource-variable/jetbrains-mono';
+import { COMPANY } from '@/data/company';
+
+interface Props {
+  title: string;
+  description: string;
+  lang?: string;
+}
+
+const { title, description, lang = 'en' } = Astro.props;
+const pageTitle = `${title} — ${COMPANY.name}`;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{pageTitle}</title>
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: COMPANY.name,
+        url: COMPANY.domain,
+        email: COMPANY.email,
+        telephone: COMPANY.phone,
+        address: COMPANY.address,
+      })}
+    />
+  </head>
+  <body class="bg-brand-white font-sans text-brand-ink antialiased">
+    <header class="sticky top-0 z-50 border-b border-brand-line/70 bg-white/80 backdrop-blur-xl">
+      <nav aria-label="Primary" class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
+        <a href="/" class="flex items-center gap-2" aria-label="ELG home">
+          <span class="grid size-8 place-items-center rounded-md bg-brand-ink font-mono text-xs font-bold text-white">ELG</span>
+          <span class="text-sm font-semibold tracking-tight">Embedded Linux Group</span>
+        </a>
+        <div class="hidden items-center gap-7 text-sm font-medium md:flex">
+          <a class="transition-colors hover:text-brand-ember" href="/solutions">Solutions</a>
+          <a class="transition-colors hover:text-brand-ember" href="/industries">Industries</a>
+          <a class="transition-colors hover:text-brand-ember" href="/case-studies">Case Studies</a>
+          <a class="transition-colors hover:text-brand-ember" href="/about">About</a>
+        </div>
+        <div class="flex items-center gap-3">
+          <a
+            href="/contact"
+            class="rounded-md bg-brand-orange px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 ease-crisp hover:-translate-y-px hover:bg-brand-ember active:scale-[0.98]"
+          >
+            Talk to our Team
+          </a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="border-t border-brand-line bg-brand-mist">
+      <div class="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-4">
+        <div>
+          <p class="text-sm font-semibold">Embedded Linux Group</p>
+          <p class="mt-2 max-w-xs text-sm leading-relaxed text-neutral-600">
+            Hardware &amp; Software House customizing ecosystems to client requirements —
+            especially real-time data transfer in harsh environments.
+          </p>
+        </div>
+        <nav aria-label="Solutions">
+          <p class="text-xs font-semibold uppercase tracking-widest text-neutral-500">Solutions</p>
+          <ul class="mt-3 space-y-2 text-sm">
+            <li><a class="hover:text-brand-ember" href="/solutions/mission-critical-telemetry">Mission-Critical Telemetry</a></li>
+            <li><a class="hover:text-brand-ember" href="/solutions/industrial-iot-gateways">Industrial IoT &amp; Gateways</a></li>
+            <li><a class="hover:text-brand-ember" href="/solutions/smart-product-turnkey">Smart Product Turnkey</a></li>
+            <li><a class="hover:text-brand-ember" href="/solutions/edge-ai-vision">Edge AI &amp; Vision</a></li>
+          </ul>
+        </nav>
+        <nav aria-label="Company">
+          <p class="text-xs font-semibold uppercase tracking-widest text-neutral-500">Company</p>
+          <ul class="mt-3 space-y-2 text-sm">
+            <li><a class="hover:text-brand-ember" href="/case-studies">Case Studies</a></li>
+            <li><a class="hover:text-brand-ember" href="/industries">Industries</a></li>
+            <li><a class="hover:text-brand-ember" href="/about">About</a></li>
+            <li><a class="hover:text-brand-ember" href="/contact">Contact</a></li>
+          </ul>
+        </nav>
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-widest text-neutral-500">Get in touch</p>
+          <address class="mt-3 space-y-1 text-sm not-italic text-neutral-700">
+            <p>{COMPANY.address}</p>
+            <p><a class="hover:text-brand-ember" href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a></p>
+            <p><a class="hover:text-brand-ember" href={COMPANY.phoneHref}>{COMPANY.phone}</a></p>
+            <p>LINE: <a class="hover:text-brand-ember" href={COMPANY.lineUrl}>{COMPANY.lineId}</a></p>
+            <p class="text-neutral-500">{COMPANY.hours}</p>
+          </address>
+        </div>
+      </div>
+      <div class="border-t border-brand-line">
+        <p class="mx-auto max-w-7xl px-4 py-5 text-xs text-neutral-500 sm:px-6">© 2026 Embedded Linux Group Co., Ltd. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+

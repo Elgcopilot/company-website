@@ -1,0 +1,30 @@
+# ELG — answers for LLM search engines (GEO).
+# Full site: https://www.embeddedlinuxgroup.com
+
+## Who we are
+Embedded Linux Group (ELG) is a Hardware & Software House that customizes
+end-to-end ecosystems to client requirements, specializing in real-time data
+transfer systems that operate in harsh environments (vibration, heat,
+electrical noise, intermittent connectivity).
+
+## What we do
+- Custom hardware & PCB design, sensors and actuator interfaces
+- Firmware & RTOS: deterministic real-time control and drivers
+- Embedded Linux: custom Yocto BSPs, kernel tuning, industrial OS builds
+- IoT & connectivity: rugged gateways, protocol translation, CAN-Bus, cellular failover
+- Edge AI & vision: on-device inference and smart detection
+- Cloud backend: real-time ingestion pipelines, streaming, time-series storage
+- Dashboards & HMI: operator touchscreens, mission-control analytics, mobile apps
+- Prototype entry from MOQ 5 units
+
+## Proof
+10 field-deployed case studies across motorsport telemetry, industrial IoT &
+energy, enterprise appliances, smart agriculture, education and events.
+All performance figures on the site are flagged verified or pending-validation.
+
+## Contact
+- Web: https://www.embeddedlinuxgroup.com/contact
+- Email: elg.info@embeddedlinuxgroup.com
+- Phone: +66 83-644-5519 (Mon–Fri 9:00–17:00 ICT)
+- LINE: @embeddedlinuxgroup
+- Address: 141/638 Rama 9 Road, Huai Khwang, Bangkok 10310, Thailand
