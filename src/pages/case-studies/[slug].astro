@@ -53,26 +53,52 @@ const relatedFill = related.length >= 3 ? related : [...related, ...all.filter((
       </dl>
     </div>
   </section>
-  <!-- Full-bleed evidence photo with metric overlay -->
-  <section class="bg-brand-coal">
+  <!-- Field-gallery hero: main viewer + thumb strip replaces the old static
+       hero photo — visitors browse all project photos without scrolling.
+       Overlay text uses scrim + glass pills for contrast on any photo. -->
+  <section class="bg-brand-coal" aria-label="Field gallery">
     <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
-      <figure class="relative overflow-hidden rounded-2xl" data-reveal>
-        <img src={d.featuredImage} alt={d.title} class="aspect-[16/10] w-full object-cover sm:aspect-[16/8]" />
-        <span class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" aria-hidden="true"></span>
-        {d.isPlaceholderImage && (
-          <span class="absolute left-4 top-4 rounded-lg bg-brand-ink/85 px-2.5 py-1 text-[11px] font-medium text-white">[Placeholder Asset] Production photography lands here.</span>
+      <div class="flex flex-wrap items-end justify-between gap-3" data-reveal>
+        <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-400">
+          Field gallery — {d.galleryImages.length > 0 ? `${d.galleryImages.length} photos` : 'photos'} from the deployment
+        </p>
+        {d.galleryImages.length > 1 && (
+          <p class="font-mono text-[11px] text-neutral-500">Select any frame below to inspect</p>
         )}
-        {d.metrics.length > 0 && (
-          <figcaption class="absolute inset-x-0 bottom-0 hidden gap-3 p-5 font-mono sm:grid sm:grid-cols-3 sm:p-7">
-            {d.metrics.slice(0, 3).map((m) => (
-              <div class="rounded-xl border border-white/15 bg-black/45 px-4 py-3 backdrop-blur-md">
-                <p class="text-lg font-bold tracking-tight text-white">{m.value}{!m.verified && <span class="text-brand-orange" aria-hidden="true">*</span>}</p>
-                <p class="mt-0.5 text-[10px] uppercase tracking-[0.16em] text-neutral-300">{m.label}</p>
-              </div>
+      </div>
+      {d.galleryImages.length > 0 ? (
+        <div class="gallery-viewer mt-5" data-reveal data-gallery="1">
+          <div class="relative overflow-hidden rounded-2xl border border-white/10">
+            {d.galleryImages.map((src, i) => (
+              <img
+                src={src}
+                alt={`Field evidence ${String(i + 1).padStart(2, '0')} — ${d.clientPartner ?? d.title}`}
+                loading={i === 0 ? 'eager' : 'lazy'}
+                class="gallery-main aspect-[4/3] w-full object-cover sm:aspect-[16/8]"
+                data-main={i}
+                style={i === 0 ? undefined : 'display:none'}
+              />
             ))}
-          </figcaption>
-        )}
-      </figure>
+            {/* Contrast scrim: stronger at bottom for metric pills, soft at top */}
+            <span class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-black/25" aria-hidden="true"></span>
+            {d.isPlaceholderImage && (
+              <span class="absolute left-4 top-4 rounded-lg bg-brand-ink/85 px-2.5 py-1 text-[11px] font-medium text-white">[Placeholder Asset] Production photography lands here.</span>
+            )}
+            <span class="pointer-events-none absolute left-4 top-4 flex items-center gap-3 font-mono text-[11px] text-white">
+              <span class="rounded-lg bg-brand-orange px-2 py-1 font-bold drop-shadow" data-count>01 / {String(d.galleryImages.length).padStart(2, '0')}</span>
+              <span class="max-w-[60vw] truncate rounded-lg bg-black/55 px-2.5 py-1 backdrop-blur">{d.clientPartner ?? d.title}</span>
+            </span>
+            {d.metrics.length > 0 && (
+              <div class="absolute inset-x-0 bottom-0 hidden gap-3 p-5 font-mono sm:grid sm:grid-cols-3 sm:p-6">
+                {d.metrics.slice(0, 3).map((m) => (
+                  <div class="rounded-xl border border-white/20 bg-black/55 px-4 py-3 shadow-[0_8px_24px_-12px_rgb(0_0_0/0.8)] backdrop-blur-md">
+                    <p class="text-lg font-bold tracking-tight text-white drop-shadow">{m.value}{!m.verified && <span class="text-brand-orange" aria-hidden="true">*</span>}</p>
+                    <p class="mt-0.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-neutral-200">{m.label}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
       {d.metrics.length > 0 && (
         <dl class="mt-4 grid grid-cols-1 gap-3 font-mono sm:hidden">
           {d.metrics.slice(0, 3).map((m) => (
@@ -83,10 +109,67 @@ const relatedFill = related.length >= 3 ? related : [...related, ...all.filter((
           ))}
         </dl>
       )}
+      {d.galleryImages.length > 1 && (
+        <div class="mt-3 flex gap-3 overflow-x-auto pb-1" role="group" aria-label="Choose a field photo">
+          {d.galleryImages.map((src, i) => (
+            <button
+              type="button"
+              data-thumb={i}
+              class="gallery-thumb relative block h-16 w-24 shrink-0 cursor-pointer overflow-hidden rounded-lg border border-white/15 transition-all duration-200 ease-crisp sm:h-[72px] sm:w-28"
+              aria-label={`View photo ${i + 1}`}
+              aria-pressed={i === 0 ? 'true' : 'false'}
+            >
+              <img src={src} alt="" aria-hidden="true" tabindex="-1" loading="lazy" class="pointer-events-none h-full w-full object-cover" />
+              <span class="pointer-events-none absolute bottom-1 left-1 rounded bg-black/60 px-1.5 py-0.5 font-mono text-[9px] font-bold text-white">{String(i + 1).padStart(2, '0')}</span>
+            </button>
+          ))}
+        </div>
+      )}
+      </div>
+      ) : (
+        <figure class="relative mt-5 overflow-hidden rounded-2xl border border-white/10" data-reveal>
+          <img src={d.featuredImage} alt={d.title} class="aspect-[16/10] w-full object-cover sm:aspect-[16/8]" />
+          <span class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-black/25" aria-hidden="true"></span>
+          {d.isPlaceholderImage && (
+            <span class="absolute left-4 top-4 rounded-lg bg-brand-ink/85 px-2.5 py-1 text-[11px] font-medium text-white">[Placeholder Asset] Production photography lands here.</span>
+          )}
+        </figure>
+      )}
       <p class="mt-4 font-mono text-[11px] text-neutral-500" data-reveal>
         * Pending validation — detailed test conditions available under NDA.
       </p>
     </div>
+    <script is:inline>
+      // Field-gallery viewer: thumb click swaps the main frame, highlights
+      // the active thumb and updates the counter. Instant swap, motion-safe.
+      (function () {
+        document.querySelectorAll('[data-gallery]').forEach(function (viewer) {
+          var mains = viewer.querySelectorAll('[data-main]');
+          var thumbs = viewer.querySelectorAll('[data-thumb]');
+          var count = viewer.querySelector('[data-count]');
+          var total = String(mains.length).padStart(2, '0');
+          thumbs.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+              var idx = btn.getAttribute('data-thumb');
+              mains.forEach(function (img, i) {
+                img.style.display = String(i) === idx ? 'block' : 'none';
+              });
+              thumbs.forEach(function (t) {
+                var on = t.getAttribute('data-thumb') === idx;
+                t.setAttribute('aria-pressed', on ? 'true' : 'false');
+                t.style.borderColor = on ? '#EA580C' : '';
+                t.style.boxShadow = on ? '0 0 0 2px rgb(234 88 12 / 0.35)' : '';
+              });
+              if (count) count.textContent = String(Number(idx) + 1).padStart(2, '0') + ' / ' + total;
+            });
+          });
+          if (thumbs[0]) {
+            thumbs[0].style.borderColor = '#EA580C';
+            thumbs[0].style.boxShadow = '0 0 0 2px rgb(234 88 12 / 0.35)';
+          }
+        });
+      })();
+    </script>
   </section>
   <section class="bg-white">
     <div class="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-3">
@@ -153,85 +236,5 @@ const relatedFill = related.length >= 3 ? related : [...related, ...all.filter((
       </div>
     </div>
   </section>
-  {d.galleryImages.length > 0 && (
-    <section class="border-t border-brand-line bg-white" aria-label="Field photo gallery">
-      <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20">
-        <div class="flex flex-wrap items-end justify-between gap-4" data-reveal>
-          <div>
-            <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-500">Field gallery</p>
-            <h2 class="mt-3 text-2xl font-semibold tracking-[-0.02em] text-brand-ink sm:text-3xl">
-              {d.galleryImages.length} photos from the deployment.
-            </h2>
-          </div>
-          <p class="font-mono text-[11px] text-neutral-400">Select any frame to inspect</p>
-        </div>
-        <!-- Viewer: main photo + compact thumb strip (thumb click swaps main). -->
-        <div class="gallery-viewer mt-8" data-reveal data-gallery="1">
-          <div class="relative overflow-hidden rounded-2xl border border-brand-line bg-brand-coal">
-            {d.galleryImages.map((src, i) => (
-              <img
-                src={src}
-                alt={`Field evidence ${String(i + 1).padStart(2, '0')} — ${d.clientPartner ?? d.title}`}
-                loading={i === 0 ? 'eager' : 'lazy'}
-                class="gallery-main aspect-[16/10] w-full object-cover sm:aspect-[16/7]"
-                data-main={i}
-                style={i === 0 ? undefined : 'display:none'}
-              />
-            ))}
-            <span class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" aria-hidden="true"></span>
-            <span class="pointer-events-none absolute bottom-4 left-4 flex items-center gap-3 font-mono text-[11px] text-white">
-              <span class="rounded-lg bg-brand-orange px-2 py-1 font-bold" data-count>01 / {String(d.galleryImages.length).padStart(2, '0')}</span>
-              <span class="max-w-[60vw] truncate rounded-lg bg-black/55 px-2.5 py-1 backdrop-blur">{d.clientPartner ?? d.title}</span>
-            </span>
-          </div>
-          <div class="mt-3 flex gap-3 overflow-x-auto pb-1" role="group" aria-label="Choose a field photo">
-            {d.galleryImages.map((src, i) => (
-              <button
-                type="button"
-                data-thumb={i}
-                class="gallery-thumb relative block h-16 w-24 shrink-0 cursor-pointer overflow-hidden rounded-lg border border-brand-line transition-all duration-200 ease-crisp sm:h-[72px] sm:w-28"
-                aria-label={`View photo ${i + 1}`}
-                aria-pressed={i === 0 ? 'true' : 'false'}
-              >
-                <img src={src} alt="" aria-hidden="true" tabindex="-1" loading="lazy" class="pointer-events-none h-full w-full object-cover" />
-                <span class="pointer-events-none absolute bottom-1 left-1 rounded bg-black/60 px-1.5 py-0.5 font-mono text-[9px] font-bold text-white">{String(i + 1).padStart(2, '0')}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-    <script is:inline>
-      // Field-gallery viewer: thumb click swaps the main frame, highlights
-      // the active thumb and updates the counter. Instant swap, motion-safe.
-      (function () {
-        document.querySelectorAll('[data-gallery]').forEach(function (viewer) {
-          var mains = viewer.querySelectorAll('[data-main]');
-          var thumbs = viewer.querySelectorAll('[data-thumb]');
-          var count = viewer.querySelector('[data-count]');
-          var total = String(mains.length).padStart(2, '0');
-          thumbs.forEach(function (btn) {
-            btn.addEventListener('click', function () {
-              var idx = btn.getAttribute('data-thumb');
-              mains.forEach(function (img, i) {
-                img.style.display = String(i) === idx ? 'block' : 'none';
-              });
-              thumbs.forEach(function (t) {
-                var on = t.getAttribute('data-thumb') === idx;
-                t.setAttribute('aria-pressed', on ? 'true' : 'false');
-                t.style.borderColor = on ? '#EA580C' : '';
-                t.style.boxShadow = on ? '0 0 0 2px rgb(234 88 12 / 0.35)' : '';
-              });
-              if (count) count.textContent = String(Number(idx) + 1).padStart(2, '0') + ' / ' + total;
-            });
-          });
-          if (thumbs[0]) {
-            thumbs[0].style.borderColor = '#EA580C';
-            thumbs[0].style.boxShadow = '0 0 0 2px rgb(234 88 12 / 0.35)';
-          }
-        });
-      })();
-    </script>
-  )}
   <CtaBand />
 </BaseLayout>
