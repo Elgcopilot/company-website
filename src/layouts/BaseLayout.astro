@@ -24,6 +24,7 @@ const pageTitle = `${title} — ${COMPANY.name}`;
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="64x64" href="/favicon-64.png" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -112,7 +113,12 @@ const pageTitle = `${title} — ${COMPANY.name}`;
           </button>
         </div>
       </nav>
-      <div id="mobile-menu" class="hidden border-t border-brand-line bg-white md:hidden">
+      <div
+        id="mobile-menu"
+        class="overflow-hidden border-t border-brand-line bg-white transition-[max-height,opacity] duration-300 ease-crisp md:hidden"
+        style="max-height: 0; opacity: 0;"
+        aria-hidden="true"
+      >
         <nav aria-label="Mobile" class="space-y-1 px-4 py-4 text-[15px] font-medium">
           <a class="block rounded-lg px-3 py-2.5 hover:bg-brand-mist" href="/solutions">Solutions</a>
           <a class="block rounded-lg px-3 py-2.5 hover:bg-brand-mist" href="/industries">Industries</a>
@@ -193,15 +199,44 @@ const pageTitle = `${title} — ${COMPANY.name}`;
     </footer>
 
     <script is:inline>
-      const menuBtn = document.getElementById('menu-btn');
-      const mobileMenu = document.getElementById('mobile-menu');
-      const menuLabel = document.getElementById('menu-label');
-      menuBtn?.addEventListener('click', () => {
-        const open = mobileMenu?.classList.toggle('hidden');
-        const isOpen = open === false;
-        menuBtn.setAttribute('aria-expanded', String(isOpen));
-        if (menuLabel) menuLabel.textContent = isOpen ? 'Close' : 'Menu';
-      });
+      // Mobile menu: smooth height + fade transition (respects reduced-motion).
+      (function () {
+        var menuBtn = document.getElementById('menu-btn');
+        var mobileMenu = document.getElementById('mobile-menu');
+        var menuLabel = document.getElementById('menu-label');
+        if (!menuBtn || !mobileMenu) return;
+        var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var open = false;
+        var setOpen = function (isOpen) {
+          open = isOpen;
+          menuBtn.setAttribute('aria-expanded', String(isOpen));
+          if (menuLabel) menuLabel.textContent = isOpen ? 'Close' : 'Menu';
+          mobileMenu.setAttribute('aria-hidden', String(!isOpen));
+          if (reduced) {
+            mobileMenu.style.maxHeight = isOpen ? '480px' : '0';
+            mobileMenu.style.opacity = isOpen ? '1' : '0';
+            return;
+          }
+          if (isOpen) {
+            mobileMenu.style.maxHeight = mobileMenu.scrollHeight + 'px';
+            mobileMenu.style.opacity = '1';
+          } else {
+            mobileMenu.style.maxHeight = mobileMenu.scrollHeight + 'px';
+            // Force reflow so the collapse animates from current height.
+            void mobileMenu.offsetHeight;
+            mobileMenu.style.maxHeight = '0';
+            mobileMenu.style.opacity = '0';
+          }
+        };
+        menuBtn.addEventListener('click', function () {
+          setOpen(!open);
+        });
+        mobileMenu.addEventListener('transitionend', function (e) {
+          if (e.propertyName === 'max-height' && open) {
+            mobileMenu.style.maxHeight = '480px';
+          }
+        });
+      })();
     </script>
 
     <script>
