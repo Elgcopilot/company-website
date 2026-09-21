@@ -157,15 +157,15 @@ const relatedFill = related.length >= 3 ? related : [...related, ...all.filter((
               thumbs.forEach(function (t) {
                 var on = t.getAttribute('data-thumb') === idx;
                 t.setAttribute('aria-pressed', on ? 'true' : 'false');
-                t.style.borderColor = on ? '#EA580C' : '';
-                t.style.boxShadow = on ? '0 0 0 2px rgb(234 88 12 / 0.35)' : '';
+                t.style.borderColor = on ? '#D95F16' : '';
+                t.style.boxShadow = on ? '0 0 0 2px rgb(217 95 22 / 0.35)' : '';
               });
               if (count) count.textContent = String(Number(idx) + 1).padStart(2, '0') + ' / ' + total;
             });
           });
           if (thumbs[0]) {
-            thumbs[0].style.borderColor = '#EA580C';
-            thumbs[0].style.boxShadow = '0 0 0 2px rgb(234 88 12 / 0.35)';
+            thumbs[0].style.borderColor = '#D95F16';
+            thumbs[0].style.boxShadow = '0 0 0 2px rgb(217 95 22 / 0.35)';
           }
         });
       })();

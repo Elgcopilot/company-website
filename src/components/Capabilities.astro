@@ -20,7 +20,8 @@ const PIECES: { title: string; value: string; technical: string; icon: IconName;
     </div>
 
     <div class="mt-12 lg:px-10">
-      <ol class="puzzle-grid grid gap-3 md:grid-cols-3 md:gap-0" aria-label="Six connected ELG capability building blocks">
+      <div class="puzzle-assembly relative rounded-2xl" data-puzzle-assembly>
+      <ol class="puzzle-grid relative z-10 grid gap-3 md:grid-cols-3 md:gap-0" aria-label="Six connected ELG capability building blocks">
         {PIECES.map((piece, index) => (
           <li
             data-puzzle-piece
@@ -42,6 +43,7 @@ const PIECES: { title: string; value: string; technical: string; icon: IconName;
           </li>
         ))}
       </ol>
+      </div>
     </div>
 
     <div class="mt-10 flex flex-col gap-5 border-t border-brand-line pt-7 sm:flex-row sm:items-center sm:justify-between">
@@ -65,6 +67,26 @@ const PIECES: { title: string; value: string; technical: string; icon: IconName;
   .puzzle-piece:hover [data-puzzle-icon] {
     transform: rotate(5deg) scale(1.08);
   }
+  .puzzle-assembly::before {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    inset: -5px;
+    border-radius: 18px;
+    padding: 3px;
+    background: conic-gradient(from 0deg, transparent 0 76%, #d95f16 84%, #ffd7bd 90%, #d95f16 96%, transparent 100%);
+    opacity: 0;
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+  .puzzle-assembly.is-complete::before {
+    opacity: 1;
+    animation: rim-circuit 2.4s linear infinite;
+    filter: drop-shadow(0 0 6px rgb(217 95 22 / 0.7));
+  }
+  @keyframes rim-circuit { to { transform: rotate(1turn); } }
 
   @media (min-width: 768px) {
     .puzzle-piece {
@@ -102,6 +124,9 @@ const PIECES: { title: string; value: string; technical: string; icon: IconName;
       background: inherit;
     }
   }
+  @media (prefers-reduced-motion: reduce) {
+    .puzzle-assembly::before { display: none; }
+  }
 </style>
 
 <script>
@@ -117,14 +142,24 @@ const PIECES: { title: string; value: string; technical: string; icon: IconName;
       const pieces = section.querySelectorAll('[data-puzzle-piece]:not([data-final-piece])');
       const finalPiece = section.querySelector('[data-final-piece]');
       const icons = section.querySelectorAll('[data-puzzle-icon]');
+      const assembly = section.querySelector('[data-puzzle-assembly]');
       const timeline = gsap.timeline({
         defaults: { ease: 'none' },
-        scrollTrigger: { trigger: section, start: 'top 82%', end: 'center 48%', scrub: 0.75 },
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 84%',
+          end: 'center 42%',
+          scrub: 0.75,
+          onUpdate: (self) => assembly?.classList.toggle('is-complete', self.progress > 0.985),
+          onLeave: () => assembly?.classList.add('is-complete'),
+          onEnterBack: () => assembly?.classList.add('is-complete'),
+          onLeaveBack: () => assembly?.classList.remove('is-complete'),
+        },
       });
       timeline
-        .from(pieces, { x: (index) => index % 3 === 0 ? -54 : index % 3 === 2 ? 54 : 0, y: (index) => index < 3 ? -28 : 28, rotation: (index) => index % 2 ? 2 : -2, scale: 0.94, stagger: 0.04 })
+        .from(pieces, { x: (index) => index % 3 === 0 ? -110 : index % 3 === 2 ? 110 : 0, y: (index) => index < 3 ? -72 : 72, rotation: (index) => index % 2 ? 4 : -4, scale: 0.9, stagger: 0.04 })
         .from(icons, { rotation: -14, scale: 0.72, stagger: 0.035 }, 0.12);
-      if (finalPiece) timeline.from(finalPiece, { x: 120, y: 40, rotation: 5, scale: 0.84, ease: 'power2.out' }, 0.62);
+      if (finalPiece) timeline.from(finalPiece, { x: 170, y: 72, rotation: 7, scale: 0.8, ease: 'power2.out' }, 0.62);
     });
   }
 </script>
