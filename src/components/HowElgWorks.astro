@@ -1,0 +1,40 @@
+---
+const STEPS = [
+  { number: '01', title: 'Understand', text: 'See the people, process, equipment, data, and constraints.' },
+  { number: '02', title: 'Find', text: 'Identify the bottleneck worth solving.' },
+  { number: '03', title: 'Design', text: 'Define the smallest complete system that creates value.' },
+  { number: '04', title: 'Build', text: 'Engineer hardware and software as one system.' },
+  { number: '05', title: 'Prove', text: 'Deploy, measure, learn, and strengthen the capability.' },
+];
+---
+
+<section class="bg-brand-coal text-white" aria-labelledby="how-title">
+  <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28">
+    <div class="max-w-3xl">
+      <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-orange">How ELG works</p>
+      <h2 id="how-title" class="mt-4 text-balance text-4xl font-semibold leading-[1.03] tracking-[-0.035em] sm:text-6xl">
+        Technology starts with the problem, not the tool.
+      </h2>
+      <p class="mt-5 max-w-2xl text-lg leading-relaxed text-neutral-400">
+        We study the whole system first, then engineer only what the outcome requires.
+      </p>
+    </div>
+
+    <ol class="mt-14 grid border-y border-white/15 md:grid-cols-5">
+      {STEPS.map((step, index) => (
+        <li class:list={['relative py-6 md:px-5 md:py-8', index > 0 && 'border-t border-white/15 md:border-l md:border-t-0']}>
+          <p class="font-mono text-[10px] font-bold tracking-[0.16em] text-brand-orange">{step.number}</p>
+          <h3 class="mt-8 text-xl font-semibold tracking-tight">{step.title}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-neutral-400">{step.text}</p>
+        </li>
+      ))}
+    </ol>
+
+    <div class="mt-12 flex flex-col gap-6 border-l-2 border-brand-orange pl-6 sm:flex-row sm:items-end sm:justify-between">
+      <p class="max-w-3xl text-2xl font-semibold leading-snug tracking-[-0.025em] sm:text-3xl">
+        One problem creates a solution. Repeated solutions create capability.
+      </p>
+      <p class="shrink-0 font-mono text-[11px] uppercase tracking-[0.16em] text-neutral-400">Learn. Reuse. Improve.</p>
+    </div>
+  </div>
+</section>

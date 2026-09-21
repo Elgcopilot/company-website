@@ -1,43 +1,23 @@
 ---
-/**
- * preview-home — LOCALHOST-ONLY prototype page for the icon/infographic
- * homepage treatment. NOT linked from nav, NOT in sitemap. PM reviews here,
- * then we promote the approved *.proto.astro files over the production ones.
- */
+import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Hero from '@/components/Hero.astro';
 import ClientLogos from '@/components/ClientLogos.astro';
-import ProofBandProto from '@/components/ProofBand.proto.astro';
-import RealitiesProto from '@/components/Realities.proto.astro';
-import CapabilitiesProto from '@/components/Capabilities.proto.astro';
-import ProcessFlowProto from '@/components/ProcessFlow.proto.astro';
+import HowElgWorks from '@/components/HowElgWorks.astro';
+import Capabilities from '@/components/Capabilities.astro';
 import Evidence from '@/components/Evidence.astro';
-import StackExplode from '@/components/StackExplode.astro';
 import FinalCta from '@/components/FinalCta.astro';
-import { getCollection } from 'astro:content';
 
 const all = await getCollection('case-studies');
-const bySlug = (slug: string) => all.find((s) => s.slug === slug);
-const feature = bySlug('isuzu-motorsport-telemetry') ?? all.find((s) => s.data.isFeatured) ?? all[0];
-const supporting = ['pt-racing-emission-telemetry', 'lg-smart-laundry-iot']
-  .map(bySlug)
-  .filter((s) => s !== undefined && s.slug !== feature.slug)
-  .slice(0, 2) as Exclude<ReturnType<typeof bySlug>, undefined>[];
+const slugs = ['isuzu-motorsport-telemetry', 'lg-smart-laundry-iot', 'kmitl-edge-ai-agri-board'];
+const studies = slugs.map((slug) => all.find((study) => study.slug === slug)).filter((study): study is NonNullable<typeof study> => Boolean(study));
 ---
 
-<BaseLayout
-  title="PROTOTYPE — Icon homepage treatment (not public)"
-  description="Localhost-only preview of the icon/infographic homepage. Not indexed."
-  lang="en"
-  noindex
->
+<BaseLayout title="Homepage preview" description="Preview of the concise ELG homepage." noindex>
   <Hero />
   <ClientLogos />
-  <ProofBandProto />
-  <RealitiesProto />
-  <CapabilitiesProto />
-  <ProcessFlowProto />
-  <Evidence feature={feature} supporting={supporting} />
-  <StackExplode />
+  <HowElgWorks />
+  <Capabilities />
+  <Evidence studies={studies} />
   <FinalCta />
 </BaseLayout>

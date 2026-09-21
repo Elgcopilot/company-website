@@ -1,111 +1,35 @@
 ---
-/**
- * Evidence — dark editorial evidence section (zero JS).
- * One large feature story + supporting stories, driven by real collections.
- */
 import type { CollectionEntry } from 'astro:content';
 
-interface Props {
-  feature: CollectionEntry<'case-studies'>;
-  supporting: CollectionEntry<'case-studies'>[];
-}
-
-const { feature, supporting } = Astro.props;
-const [first, ...rest] = feature.data.metrics.slice(0, 3);
+interface Props { studies: CollectionEntry<'case-studies'>[]; }
+const { studies } = Astro.props;
 ---
 
-<section class="bg-brand-coal text-white" aria-label="Featured field evidence">
+<section class="bg-white" aria-labelledby="evidence-title">
   <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28">
-    <div class="flex flex-wrap items-end justify-between gap-4" data-reveal>
-      <div>
-        <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-400">03 — Field evidence</p>
-        <h2 class="mt-4 max-w-2xl text-3xl font-semibold leading-[1.05] tracking-[-0.03em] sm:text-5xl">
-          Proven where failure is not an option.
-        </h2>
-      </div>
-      <a href="/case-studies" class="text-sm font-semibold text-neutral-300 transition-colors hover:text-brand-orange">
-        All case studies →
-      </a>
+    <div class="max-w-3xl">
+      <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-orange-800">Deployed evidence</p>
+      <h2 id="evidence-title" class="mt-4 text-balance text-4xl font-semibold leading-[1.03] tracking-[-0.035em] text-brand-ink sm:text-6xl">Different industries. The same engineering discipline.</h2>
+      <p class="mt-5 max-w-2xl text-lg leading-relaxed text-neutral-600">We turn physical constraints into working systems, from race control to connected stores and field AI.</p>
     </div>
-
-    <!-- Feature story -->
-    <article class="mt-12 grid overflow-hidden rounded-2xl bg-white/[0.04] ring-1 ring-white/10 lg:grid-cols-2" data-reveal>
-      <a href={`/case-studies/${feature.slug}`} class="group relative block min-h-[280px] overflow-hidden lg:min-h-[420px]" aria-label={`Read case study: ${feature.data.title}`}>
-        <img
-          src={feature.data.featuredImage}
-          alt={feature.data.title}
-          loading="eager"
-          fetchpriority="high"
-          class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-        />
-        <span class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></span>
-        {feature.data.clientPartner && (
-          <span class="absolute left-5 top-5 rounded-md bg-white/90 px-3 py-1.5 font-mono text-[11px] font-bold tracking-wider text-brand-ink backdrop-blur">
-            {feature.data.clientPartner}
-          </span>
-        )}
-      </a>
-      <div class="flex flex-col justify-center p-7 sm:p-10 lg:p-12">
-        <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-orange">
-          {feature.data.industry} · {feature.data.projectType}
-        </p>
-        <h3 class="mt-3 text-2xl font-semibold leading-tight tracking-tight sm:text-4xl">
-          <a href={`/case-studies/${feature.slug}`} class="transition-colors hover:text-brand-orange">
-            {feature.data.title}
-          </a>
-        </h3>
-        <p class="mt-4 leading-relaxed text-neutral-400">{feature.data.subtitle}</p>
-        <dl class="mt-7 grid grid-cols-3 gap-4 border-t border-white/10 pt-6 font-mono">
-          {[first, ...rest].filter(Boolean).map((m) => m && (
-            <div>
-              <dd class="text-lg font-bold tracking-tight text-white sm:text-xl">{m.value}</dd>
-              <dt class="mt-1 text-[10px] uppercase tracking-[0.14em] text-neutral-500">{m.label}</dt>
+    <div class="mt-12 grid gap-5 lg:grid-cols-12">
+      {studies.map((study, index) => (
+        <article class:list={['group overflow-hidden rounded-2xl border border-brand-line bg-brand-paper', index === 0 ? 'lg:col-span-6 lg:row-span-2' : 'lg:col-span-6']}>
+          <a href={`/case-studies/${study.slug}`} class:list={['grid h-full', index === 0 ? '' : 'sm:grid-cols-[0.9fr_1.1fr]']}>
+            <div class:list={['relative overflow-hidden bg-neutral-200', index === 0 ? 'aspect-[4/3]' : 'aspect-[16/9] sm:aspect-auto sm:min-h-60']}>
+              <img src={study.data.featuredImage} alt="" loading="lazy" width="1200" height="800" class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-crisp group-hover:scale-[1.025]" />
+              <span class="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent"></span>
             </div>
-          ))}
-        </dl>
-        <p class="mt-7">
-          <a href={`/case-studies/${feature.slug}`} class="group inline-flex items-center gap-2 text-sm font-semibold text-white">
-            <span class="border-b border-brand-orange pb-0.5 transition-colors group-hover:text-brand-orange">Read the evidence</span>
-            <span aria-hidden="true" class="text-brand-orange transition-transform duration-200 group-hover:translate-x-1">→</span>
-          </a>
-        </p>
-      </div>
-    </article>
-
-    <!-- Supporting stories -->
-    <div class="mt-6 grid gap-6 md:grid-cols-2">
-      {supporting.map((s) => (
-        <article class="group overflow-hidden rounded-2xl bg-white/[0.04] ring-1 ring-white/10 transition-colors duration-300 hover:bg-white/[0.07]" data-reveal>
-          <a href={`/case-studies/${s.slug}`} class="block" aria-label={`Read case study: ${s.data.title}`}>
-            <div class="relative aspect-[16/8] overflow-hidden">
-              <img
-                src={s.data.featuredImage}
-                alt={s.data.title}
-                loading="lazy"
-                class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-              />
-              <span class="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent"></span>
-              {s.data.clientPartner && (
-                <span class="absolute left-4 top-4 rounded-md bg-white/90 px-2.5 py-1 font-mono text-[11px] font-bold tracking-wider text-brand-ink backdrop-blur">
-                  {s.data.clientPartner}
-                </span>
-              )}
-              <span class="absolute bottom-4 left-4 rounded-md bg-black/55 px-2.5 py-1 font-mono text-[11px] font-medium text-white backdrop-blur">
-                {s.data.status}
-              </span>
-            </div>
-            <div class="p-6 sm:p-7">
-              <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-orange">
-                {s.data.industry}
-              </p>
-              <h3 class="mt-2 text-xl font-semibold leading-snug tracking-tight transition-colors group-hover:text-brand-orange">
-                {s.data.title}
-              </h3>
-              <p class="mt-2 line-clamp-2 text-sm leading-relaxed text-neutral-400">{s.data.subtitle}</p>
+            <div class="flex flex-col justify-center p-6 sm:p-8">
+              <p class="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-orange-800">{study.data.industry}</p>
+              <h3 class:list={['mt-3 font-semibold leading-tight tracking-[-0.025em] text-brand-ink', index === 0 ? 'text-3xl' : 'text-2xl']}>{study.data.title}</h3>
+              <p class="mt-3 text-sm leading-relaxed text-neutral-600">{study.data.subtitle}</p>
+              <span class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-brand-ink">View deployed system <span aria-hidden="true" class="text-brand-ember transition-transform group-hover:translate-x-1">→</span></span>
             </div>
           </a>
         </article>
       ))}
     </div>
+    <a href="/case-studies" class="mt-8 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-orange-800 underline-offset-4 hover:underline">See all case studies <span aria-hidden="true">→</span></a>
   </div>
 </section>

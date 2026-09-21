@@ -1,40 +1,23 @@
 ---
-/**
- * index — ELG homepage (production).
- * Editorial hero with production-grade telemetry visual → client logos →
- * proof band → realities → capabilities → field evidence →
- * scroll-driven stack explode → final CTA.
- */
 import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Hero from '@/components/Hero.astro';
 import ClientLogos from '@/components/ClientLogos.astro';
-import ProofBand from '@/components/ProofBand.astro';
-import Realities from '@/components/Realities.astro';
+import HowElgWorks from '@/components/HowElgWorks.astro';
 import Capabilities from '@/components/Capabilities.astro';
 import Evidence from '@/components/Evidence.astro';
-import StackExplode from '@/components/StackExplode.astro';
 import FinalCta from '@/components/FinalCta.astro';
 
 const all = await getCollection('case-studies');
-const bySlug = (slug: string) => all.find((s) => s.slug === slug);
-const feature = bySlug('isuzu-motorsport-telemetry') ?? all.find((s) => s.data.isFeatured) ?? all[0];
-const supporting = ['pt-racing-emission-telemetry', 'lg-smart-laundry-iot']
-  .map(bySlug)
-  .filter((s) => s !== undefined && s.slug !== feature.slug)
-  .slice(0, 2) as Exclude<ReturnType<typeof bySlug>, undefined>[];
+const slugs = ['isuzu-motorsport-telemetry', 'lg-smart-laundry-iot', 'kmitl-edge-ai-agri-board'];
+const studies = slugs.map((slug) => all.find((study) => study.slug === slug)).filter((study): study is NonNullable<typeof study> => Boolean(study));
 ---
 
-<BaseLayout
-  title="Hardware & Software House for Real-Time Systems in Harsh Environments"
-  description="ELG customizes end-to-end ecosystems to client requirements — especially real-time data transfer systems that keep working in harsh environments."
->
+<BaseLayout title="Embedded Systems for Difficult Real-World Problems" description="ELG designs hardware, embedded software, connectivity, cloud services, and interfaces as one reliable system.">
   <Hero />
   <ClientLogos />
-  <ProofBand />
-  <Realities />
+  <HowElgWorks />
   <Capabilities />
-  <Evidence feature={feature} supporting={supporting} />
-  <StackExplode />
+  <Evidence studies={studies} />
   <FinalCta />
 </BaseLayout>

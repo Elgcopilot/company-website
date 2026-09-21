@@ -1,0 +1,47 @@
+---
+/**
+ * Why — the ELG way of thinking, blended from Docs/Why.md (zero JS).
+ * Not a separate essay: four compact cards + the problem-as-tool pull quote
+ * fold into the production homepage between proof and field evidence.
+ */
+const THINKING = [
+  { n: '01', title: 'Start with the problem', text: 'Not with a technology. Real problems span people, process, physics, data and constraints — so we understand the whole system first.' },
+  { n: '02', title: 'Challenge the assumptions', text: 'The existing way is rarely the only way. We find the real bottleneck before we reach for tools.' },
+  { n: '03', title: 'Engineer around it', text: 'Design the architecture, build the hardware and software, put it in the real world, learn from it.' },
+  { n: '04', title: 'Turn problems into capability', text: 'One problem becomes a solution. A series becomes a capability. A capability becomes a platform.' },
+];
+---
+
+<section class="bg-white" aria-label="How ELG thinks">
+  <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28">
+    <div class="grid gap-10 lg:grid-cols-12">
+      <div class="lg:col-span-5" data-reveal>
+        <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-500">Why — how we think</p>
+        <h2 class="mt-4 text-3xl font-semibold leading-[1.05] tracking-[-0.03em] text-brand-ink sm:text-5xl">
+          Technology should start with a problem — not with a technology.
+        </h2>
+      </div>
+      <div class="lg:col-span-7">
+        <p class="max-w-xl text-base leading-relaxed text-neutral-600 sm:text-lg" data-reveal>
+          The most valuable technology is not created because the technology exists — it is created
+          because there is a problem worth solving. So we begin where the problem lives, and build
+          capability around what actually matters.
+        </p>
+        <figure class="mt-8 border-l-2 border-brand-orange pl-6" data-reveal>
+          <blockquote class="text-xl font-semibold leading-snug tracking-[-0.02em] text-brand-ink sm:text-2xl">
+            “Technology is the tool. <span class="text-brand-ember">The problem is the starting point.</span>”
+          </blockquote>
+        </figure>
+        <ol class="mt-8 grid gap-4 sm:grid-cols-2">
+          {THINKING.map((t) => (
+            <li class="group rounded-xl border border-brand-line bg-brand-paper p-5 transition-all duration-200 ease-crisp hover:-translate-y-1 hover:border-brand-orange/50 hover:bg-white hover:shadow-[0_20px_40px_-24px_rgb(0_0_0/0.3)]" data-reveal>
+              <p class="font-mono text-[11px] font-bold text-brand-ember">{t.n}</p>
+              <h3 class="mt-2 text-[15px] font-semibold tracking-tight text-brand-ink">{t.title}</h3>
+              <p class="mt-1.5 text-[13px] leading-relaxed text-neutral-600">{t.text}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>

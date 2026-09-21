@@ -1,282 +1,92 @@
 ---
-/**
- * Hero — full-viewport editorial hero with a telemetry-dashboard 3D deck.
- * - Left: oversized display type, restrained copy, ink-black primary CTA.
- * - Right: mission-control telemetry deck — dark glass dashboard with live
- *   speed trace, RPM/latency/uptime stats and CAN sampling bars, layered over
- *   a real ISUZU trackside photo for evidence. Pointer-tracked 3D tilt with
- *   depth-layered floating chips (desktop only, reduced-motion safe).
- * - Bottom: mono spec-strip (evidence at a glance).
- */
+/** Homepage proposition and problem-to-outcome system illustration. */
 ---
 
-<section class="relative flex min-h-[100svh] flex-col overflow-hidden bg-white" aria-label="Introduction">
-  <!-- faint engineering grid backdrop -->
-  <div
-    aria-hidden="true"
-    class="pointer-events-none absolute inset-0"
-    style="background-image: linear-gradient(to right, rgb(17 17 17 / 0.045) 1px, transparent 1px), linear-gradient(to bottom, rgb(17 17 17 / 0.045) 1px, transparent 1px); background-size: 72px 72px; mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, black 30%, transparent 75%);"
-  ></div>
-
-  <div class="relative mx-auto grid w-full max-w-7xl flex-1 items-center gap-12 px-4 pb-10 pt-28 sm:px-6 sm:pt-32 lg:grid-cols-12 lg:gap-8">
-    <div class="lg:col-span-7">
-      <p data-hero class="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-500 sm:text-xs">
-        <span class="mr-2 inline-block size-1.5 rounded-full bg-brand-orange align-middle"></span>
-        Hardware &amp; Software House — Bangkok
+<section class="relative overflow-hidden bg-white" aria-labelledby="home-title">
+  <div aria-hidden="true" class="absolute inset-0 bg-[linear-gradient(to_right,rgb(17_17_17/0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgb(17_17_17/0.04)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:radial-gradient(ellipse_85%_75%_at_68%_40%,black,transparent_78%)]"></div>
+  <div class="relative mx-auto grid min-h-[100dvh] max-w-7xl items-center gap-12 px-4 pb-16 pt-24 sm:px-6 sm:pt-28 lg:grid-cols-12 lg:gap-10">
+    <div class="lg:col-span-6">
+      <p data-hero-copy class="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-neutral-600">
+        Embedded systems for the real world
       </p>
-      <h1
-        data-hero
-        class="mt-6 max-w-3xl text-[13vw] font-semibold leading-[0.95] tracking-[-0.04em] text-brand-ink sm:text-7xl lg:text-[5.5rem] xl:text-8xl"
-      >
-        Productize your tech idea. <span class="text-brand-ember">Ecosystematically.</span>
+      <h1 id="home-title" data-hero-copy class="mt-5 max-w-3xl text-balance text-5xl font-semibold leading-[0.98] tracking-[-0.045em] text-brand-ink sm:text-6xl lg:text-7xl">
+        We turn difficult real-world problems into reliable technology.
       </h1>
-      <p data-hero class="mt-6 max-w-xl text-base leading-relaxed text-neutral-600 sm:text-lg">
-        ELG is the Hardware &amp; Software House that turns your idea into a field-ready
-        ecosystem — custom hardware, firmware, and dashboards, with reliable real-time
-        data transfer in harsh environments.
+      <p data-hero-copy class="mt-6 max-w-xl text-lg leading-relaxed text-neutral-600">
+        ELG designs the hardware, embedded software, connectivity, and interface as one working system.
       </p>
-      <div data-hero class="mt-9 flex flex-wrap items-center gap-3">
-        <a
-          href="/contact"
-          class="group inline-flex items-center gap-2 rounded-full bg-brand-ink px-7 py-3.5 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-black active:scale-[0.98]"
-        >
-          Start with your idea
-          <span aria-hidden="true" class="grid size-5 place-items-center rounded-full bg-brand-orange text-xs leading-none transition-transform duration-200 group-hover:translate-x-0.5">→</span>
+      <div data-hero-copy class="mt-8 flex flex-wrap gap-3">
+        <a href="/contact" class="group inline-flex min-h-11 items-center gap-2 rounded-full bg-brand-ink px-7 py-3 text-sm font-semibold text-white transition duration-200 hover:-translate-y-px hover:bg-brand-ember active:scale-[0.98]">
+          Tell us the problem
+          <span aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">→</span>
         </a>
-        <a
-          href="/case-studies"
-          class="group inline-flex items-center gap-2 rounded-full border border-brand-line bg-white px-7 py-3.5 text-sm font-semibold text-brand-ink transition-all duration-200 hover:-translate-y-px hover:border-brand-ink active:scale-[0.98]"
-        >
-          See field evidence
-          <span aria-hidden="true" class="inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
+        <a href="/case-studies" class="inline-flex min-h-11 items-center rounded-full border border-brand-line bg-white px-7 py-3 text-sm font-semibold text-brand-ink transition duration-200 hover:-translate-y-px hover:border-brand-ink active:scale-[0.98]">
+          See deployed systems
         </a>
       </div>
-      <p data-hero class="mt-6 max-w-md font-mono text-xs leading-relaxed text-neutral-500">
-        Fully customizable <span aria-hidden="true" class="mx-1 text-neutral-300">·</span>
-        MOQ from <span class="font-semibold text-brand-ink">5 units</span>
-        <span aria-hidden="true" class="mx-1 text-neutral-300">·</span>
-        Fast lead-time <span class="font-semibold text-brand-ink">in-house dev board</span>
-      </p>
     </div>
 
-    <!-- Telemetry dashboard 3D: dark glass mission-control deck over real trackside photo -->
-    <div class="lg:col-span-5" data-hero>
-      <div id="hero-scene" class="relative mx-auto w-full max-w-md [perspective:1400px]">
-        <div
-          aria-hidden="true"
-          class="pointer-events-none absolute -inset-6"
-          style="background: radial-gradient(ellipse 65% 55% at 50% 45%, rgb(242 138 34 / 0.16), transparent 70%);"
-        ></div>
-        <div id="hero-card" class="relative will-change-transform [transform-style:preserve-3d]">
-          <figure
-            class="relative overflow-hidden rounded-2xl border border-white/10 bg-brand-coal shadow-[0_48px_100px_-32px_rgb(0_0_0/0.65)]"
-          >
-            <img
-              id="hero-photo"
-              src="/images/case-studies/pdf/isuzu-motorsport-telemetry-2.jpg"
-              alt="ELG trackside telemetry link operating during an ISUZU motorsport session"
-              loading="eager"
-              fetchpriority="high"
-              width="1200"
-              height="800"
-              class="h-[240px] w-full object-cover opacity-90 sm:h-[260px]"
-            />
-            <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-[#0b0d12] via-[#0b0d12]/55 to-[#0b0d12]/10"></div>
-            <span class="absolute left-4 top-4 flex items-center gap-2 rounded-full bg-black/55 px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-white backdrop-blur">
-              <span class="inline-block size-1.5 animate-pulse rounded-full bg-emerald-400"></span>
-              Live · Trackside link
-            </span>
-            <figcaption class="absolute inset-x-0 bottom-0 p-4 sm:p-5">
-              <div class="rounded-xl border border-white/10 bg-white/[0.06] p-4 shadow-[inset_0_1px_0_rgb(255_255_255/0.08)] backdrop-blur-xl">
-                <div class="flex items-baseline justify-between gap-3">
-                  <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-neutral-300">
-                    Speed · <span class="text-neutral-500">CAN 25Hz</span>
-                  </p>
-                  <p class="font-mono text-xl font-bold tracking-tight text-white">
-                    <span id="hero-speed">183</span>
-                    <span class="text-xs font-medium text-neutral-400">km/h</span>
-                  </p>
-                </div>
-                <svg viewBox="0 0 320 48" class="mt-1.5 h-11 w-full" aria-hidden="true" preserveAspectRatio="none">
-                  <defs>
-                    <linearGradient id="hero-trace-fill" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0" stop-color="#F28A22" stop-opacity="0.35"></stop>
-                      <stop offset="1" stop-color="#F28A22" stop-opacity="0"></stop>
-                    </linearGradient>
-                  </defs>
-                  <path id="hero-trace-area" d="" fill="url(#hero-trace-fill)"></path>
-                  <path
-                    id="hero-wave-speed"
-                    d=""
-                    fill="none"
-                    stroke="#F28A22"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                  />
-                </svg>
-                <div class="mt-3 grid grid-cols-3 gap-3 border-t border-white/10 pt-3 font-mono">
-                  <div>
-                    <p class="text-sm font-bold tracking-tight text-white">
-                      <span id="hero-rpm">8.52</span><span class="text-[10px] font-medium text-neutral-400">k</span>
-                    </p>
-                    <p class="mt-0.5 text-[9px] uppercase tracking-[0.14em] text-neutral-400">RPM ×1000</p>
-                  </div>
-                  <div>
-                    <p class="text-sm font-bold tracking-tight text-white">
-                      <span id="hero-lat">87</span><span class="text-[10px] font-medium text-neutral-400">ms</span>
-                    </p>
-                    <p class="mt-0.5 text-[9px] uppercase tracking-[0.14em] text-neutral-400">Latency</p>
-                  </div>
-                  <div>
-                    <p class="text-sm font-bold tracking-tight text-emerald-400">100%</p>
-                    <p class="mt-0.5 text-[9px] uppercase tracking-[0.14em] text-neutral-400">Link uptime</p>
-                  </div>
-                </div>
-              </div>
-            </figcaption>
-          </figure>
-          <!-- 3D depth chips floating above the deck -->
-          <span
-            data-hero-chip
-            class="absolute left-2 top-16 rounded-xl border border-brand-line bg-white/95 px-3 py-2 font-mono text-[10px] font-bold text-brand-ink shadow-[0_16px_40px_-16px_rgb(0_0_0/0.4)] backdrop-blur [transform:translateZ(60px)] sm:-left-6"
-          >
-            25Hz <span class="font-medium text-neutral-500">CAN · GPS</span>
-          </span>
-          <span
-            data-hero-chip
-            class="absolute right-2 top-1/2 rounded-xl bg-brand-ink px-3 py-2 font-mono text-[10px] font-bold text-white shadow-[0_16px_40px_-16px_rgb(0_0_0/0.5)] [transform:translateZ(90px)] sm:-right-5"
-          >
-            SUB-100MS <span class="font-medium text-neutral-400">LINK</span>
-          </span>
-          <span
-            data-hero-chip
-            class="absolute -bottom-4 left-8 hidden items-center gap-1.5 rounded-full border border-emerald-500/25 bg-emerald-950/80 px-3 py-1.5 font-mono text-[10px] font-bold text-emerald-300 backdrop-blur [transform:translateZ(45px)] sm:flex"
-          >
-            <span class="inline-block size-1.5 rounded-full bg-emerald-400"></span>
-            0 dropped frames · race event
-          </span>
+    <div class="lg:col-span-6" data-system-map>
+      <figure class="relative mx-auto max-w-xl overflow-hidden rounded-2xl border border-brand-line bg-brand-paper p-5 shadow-[0_32px_80px_-48px_rgb(0_0_0/0.35)] sm:p-7">
+        <figcaption class="flex items-center justify-between gap-4 border-b border-brand-line pb-4 font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-neutral-500">
+          <span>Problem to outcome</span>
+          <span class="flex items-center gap-2 text-orange-800"><span class="size-1.5 rounded-full bg-brand-orange"></span> System active</span>
+        </figcaption>
+
+        <div class="relative mt-6 grid gap-3 sm:grid-cols-[1fr_54px_1fr] sm:items-center">
+          <div data-system-node class="rounded-xl border border-brand-line bg-white p-4">
+            <p class="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-orange-800">Input</p>
+            <p class="mt-2 text-lg font-semibold tracking-tight text-brand-ink">A physical constraint</p>
+            <p class="mt-1 text-sm leading-relaxed text-neutral-600">Heat, motion, unreliable links, complex operations.</p>
+          </div>
+          <div aria-hidden="true" class="relative hidden h-px bg-brand-line sm:block">
+            <span data-signal class="absolute -top-1 left-0 size-2 rounded-full bg-brand-orange shadow-[0_0_0_5px_rgb(242_138_34/0.14)]"></span>
+          </div>
+          <div data-system-node class="relative overflow-hidden rounded-xl bg-brand-ink p-4 text-white">
+            <img src="/images/brand/elg-board-3d-320.png" alt="" width="320" height="320" loading="eager" class="absolute -right-10 -top-12 h-40 w-40 object-contain opacity-35" />
+            <p class="relative font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-brand-orange">ELG edge system</p>
+            <p class="relative mt-2 text-lg font-semibold tracking-tight">Sense. Decide. Connect.</p>
+            <p class="relative mt-1 text-sm leading-relaxed text-neutral-300">Hardware and software engineered together.</p>
+          </div>
         </div>
-        <p class="mt-8 text-center font-mono text-[11px] text-neutral-400">Trackside telemetry deck — ISUZU motorsport, real deployment</p>
-      </div>
+
+        <div class="my-3 flex justify-center" aria-hidden="true">
+          <span class="h-7 w-px bg-brand-line"></span>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 sm:grid-cols-4" aria-label="System layers">
+          <div data-system-layer class="rounded-lg border border-brand-line bg-white px-3 py-3 text-center"><span class="font-mono text-[10px] font-semibold text-neutral-600">SENSE</span></div>
+          <div data-system-layer class="rounded-lg border border-brand-line bg-white px-3 py-3 text-center"><span class="font-mono text-[10px] font-semibold text-neutral-600">EDGE</span></div>
+          <div data-system-layer class="rounded-lg border border-brand-line bg-white px-3 py-3 text-center"><span class="font-mono text-[10px] font-semibold text-neutral-600">CONNECT</span></div>
+          <div data-system-layer class="rounded-lg border border-brand-line bg-white px-3 py-3 text-center"><span class="font-mono text-[10px] font-semibold text-neutral-600">ACT</span></div>
+        </div>
+
+        <div class="my-3 flex justify-center" aria-hidden="true">
+          <span class="h-7 w-px bg-brand-orange"></span>
+        </div>
+
+        <div data-system-output class="rounded-xl border border-brand-orange/30 bg-orange-50 p-4">
+          <p class="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-orange-800">Outcome</p>
+          <p class="mt-1 text-lg font-semibold tracking-tight text-brand-ink">A system people can rely on.</p>
+        </div>
+      </figure>
     </div>
-  </div>
-  <div data-hero class="relative border-t border-brand-line bg-white/80 backdrop-blur">
-    <dl class="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-brand-line px-4 font-mono sm:grid-cols-4 sm:px-6">
-      <div class="py-4 pr-4">
-        <dt class="text-[10px] font-medium uppercase tracking-[0.18em] text-neutral-500">Telemetry latency</dt>
-        <dd class="mt-1 text-sm font-bold tracking-tight text-brand-ink">SUB-100MS</dd>
-      </div>
-      <div class="py-4 pl-4 sm:pl-6">
-        <dt class="text-[10px] font-medium uppercase tracking-[0.18em] text-neutral-500">CAN / GPS capture</dt>
-        <dd class="mt-1 text-sm font-bold tracking-tight text-brand-ink">25HZ</dd>
-      </div>
-      <div class="border-t border-brand-line py-4 pr-4 sm:border-t-0 sm:pl-6">
-        <dt class="text-[10px] font-medium uppercase tracking-[0.18em] text-neutral-500">Race-event uptime</dt>
-        <dd class="mt-1 text-sm font-bold tracking-tight text-brand-ink">100%</dd>
-      </div>
-      <div class="border-t border-brand-line py-4 pl-4 sm:border-t-0 sm:pl-6">
-        <dt class="text-[10px] font-medium uppercase tracking-[0.18em] text-neutral-500">Prototype entry</dt>
-        <dd class="mt-1 text-sm font-bold tracking-tight text-brand-ink">MOQ 5</dd>
-      </div>
-    </dl>
   </div>
 </section>
 
-<script is:inline>
-  // Hero: telemetry-deck 3D tilt + live trace. Production-grade restraint:
-  // ±7° max tilt, slow drift, static fallback for reduced-motion.
-  // Pauses offscreen via IntersectionObserver.
-  (function () {
-    var scene = document.getElementById('hero-scene');
-    var card = document.getElementById('hero-card');
-    var photo = document.getElementById('hero-photo');
-    if (!scene || !card) return;
-    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var fine = window.matchMedia('(pointer: fine)').matches;
+<script>
+  import gsap from 'gsap';
 
-    // --- subtle pointer tilt + photo parallax (desktop only) ---
-    if (fine && !reduced) {
-      var raf = 0;
-      var tx = 0;
-      var ty = 0;
-      var cx = 0;
-      var cy = 0;
-      var render = function () {
-        cx += (tx - cx) * 0.08;
-        cy += (ty - cy) * 0.08;
-        card.style.transform = 'rotateX(' + cy.toFixed(2) + 'deg) rotateY(' + cx.toFixed(2) + 'deg)';
-        if (photo) {
-          photo.style.transform =
-            'scale(1.07) translate(' + (-cx * 1.1).toFixed(2) + 'px,' + (cy * 1.1).toFixed(2) + 'px)';
-        }
-        if (Math.abs(tx - cx) > 0.01 || Math.abs(ty - cy) > 0.01) {
-          raf = requestAnimationFrame(render);
-        } else {
-          raf = 0;
-        }
-      };
-      var kick = function () {
-        if (!raf) raf = requestAnimationFrame(render);
-      };
-      scene.addEventListener('pointermove', function (e) {
-        var r = scene.getBoundingClientRect();
-        var px = (e.clientX - r.left) / r.width - 0.5;
-        var py = (e.clientY - r.top) / r.height - 0.5;
-        tx = Math.max(-1, Math.min(1, px)) * 7;
-        ty = Math.max(-1, Math.min(1, -py)) * 6;
-        kick();
-      });
-      scene.addEventListener('pointerleave', function () {
-        tx = 0;
-        ty = 0;
-        kick();
-      });
-    }
+  const media = gsap.matchMedia();
+  media.add('(prefers-reduced-motion: no-preference)', () => {
+    const timeline = gsap.timeline({ defaults: { ease: 'power2.out' } });
+    timeline
+      .from('[data-hero-copy]', { y: 14, duration: 0.5, stagger: 0.07 })
+      .from('[data-system-map]', { y: 18, duration: 0.6 }, 0.1)
+      .from('[data-system-node]', { scale: 0.97, duration: 0.3, stagger: 0.07 }, 0.28)
+      .from('[data-system-layer]', { y: 8, duration: 0.28, stagger: 0.05 }, 0.44)
+      .from('[data-system-output]', { y: 8, duration: 0.35 }, 0.66);
 
-    // --- live speed trace + numerals ---
-    var speedPath = document.getElementById('hero-wave-speed');
-    var areaPath = document.getElementById('hero-trace-area');
-    var speedEl = document.getElementById('hero-speed');
-    var rpmEl = document.getElementById('hero-rpm');
-    var latEl = document.getElementById('hero-lat');
-    var paint = function (t) {
-      var d = 'M0,' + (28 + Math.sin(t * 1.4) * 9).toFixed(1);
-      for (var x = 8; x <= 320; x += 8) {
-        var y = 28 + Math.sin((t + x / 40) * 1.4) * 9 + Math.sin(t * 2.7 + x / 17) * 2.2;
-        d += ' L' + x + ',' + y.toFixed(1);
-      }
-      if (speedPath) speedPath.setAttribute('d', d);
-      if (areaPath) areaPath.setAttribute('d', d + ' L320,48 L0,48 Z');
-    };
-    if (!speedPath) return;
-    if (reduced) {
-      paint(0.6);
-      return;
-    }
-    var t = 0;
-    var running = true;
-    var tick = function () {
-      if (running) {
-        t += 0.045;
-        paint(t);
-        if (speedEl && Math.floor(t * 10) % 20 === 0) {
-          speedEl.textContent = String(178 + Math.round(Math.sin(t * 0.9) * 7));
-        }
-        if (rpmEl && Math.floor(t * 10) % 26 === 0) {
-          rpmEl.textContent = (8.4 + Math.sin(t * 1.1) * 0.3).toFixed(2);
-        }
-        if (latEl && Math.floor(t * 10) % 34 === 0) {
-          latEl.textContent = String(82 + Math.round(Math.abs(Math.sin(t * 0.7)) * 14));
-        }
-      }
-      requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (entries) {
-        running = entries[0].isIntersecting;
-      }).observe(card);
-    }
-  })();
+    gsap.to('[data-signal]', { x: 46, duration: 1.4, repeat: -1, ease: 'power1.inOut' });
+  });
 </script>
-

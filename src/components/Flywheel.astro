@@ -1,0 +1,45 @@
+---
+/**
+ * Flywheel — the ELG loop: problems → solutions → capability → platform (zero JS).
+ * Horizontal pill chain with arrow separators; wraps on mobile. Blends the
+ * "every project should make the next one better" idea from Docs/Why.md.
+ */
+const LOOP = [
+  'Customer problem',
+  'Project',
+  'Engineering knowledge',
+  'Reusable technology',
+  'ELG infrastructure',
+  'New solutions',
+];
+---
+
+<section class="bg-brand-coal text-white" aria-label="ELG flywheel">
+  <div class="mx-auto max-w-7xl px-4 py-20 text-center sm:px-6 sm:py-24">
+    <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-400" data-reveal>The ELG flywheel</p>
+    <h2 class="mx-auto mt-4 max-w-2xl text-3xl font-semibold leading-[1.05] tracking-[-0.03em] sm:text-5xl" data-reveal>
+      Every project should make the next one better.
+    </h2>
+    <p class="mx-auto mt-4 max-w-xl leading-relaxed text-neutral-400" data-reveal>
+      We do not simply deliver one project after another. Real-world problems build reusable
+      engineering capability, infrastructure and IP — so the next client starts further ahead.
+    </p>
+    <ol class="mx-auto mt-10 flex max-w-4xl flex-wrap items-center justify-center gap-2.5" data-reveal aria-label="ELG capability flywheel">
+      {LOOP.map((step, i) => (
+        <li class="flex items-center gap-2.5">
+          <span class="rounded-full border border-white/15 bg-white/[0.06] px-4 py-2.5 font-mono text-[11px] font-semibold tracking-wide text-neutral-200">
+            {step}
+          </span>
+          {i < LOOP.length - 1 && (
+            <span aria-hidden="true" class="text-brand-orange">→</span>
+          )}
+        </li>
+      ))}
+    </ol>
+    <figure class="mx-auto mt-10 max-w-3xl" data-reveal>
+      <blockquote class="text-xl font-semibold leading-snug tracking-[-0.02em] sm:text-2xl">
+        “One problem can create a solution. <span class="text-brand-orange">A series of problems can create a capability.</span> A capability can become a platform.”
+      </blockquote>
+    </figure>
+  </div>
+</section>

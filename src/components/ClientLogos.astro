@@ -1,77 +1,25 @@
 ---
-/**
- * ClientLogos — trusted-by strip: real client & partner logos from company docs.
- * Infinite marquee (slow, linear, pause-on-hover) with edge fade masks.
- * Respects reduced-motion: static wrapped grid fallback. Zero JS.
- */
 const LOGOS = [
-  { src: '/images/clients/isuzu.png', alt: 'ISUZU', size: 'standard' },
-  { src: '/images/clients/lg.png', alt: 'LG', size: 'standard' },
-  { src: '/images/clients/toyota-trd.png', alt: 'Toyota Racing Development (TRD)', size: 'standard' },
-  { src: '/images/clients/pt.png', alt: 'PT Maxnitron Racing Series', size: 'mark' },
-  { src: '/images/clients/arto.png', alt: 'arto', size: 'standard' },
-  { src: '/images/clients/tera.png', alt: 'Tera Motors', size: 'standard' },
-  { src: '/images/clients/s63-project.png', alt: 'S63 Project', size: 'standard' },
-  { src: '/images/clients/burapha-university.png', alt: 'Burapha University (BUU)', size: 'standard' },
+  { src: '/images/clients/isuzu.png', alt: 'ISUZU' },
+  { src: '/images/clients/lg.png', alt: 'LG' },
+  { src: '/images/clients/toyota-trd.png', alt: 'Toyota Racing Development' },
+  { src: '/images/clients/tera.png', alt: 'Tera Motors' },
+  { src: '/images/clients/burapha-university.png', alt: 'Burapha University' },
+  { src: '/images/clients/pt.png', alt: 'PT Maxnitron Racing Series' },
 ];
 ---
 
-<section class="overflow-hidden border-b border-brand-line bg-white" aria-label="Clients and partners">
-  <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-14">
-    <p class="text-center font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-500" data-reveal>
-      Trusted in the field by
+<section class="border-y border-brand-line bg-white" aria-labelledby="trusted-title">
+  <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6">
+    <p id="trusted-title" class="text-center font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-neutral-600">
+      Systems deployed with
     </p>
-    <div
-      class="logo-marquee relative mt-8"
-      data-reveal
-      style="mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);"
-    >
-      <ul class="logo-track flex w-max items-center gap-14 pr-14 sm:gap-20 sm:pr-20" aria-label="Client logos">
-        {[...LOGOS, ...LOGOS].map((logo, i) => (
-          <li class="flex shrink-0 items-center" aria-hidden={i >= LOGOS.length ? 'true' : undefined}>
-            <img
-              src={logo.src}
-              alt={i < LOGOS.length ? logo.alt : ''}
-              title={logo.alt}
-              loading="lazy"
-              width="360"
-              height="120"
-              class:list={[
-                'w-auto object-contain grayscale opacity-70 transition-all duration-300 hover:grayscale-0 hover:opacity-100',
-                logo.size === 'mark' ? 'max-h-14 sm:max-h-16' : 'max-h-10 sm:max-h-12',
-              ]}
-            />
-          </li>
-        ))}
-      </ul>
-    </div>
-    <p class="mt-7 text-center font-mono text-[11px] text-neutral-400" data-reveal>
-      + research partners KMITL · race series PT Racing · connected-product brand Bee-Sync
-    </p>
+    <ul class="mt-7 grid grid-cols-3 items-center gap-x-8 gap-y-7 md:grid-cols-6" aria-label="Clients and partners">
+      {LOGOS.map((logo) => (
+        <li class="flex min-h-12 items-center justify-center">
+          <img src={logo.src} alt={logo.alt} loading="lazy" width="360" height="120" class="max-h-10 w-auto max-w-full object-contain grayscale opacity-70" />
+        </li>
+      ))}
+    </ul>
   </div>
 </section>
-
-<style is:global>
-  /* Slow infinite marquee: translate exactly one set width for a seamless loop. */
-  @keyframes logo-marquee {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
-  .logo-track {
-    animation: logo-marquee 42s linear infinite;
-  }
-  .logo-marquee:hover .logo-track {
-    animation-play-state: paused;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .logo-track {
-      animation: none;
-      flex-wrap: wrap;
-      width: 100%;
-      justify-content: center;
-      row-gap: 1.75rem;
-      padding-right: 0;
-    }
-  }
-</style>
-

@@ -1,148 +1,40 @@
 ---
-/**
- * Capabilities — the ecosystem ELG builds for you, in plain language (zero JS).
- * Dual framing: non-technical outcome title first, technical module name kept
- * as the mono eyebrow so engineers still find their terms. Keeps the
- * 6-block structure; adds the ecosystem infographic strip below.
- */
-import { CAPABILITY_MODULES } from '@/data/company';
 import Icon from './Icon.astro';
 import type { IconName } from './icons';
 
-// Plain-language outcome per module — what a non-technical visitor gets.
-const PLAIN: Record<string, { outcome: string; icon: IconName }> = {
-  'embedded-linux': { outcome: 'The brain that never crashes', icon: 'layers' },
-  'embedded-ai': { outcome: 'Sees and decides on-device', icon: 'cog' },
-  'iot-connectivity': { outcome: 'Stays connected anywhere', icon: 'link' },
-  'rtos-firmware': { outcome: 'Reacts in real time', icon: 'chip' },
-  'ux-ui': { outcome: 'Screens your team loves', icon: 'screen' },
-  'cloud-backend': { outcome: 'Your data, live everywhere', icon: 'cloud' },
-};
+const OUTCOMES: { title: string; scope: string; icon: IconName }[] = [
+  { title: 'Sense the physical world', scope: 'Electronics, sensors, and data acquisition', icon: 'vibration' },
+  { title: 'Decide at the edge', scope: 'Embedded Linux, RTOS, and edge AI', icon: 'chip' },
+  { title: 'Stay connected', scope: 'Cellular, Wi-Fi, Zigbee, MQTT, and gateways', icon: 'link' },
+  { title: 'Turn data into action', scope: 'Cloud services, dashboards, and operational interfaces', icon: 'screen' },
+];
 ---
 
-<section class="border-y border-brand-line bg-brand-paper" aria-label="Capabilities">
+<section class="bg-brand-paper" aria-labelledby="capabilities-title">
   <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28">
-    <div class="flex flex-wrap items-end justify-between gap-4" data-reveal>
-      <div>
-        <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-500">02 — Your ecosystem, explained</p>
-        <h2 class="mt-4 max-w-2xl text-3xl font-semibold leading-[1.05] tracking-[-0.03em] text-brand-ink sm:text-5xl">
-          From idea to product: hardware, firmware, software — one system.
-        </h2>
-        <p class="mt-4 max-w-2xl leading-relaxed text-neutral-600">
-          No jargon needed: every engagement combines only the pieces your problem needs.
-          Engineers — the technical names are right there with each block.
-        </p>
-      </div>
-      <a href="/solutions" class="text-sm font-semibold text-brand-ember hover:underline">Explore solutions →</a>
+    <div class="max-w-3xl">
+      <h2 id="capabilities-title" class="text-balance text-4xl font-semibold leading-[1.03] tracking-[-0.035em] text-brand-ink sm:text-6xl">
+        From physical signals to useful action.
+      </h2>
+      <p class="mt-5 max-w-2xl text-lg leading-relaxed text-neutral-600">
+        Four outcomes, engineered as one system around the problem you need to solve.
+      </p>
     </div>
-    <ul class="mt-10 divide-y divide-brand-line border-y border-brand-line bg-white">
-      {CAPABILITY_MODULES.map((m, i) => (
-        <li data-reveal>
-          <a
-            href="/solutions"
-            class="group grid items-center gap-1 px-5 py-5 transition-all duration-200 hover:bg-brand-ink sm:grid-cols-12 sm:gap-4 sm:px-8 sm:py-6"
-          >
-            <span class="font-mono text-xs font-semibold text-neutral-400 transition-colors group-hover:text-brand-orange sm:col-span-1">
-              {String(i + 1).padStart(2, '0')}
-            </span>
-            <span class="grid size-10 shrink-0 place-items-center rounded-lg bg-brand-paper text-brand-ink transition-colors duration-200 group-hover:bg-white/10 group-hover:text-brand-orange sm:col-span-1" aria-hidden="true">
-              <Icon name={PLAIN[m.slug]?.icon ?? 'box'} size={20} />
-            </span>
-            <span class="sm:col-span-3">
-              <span class="block text-xl font-semibold tracking-tight text-brand-ink transition-all duration-200 group-hover:translate-x-1 group-hover:text-white sm:text-2xl">
-                {PLAIN[m.slug]?.outcome ?? m.name}
-              </span>
-              <span class="mt-0.5 block font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-neutral-400 transition-colors group-hover:text-neutral-400">
-                {m.name}
-              </span>
-            </span>
-            <span class="text-sm leading-relaxed text-neutral-600 transition-colors group-hover:text-neutral-300 sm:col-span-6">
-              {m.blurb}
-            </span>
-            <span aria-hidden="true" class="hidden text-xl text-neutral-300 transition-all duration-200 group-hover:translate-x-1 group-hover:text-brand-orange sm:col-span-1 sm:block sm:text-right">
-              →
-            </span>
-          </a>
+
+    <ul class="mt-12 grid gap-px overflow-hidden rounded-2xl border border-brand-line bg-brand-line sm:grid-cols-2">
+      {OUTCOMES.map((outcome, index) => (
+        <li class="bg-white p-6 sm:p-8">
+          <div class="flex items-start gap-5">
+            <span class="grid size-11 shrink-0 place-items-center rounded-lg bg-brand-ink text-brand-orange" aria-hidden="true"><Icon name={outcome.icon} size={21} /></span>
+            <div>
+              <p class="font-mono text-[10px] font-bold tracking-[0.16em] text-neutral-500">0{index + 1}</p>
+              <h3 class="mt-3 text-xl font-semibold tracking-tight text-brand-ink sm:text-2xl">{outcome.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-neutral-600">{outcome.scope}</p>
+            </div>
+          </div>
         </li>
       ))}
     </ul>
-    <!-- Ecosystem infographic: hardware → firmware → software as one flow (zero JS, pure SVG). -->
-    <figure class="mt-8 overflow-hidden rounded-2xl border border-brand-line bg-white p-6 sm:p-8" data-reveal aria-label="Ecosystem infographic: from your idea to a field-ready product">
-      <figcaption class="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-500">
-        How the pieces become your product
-      </figcaption>
-      <svg viewBox="0 0 960 250" class="mt-5 w-full" role="img" aria-label="Flow: your idea feeds hardware, firmware, and software layers that combine into a field-ready product">
-        <defs>
-          <marker id="eco-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M0 0 10 5 0 10z" fill="#EA580C"></path>
-          </marker>
-        </defs>
-        <!-- Idea node -->
-        <g>
-          <rect x="8" y="75" width="150" height="100" rx="14" fill="#111111"></rect>
-          <text x="83" y="118" text-anchor="middle" fill="#F28A22" font-family="JetBrains Mono, monospace" font-size="13" font-weight="700">YOUR</text>
-          <text x="83" y="140" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="700">Idea</text>
-          <circle cx="83" cy="92" r="4" fill="#F28A22"></circle>
-        </g>
-        <!-- Layer nodes -->
-        <g font-family="Inter, system-ui, sans-serif">
-          <g>
-            <rect x="208" y="20" width="200" height="64" rx="12" fill="#F4F4F6" stroke="#E5E7EB"></rect>
-            <circle cx="232" cy="52" r="13" fill="#111111"></circle>
-            <text x="232" y="57" text-anchor="middle" fill="#F28A22" font-size="13" font-weight="700">⬢</text>
-            <text x="254" y="47" fill="#111111" font-size="14" font-weight="700">Hardware</text>
-            <text x="254" y="65" fill="#6B7280" font-size="11">Custom boards &amp; sensors</text>
-          </g>
-          <g>
-            <rect x="208" y="93" width="200" height="64" rx="12" fill="#F4F4F6" stroke="#E5E7EB"></rect>
-            <circle cx="232" cy="125" r="13" fill="#111111"></circle>
-            <text x="232" y="130" text-anchor="middle" fill="#F28A22" font-size="13" font-weight="700">⚙</text>
-            <text x="254" y="120" fill="#111111" font-size="14" font-weight="700">Firmware</text>
-            <text x="254" y="138" fill="#6B7280" font-size="11">Real-time control</text>
-          </g>
-          <g>
-            <rect x="208" y="166" width="200" height="64" rx="12" fill="#F4F4F6" stroke="#E5E7EB"></rect>
-            <circle cx="232" cy="198" r="13" fill="#111111"></circle>
-            <text x="232" y="203" text-anchor="middle" fill="#F28A22" font-size="13" font-weight="700">◉</text>
-            <text x="254" y="193" fill="#111111" font-size="14" font-weight="700">Software</text>
-            <text x="254" y="211" fill="#6B7280" font-size="11">Cloud &amp; dashboards</text>
-          </g>
-        </g>
-        <!-- Connectors -->
-        <g stroke="#EA580C" stroke-width="2" fill="none">
-          <path d="M158 125 H192"></path>
-          <path d="M408 52 H452 V110"></path>
-          <path d="M408 125 H452"></path>
-          <path d="M408 198 H452 V140"></path>
-        </g>
-        <g fill="#EA580C">
-          <circle cx="158" cy="125" r="3.5"></circle>
-          <circle cx="452" cy="125" r="3.5"></circle>
-        </g>
-        <!-- One-stop node -->
-        <g>
-          <rect x="452" y="75" width="200" height="100" rx="14" fill="#111111"></rect>
-          <text x="552" y="118" text-anchor="middle" fill="#F28A22" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700">ONE-STOP</text>
-          <text x="552" y="140" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="700">Field-ready product</text>
-          <circle cx="552" cy="92" r="4" fill="#F28A22"></circle>
-        </g>
-        <g stroke="#EA580C" stroke-width="2" fill="none" marker-end="url(#eco-arrow)">
-          <path d="M652 125 H700"></path>
-        </g>
-        <!-- Proof chips -->
-        <g font-family="JetBrains Mono, monospace" font-size="11" font-weight="700">
-          <rect x="712" y="82" width="112" height="34" rx="17" fill="#F28A22"></rect>
-          <text x="768" y="104" text-anchor="middle" fill="#ffffff">MOQ 5</text>
-          <rect x="832" y="82" width="120" height="34" rx="17" fill="#ffffff" stroke="#E5E7EB"></rect>
-          <text x="892" y="104" text-anchor="middle" fill="#111111">FAST LEAD</text>
-          <rect x="712" y="124" width="240" height="34" rx="17" fill="#ffffff" stroke="#E5E7EB"></rect>
-          <text x="832" y="146" text-anchor="middle" fill="#111111">HARSH-ENV PROVEN</text>
-        </g>
-      </svg>
-      <p class="mt-4 text-[13px] leading-relaxed text-neutral-600">
-        Your idea enters on the left; hardware, firmware, and software combine in the middle;
-        a field-ready product — built from our in-house dev board for fast lead-time from MOQ 5 — comes out on the right.
-      </p>
-    </figure>
+    <a href="/solutions" class="mt-8 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-orange-800 underline-offset-4 hover:underline">Explore all solutions <span aria-hidden="true">→</span></a>
   </div>
 </section>
