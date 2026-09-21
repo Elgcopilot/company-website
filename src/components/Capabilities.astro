@@ -27,17 +27,17 @@ const PIECES: { title: string; value: string; technical: string; icon: IconName;
             data-final-piece={piece.final ? '' : undefined}
             class:list={[
               'puzzle-piece relative isolate min-h-64 p-6 sm:p-7',
-              piece.final ? 'bg-[#d9c7a2] text-neutral-900' : 'bg-white text-brand-ink',
+              piece.final ? 'bg-brand-ember text-white' : 'bg-white text-brand-ink',
             ]}
           >
             <div class="relative z-10 flex h-full flex-col">
-              <div data-puzzle-icon class:list={['grid size-12 place-items-center rounded-xl', piece.final ? 'bg-neutral-800 text-[#d9c7a2]' : 'bg-brand-mist text-neutral-700']} aria-hidden="true">
+              <div data-puzzle-icon class:list={['grid size-12 place-items-center rounded-xl transition-transform duration-300', piece.final ? 'bg-brand-ink text-white' : 'bg-brand-mist text-neutral-700']} aria-hidden="true">
                 <Icon name={piece.icon} size={23} />
               </div>
-              <p class:list={['mt-7 font-mono text-[10px] font-bold uppercase tracking-[0.16em]', piece.final ? 'text-neutral-700' : 'text-neutral-500']}>0{index + 1} / {piece.technical}</p>
+              <p class:list={['mt-7 font-mono text-[10px] font-bold uppercase tracking-[0.16em]', piece.final ? 'text-white' : 'text-neutral-500']}>0{index + 1} / {piece.technical}</p>
               <h3 class="mt-2 text-xl font-semibold leading-tight tracking-[-0.02em] sm:text-2xl">{piece.title}</h3>
-              <p class:list={['mt-3 text-sm leading-relaxed', piece.final ? 'text-neutral-700' : 'text-neutral-600']}>{piece.value}</p>
-              {piece.final && <p class="mt-auto pt-6 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-neutral-800">Final piece: system complete</p>}
+              <p class:list={['mt-3 text-sm leading-relaxed', piece.final ? 'text-white/90' : 'text-neutral-600']}>{piece.value}</p>
+              {piece.final && <p class="mt-auto pt-6 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-white">Final piece: system complete</p>}
             </div>
           </li>
         ))}
@@ -46,7 +46,7 @@ const PIECES: { title: string; value: string; technical: string; icon: IconName;
 
     <div class="mt-10 flex flex-col gap-5 border-t border-brand-line pt-7 sm:flex-row sm:items-center sm:justify-between">
       <p class="max-w-2xl text-lg font-semibold tracking-tight text-brand-ink">ELG connects the pieces so your team manages one outcome, not six suppliers.</p>
-      <a href="/solutions" class="inline-flex min-h-11 shrink-0 items-center gap-2 text-sm font-semibold text-orange-800 underline-offset-4 hover:underline">Explore all solutions <span aria-hidden="true">→</span></a>
+      <a href="/solutions" class="inline-flex min-h-11 shrink-0 items-center gap-2 text-sm font-semibold text-brand-ember underline-offset-4 hover:underline">Explore all solutions <span aria-hidden="true">→</span></a>
     </div>
   </div>
 </section>
@@ -55,6 +55,15 @@ const PIECES: { title: string; value: string; technical: string; icon: IconName;
   .puzzle-piece {
     border: 1px solid #e5e7eb;
     border-radius: 14px;
+    transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms ease, filter 300ms ease;
+  }
+  .puzzle-piece:hover {
+    z-index: 30;
+    transform: translateY(-5px) scale(1.012);
+    box-shadow: 0 22px 48px -30px rgb(17 17 15 / 0.45);
+  }
+  .puzzle-piece:hover [data-puzzle-icon] {
+    transform: rotate(5deg) scale(1.08);
   }
 
   @media (min-width: 768px) {
@@ -74,7 +83,7 @@ const PIECES: { title: string; value: string; technical: string; icon: IconName;
       top: calc(50% - 15px);
       width: 30px;
       height: 30px;
-      border: 1px solid #e5e7eb;
+      border: 1px solid #d5d1c7;
       border-left: 0;
       border-radius: 0 999px 999px 0;
       background: inherit;
@@ -87,7 +96,7 @@ const PIECES: { title: string; value: string; technical: string; icon: IconName;
       left: calc(50% - 15px);
       width: 30px;
       height: 30px;
-      border: 1px solid #e5e7eb;
+      border: 1px solid #d5d1c7;
       border-top: 0;
       border-radius: 0 0 999px 999px;
       background: inherit;
@@ -97,6 +106,9 @@ const PIECES: { title: string; value: string; technical: string; icon: IconName;
 
 <script>
   import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
 
   const section = document.getElementById('capability-system');
   if (section) {
@@ -105,19 +117,14 @@ const PIECES: { title: string; value: string; technical: string; icon: IconName;
       const pieces = section.querySelectorAll('[data-puzzle-piece]:not([data-final-piece])');
       const finalPiece = section.querySelector('[data-final-piece]');
       const icons = section.querySelectorAll('[data-puzzle-icon]');
-      let played = false;
-      const observer = new IntersectionObserver(([entry]) => {
-        if (!entry.isIntersecting || played) return;
-        played = true;
-        const timeline = gsap.timeline({ defaults: { ease: 'power2.out' } });
-        timeline
-          .from(pieces, { y: 18, scale: 0.97, duration: 0.45, stagger: 0.07 })
-          .from(icons, { rotation: -8, scale: 0.82, duration: 0.35, stagger: 0.05, ease: 'back.out(1.4)' }, 0.12);
-        if (finalPiece) timeline.from(finalPiece, { x: 54, y: 24, scale: 0.92, duration: 0.75, ease: 'back.out(1.25)' }, 0.48);
-        observer.disconnect();
-      }, { threshold: 0.2 });
-      observer.observe(section);
-      return () => observer.disconnect();
+      const timeline = gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: { trigger: section, start: 'top 82%', end: 'center 48%', scrub: 0.75 },
+      });
+      timeline
+        .from(pieces, { x: (index) => index % 3 === 0 ? -54 : index % 3 === 2 ? 54 : 0, y: (index) => index < 3 ? -28 : 28, rotation: (index) => index % 2 ? 2 : -2, scale: 0.94, stagger: 0.04 })
+        .from(icons, { rotation: -14, scale: 0.72, stagger: 0.035 }, 0.12);
+      if (finalPiece) timeline.from(finalPiece, { x: 120, y: 40, rotation: 5, scale: 0.84, ease: 'power2.out' }, 0.62);
     });
   }
 </script>

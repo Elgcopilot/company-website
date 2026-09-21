@@ -26,11 +26,8 @@ const isCurrent = (href: string) => pathname.startsWith(href);
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta name="generator" content={Astro.generator} />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png?v=2" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=2" />
-    <link rel="icon" type="image/png" sizes="64x64" href="/favicon-64.png?v=2" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
+    <link rel="icon" type="image/png" href="/favicon-bird.png?v=3" />
+    <link rel="apple-touch-icon" href="/favicon-bird.png?v=3" />
     <title>{pageTitle}</title>
     <script
       type="application/ld+json"
@@ -42,7 +39,7 @@ const isCurrent = (href: string) => pathname.startsWith(href);
         email: COMPANY.email,
         telephone: COMPANY.phone,
         address: COMPANY.address,
-        logo: `${COMPANY.domain}/images/brand/elg-logo-dark-pill.png`,
+        logo: `${COMPANY.domain}/images/brand/elg-logo-reference.png`,
       })}
     />
     <script is:inline>
@@ -50,14 +47,20 @@ const isCurrent = (href: string) => pathname.startsWith(href);
     </script>
     <style>
       ::selection {
-        background: #f28a22;
+        background: #d95f16;
         color: #fff;
       }
       :focus-visible {
-        outline: 3px solid #ea580c;
+        outline: 3px solid #d95f16;
         outline-offset: 3px;
       }
       :focus { scroll-margin-top: 5rem; }
+      [data-motion-item], main article, main figure {
+        transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms ease, border-color 300ms ease;
+      }
+      [data-motion-item]:hover, main article:hover, main figure:hover {
+        transform: translateY(-3px);
+      }
       @media (prefers-reduced-motion: reduce) {
         *, *::before, *::after {
           scroll-behavior: auto !important;
@@ -232,6 +235,25 @@ const isCurrent = (href: string) => pathname.startsWith(href);
           }
         });
       })();
+    </script>
+
+    <script>
+      import gsap from 'gsap';
+      import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+      gsap.registerPlugin(ScrollTrigger);
+      const media = gsap.matchMedia();
+      media.add('(prefers-reduced-motion: no-preference)', () => {
+        const sections = gsap.utils.toArray<HTMLElement>('main > section:not(#capability-system):not(:first-child)');
+        sections.forEach((section) => {
+          const heading = section.querySelector('h2');
+          const items = Array.from(section.querySelectorAll<HTMLElement>('[data-motion-item], article, figure, ol > li, ul > li'))
+            .filter((item) => !item.closest('#capability-system'))
+            .slice(0, 8);
+          if (heading) gsap.from(heading, { y: 14, autoAlpha: 0, duration: 0.55, ease: 'power2.out', scrollTrigger: { trigger: section, start: 'top 88%', once: true } });
+          if (items.length) gsap.from(items, { y: 10, autoAlpha: 0, duration: 0.4, stagger: 0.045, ease: 'power1.out', scrollTrigger: { trigger: section, start: 'top 82%', once: true } });
+        });
+      });
     </script>
 
   </body>

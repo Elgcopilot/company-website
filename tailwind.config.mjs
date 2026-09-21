@@ -4,17 +4,17 @@ export default {
   theme: {
     extend: {
       colors: {
-        // ELG Clean-Tech palette (Brand.md §2) — monochrome + signature orange.
+        // ELG reference palette: warm paper, carbon and one signal orange.
         brand: {
           white: '#FFFFFF',
-          paper: '#FAFAFA',
-          mist: '#F4F4F6',
-          line: '#E5E7EB',
-          mute: '#D1D5DB',
-          ink: '#111111',
-          coal: '#09090B',
-          orange: '#F28A22',
-          ember: '#EA580C',
+          paper: '#F4F2EC',
+          mist: '#FAF9F5',
+          line: '#D5D1C7',
+          mute: '#C9C5BC',
+          ink: '#11110F',
+          coal: '#11110F',
+          orange: '#D95F16',
+          ember: '#A8420B',
         },
       },
       fontFamily: {

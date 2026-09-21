@@ -1,18 +1,10 @@
 ---
-interface Props {
-  compact?: boolean;
-  light?: boolean;
-}
-
+interface Props { compact?: boolean; light?: boolean; }
 const { compact = false, light = false } = Astro.props;
 ---
 
-<span class="inline-flex items-center gap-3">
-  <img src="/images/brand/elg-mark-gold-cropped.png" alt="" width="180" height="140" class="h-9 w-12 shrink-0 object-contain sm:h-10 sm:w-14" />
-  {!compact && (
-    <span class:list={['border-l pl-3 leading-none', light ? 'border-white/25 text-neutral-100' : 'border-neutral-300 text-neutral-700']}>
-      <span class="block text-[15px] font-semibold tracking-[-0.02em] sm:text-base">Embedded Linux</span>
-      <span class:list={['mt-1 block text-[11px] font-medium tracking-[0.04em]', light ? 'text-neutral-400' : 'text-neutral-600']}>Group Co., Ltd.</span>
-    </span>
-  )}
-</span>
+{compact ? (
+  <img src="/images/brand/elg-mark-gold-cropped.png" alt="Embedded Linux Group" width="180" height="140" class="h-9 w-12 object-contain" />
+) : (
+  <img src="/images/brand/elg-logo-reference.png" alt="Embedded Linux Group" width="460" height="140" class:list={['h-9 w-auto sm:h-10', light && 'brightness-0 invert']} />
+)}

@@ -5,21 +5,36 @@ const LOGOS = [
   { src: '/images/clients/toyota-trd.png', alt: 'Toyota Racing Development' },
   { src: '/images/clients/tera.png', alt: 'Tera Motors' },
   { src: '/images/clients/burapha-university.png', alt: 'Burapha University' },
+  { src: '/images/clients/kmitl-160.png', alt: 'King Mongkut’s Institute of Technology Ladkrabang' },
   { src: '/images/clients/pt.png', alt: 'PT Maxnitron Racing Series' },
 ];
 ---
 
-<section class="border-y border-brand-line bg-white" aria-labelledby="trusted-title">
+<section class="overflow-hidden border-y border-brand-line bg-white" aria-labelledby="trusted-title">
   <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6">
-    <p id="trusted-title" class="text-center font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-neutral-600">
-      Systems deployed with
-    </p>
-    <ul class="mt-7 grid grid-cols-3 items-center gap-x-8 gap-y-7 md:grid-cols-6" aria-label="Clients and partners">
-      {LOGOS.map((logo) => (
-        <li class="flex min-h-12 items-center justify-center">
-          <img src={logo.src} alt={logo.alt} loading="lazy" width="360" height="120" class="max-h-10 w-auto max-w-full object-contain grayscale opacity-70" />
-        </li>
-      ))}
-    </ul>
+    <p id="trusted-title" class="text-center font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-neutral-600">Systems deployed with</p>
+    <div class="logo-window mt-7 overflow-hidden" data-motion-item>
+      <ul class="logo-track flex w-max items-center" aria-label="Clients and partners">
+        {[...LOGOS, ...LOGOS].map((logo, index) => (
+          <li class="flex min-h-14 w-44 shrink-0 items-center justify-center px-6" aria-hidden={index >= LOGOS.length ? 'true' : undefined}>
+            <img src={logo.src} alt={index < LOGOS.length ? logo.alt : ''} loading="lazy" width="360" height="120" class="max-h-10 w-auto max-w-full object-contain grayscale opacity-70 transition duration-300 hover:scale-105 hover:grayscale-0 hover:opacity-100" />
+          </li>
+        ))}
+      </ul>
+    </div>
   </div>
 </section>
+
+<style>
+  .logo-window {
+    -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  }
+  .logo-track { animation: logo-drift 38s linear infinite; }
+  .logo-window:hover .logo-track { animation-play-state: paused; }
+  @keyframes logo-drift { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) {
+    .logo-track { animation: none; flex-wrap: wrap; width: 100%; justify-content: center; }
+    .logo-track > :nth-child(n + 8) { display: none; }
+  }
+</style>
