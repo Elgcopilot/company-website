@@ -1,0 +1,46 @@
+---
+/**
+ * ProcessFlow — PROTOTYPE (localhost only): Concept → Market visual flow.
+ * Icon + infographic treatment so visitors grasp the journey without
+ * reading every word. NOT on production homepage until PM approves.
+ * Mounted at /preview-home only.
+ */
+import Icon from './Icon.astro';
+
+const STEPS = [
+  { icon: 'box' as const, title: 'Design & Dev', text: 'Custom hardware, firmware, plug-and-play modules.' },
+  { icon: 'cog' as const, title: 'Prototype & Production', text: 'MOQ from 5 units, scalable production, QC.' },
+  { icon: 'gauge' as const, title: 'Optimize', text: 'Hardware–software integration, performance tuning.' },
+  { icon: 'shield' as const, title: 'Protect & Certify', text: 'Patents, CE/FCC compliance, testing support.' },
+  { icon: 'arrow' as const, title: 'Launch & Scale', text: 'Branding, distribution, go-to-market strategy.' },
+];
+---
+<section class="border-y border-brand-line bg-white" aria-label="Prototype: concept to market flow">
+  <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-16">
+    <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-500" data-reveal>
+      <span class="mr-2 inline-block rounded-full bg-brand-orange/15 px-2 py-0.5 text-brand-ember">Prototype</span>
+      From concept to market
+    </p>
+    <h2 class="mt-4 max-w-2xl text-3xl font-semibold leading-[1.05] tracking-[-0.03em] text-brand-ink sm:text-4xl" data-reveal>
+      Your all-in-one embedded innovation partner.
+    </h2>
+    <ol class="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+      {STEPS.map((s, i) => (
+        <li
+          data-reveal
+          class="group relative rounded-xl border border-brand-line bg-brand-paper p-5 transition-all duration-200 ease-crisp hover:-translate-y-1 hover:border-brand-orange/50 hover:bg-white hover:shadow-[0_20px_40px_-24px_rgb(0_0_0/0.3)]"
+        >
+          <span class="grid size-11 place-items-center rounded-lg bg-brand-ink text-white transition-colors duration-200 group-hover:bg-brand-ember" aria-hidden="true">
+            <Icon name={s.icon} size={22} />
+          </span>
+          <p class="mt-4 font-mono text-[11px] font-bold text-brand-ember">0{i + 1}</p>
+          <h3 class="mt-1 text-[15px] font-semibold tracking-tight text-brand-ink">{s.title}</h3>
+          <p class="mt-1.5 text-[13px] leading-relaxed text-neutral-600">{s.text}</p>
+          {i < STEPS.length - 1 && (
+            <span aria-hidden="true" class="absolute -right-2.5 top-1/2 hidden size-5 -translate-y-1/2 place-items-center rounded-full border border-brand-line bg-white text-[10px] text-neutral-400 lg:grid">→</span>
+          )}
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>

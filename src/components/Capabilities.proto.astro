@@ -1,0 +1,63 @@
+---
+/**
+ * Capabilities — the six capability modules as an editorial index (zero JS).
+ * PROTOTYPE icons: each module row gets a pictogram chip so the six blocks
+ * scan visually; hover inverts the row. Copy + links unchanged.
+ */
+import { CAPABILITY_MODULES } from '@/data/company';
+import Icon from './Icon.astro';
+import type { IconName } from './icons';
+
+const ICONS: Record<string, IconName> = {
+  'embedded-linux': 'layers',
+  'embedded-ai': 'cog',
+  'iot-connectivity': 'link',
+  'rtos-firmware': 'chip',
+  'ux-ui': 'screen',
+  'cloud-backend': 'cloud',
+};
+---
+
+<section class="border-y border-brand-line bg-brand-paper" aria-label="Capabilities">
+  <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28">
+    <div class="flex flex-wrap items-end justify-between gap-4" data-reveal>
+      <div>
+        <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-500">02 — What we build</p>
+        <h2 class="mt-4 max-w-2xl text-3xl font-semibold leading-[1.05] tracking-[-0.03em] text-brand-ink sm:text-5xl">
+          One partner, six building blocks.
+        </h2>
+        <p class="mt-4 max-w-2xl leading-relaxed text-neutral-600">
+          Every engagement combines only the modules your problem needs — nothing more.
+          Each case study is tagged with the modules it used.
+        </p>
+      </div>
+      <a href="/solutions" class="text-sm font-semibold text-brand-ember hover:underline">Explore solutions →</a>
+    </div>
+    <ul class="mt-10 divide-y divide-brand-line border-y border-brand-line bg-white">
+      {CAPABILITY_MODULES.map((m, i) => (
+        <li data-reveal>
+          <a
+            href="/solutions"
+            class="group grid items-center gap-2 px-5 py-5 transition-all duration-200 hover:bg-brand-ink sm:grid-cols-12 sm:gap-4 sm:px-8 sm:py-5"
+          >
+            <span class="grid size-10 shrink-0 place-items-center rounded-lg bg-brand-paper text-brand-ink transition-colors duration-200 group-hover:bg-white/10 group-hover:text-brand-orange sm:col-span-1" aria-hidden="true">
+              <Icon name={ICONS[m.slug] ?? 'box'} size={20} />
+            </span>
+            <span class="font-mono text-xs font-semibold text-neutral-400 transition-colors group-hover:text-brand-orange sm:col-span-1">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <span class="text-xl font-semibold tracking-tight text-brand-ink transition-all duration-200 group-hover:translate-x-1 group-hover:text-white sm:col-span-3 sm:text-2xl">
+              {m.name}
+            </span>
+            <span class="text-sm leading-relaxed text-neutral-600 transition-colors group-hover:text-neutral-300 sm:col-span-6">
+              {m.blurb}
+            </span>
+            <span aria-hidden="true" class="hidden text-xl text-neutral-300 transition-all duration-200 group-hover:translate-x-1 group-hover:text-brand-orange sm:col-span-1 sm:block sm:text-right">
+              →
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

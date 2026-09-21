@@ -1,0 +1,48 @@
+---
+/**
+ * Realities — the gap between lab and field (zero JS).
+ * PROTOTYPE icons: vibration / heat / noise / link pictograms replace the
+ * plain numbered rows so the failure modes read at a glance. Copy unchanged.
+ */
+import Icon from './Icon.astro';
+
+const CONSTRAINTS = [
+  { icon: 'vibration' as const, metric: '25Hz', metricLabel: 'sample cadence must hold', title: 'High vibration & shock', body: 'Mounts crack, connectors walk out, sample cadence collapses. We specify retention, damping, and acquisition loops that hold under mechanical stress.' },
+  { icon: 'heat' as const, metric: '85°C+', metricLabel: 'ambient trackside & rooftop', title: 'Extreme heat & dust', body: 'Thermal throttling kills compute when it matters most. Our enclosures and power budgets are designed for trackside and rooftop reality.' },
+  { icon: 'noise' as const, metric: 'RF-dense', metricLabel: 'crowded race-day spectrum', title: 'Noisy electrical environments', body: 'Motors, inverters, and dense RF crowds corrupt signals. Shielding, filtering, and protocol choices are made for the noise floor you actually have.' },
+  { icon: 'link' as const, metric: '0-drop', metricLabel: 'store-and-forward buffer', title: 'Intermittent connectivity', body: 'Remote sites drop links for hours. Local buffering, store-and-forward, and edge logic keep the system useful with or without the cloud.' },
+];
+---
+
+<section class="bg-white" aria-label="Operating realities">
+  <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28">
+    <div class="grid gap-10 lg:grid-cols-12">
+      <div class="lg:col-span-5" data-reveal>
+        <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-500">01 — The problem</p>
+        <h2 class="mt-4 text-3xl font-semibold leading-[1.05] tracking-[-0.03em] text-brand-ink sm:text-5xl">
+          Lab demos are easy. The field is the test.
+        </h2>
+      </div>
+      <div class="lg:col-span-7" data-reveal data-reveal-delay="0.1">
+        <p class="max-w-xl text-base leading-relaxed text-neutral-600 sm:text-lg">
+          Most prototypes die the moment they leave the bench. Our systems are specified,
+          built, and proven for the operating reality — not the air-conditioned demo.
+        </p>
+        <ol class="mt-10 grid gap-3 sm:grid-cols-2">
+          {CONSTRAINTS.map((c) => (
+            <li class="group rounded-xl border border-brand-line bg-brand-paper p-5 transition-all duration-200 ease-crisp hover:-translate-y-1 hover:border-brand-orange/50 hover:bg-white hover:shadow-[0_20px_40px_-24px_rgb(0_0_0/0.3)]">
+              <span class="grid size-11 place-items-center rounded-lg bg-brand-ink text-white transition-colors duration-200 group-hover:bg-brand-ember" aria-hidden="true">
+                <Icon name={c.icon} size={22} />
+              </span>
+              <p class="mt-4 font-mono text-xs font-bold tracking-tight text-brand-ink">
+                {c.metric} <span class="font-medium text-neutral-400">· {c.metricLabel}</span>
+              </p>
+              <h3 class="mt-1.5 text-[15px] font-semibold tracking-tight text-brand-ink">{c.title}</h3>
+              <p class="mt-1.5 text-[13px] leading-relaxed text-neutral-600">{c.body}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>

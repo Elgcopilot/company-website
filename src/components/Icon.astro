@@ -1,0 +1,30 @@
+---
+/**
+ * Icon — inline SVG wrapper for the homepage icon set (zero JS).
+ * Lucide-style stroke icons, currentColor, decorative by default.
+ */
+import { ICONS, type IconName } from './icons';
+
+interface Props {
+  name: IconName;
+  size?: number;
+  strokeWidth?: number;
+  label?: string;
+}
+
+const { name, size = 22, strokeWidth = 1.8, label } = Astro.props;
+---
+<svg
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width={strokeWidth}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden={label ? undefined : 'true'}
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  set:html={ICONS[name]}
+ />
