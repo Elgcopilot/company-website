@@ -2,39 +2,122 @@
 import Icon from './Icon.astro';
 import type { IconName } from './icons';
 
-const OUTCOMES: { title: string; scope: string; icon: IconName }[] = [
-  { title: 'Sense the physical world', scope: 'Electronics, sensors, and data acquisition', icon: 'vibration' },
-  { title: 'Decide at the edge', scope: 'Embedded Linux, RTOS, and edge AI', icon: 'chip' },
-  { title: 'Stay connected', scope: 'Cellular, Wi-Fi, Zigbee, MQTT, and gateways', icon: 'link' },
-  { title: 'Turn data into action', scope: 'Cloud services, dashboards, and operational interfaces', icon: 'screen' },
+const PIECES: { title: string; value: string; technical: string; icon: IconName; final?: boolean }[] = [
+  { title: 'A dependable foundation', value: 'Keeps your product stable, secure, and ready for long-term use.', technical: 'Embedded Linux', icon: 'layers' },
+  { title: 'Fast, precise responses', value: 'Controls equipment and responds when timing cannot slip.', technical: 'RTOS & Firmware', icon: 'gauge' },
+  { title: 'Intelligence where it happens', value: 'Makes useful decisions locally, even without a constant connection.', technical: 'Edge AI', icon: 'cog' },
+  { title: 'A connection that holds', value: 'Moves information reliably across devices, sites, and networks.', technical: 'IoT & Connectivity', icon: 'link' },
+  { title: 'Clear control for people', value: 'Turns complex operations into interfaces teams can understand and use.', technical: 'UX, UI & HMI', icon: 'screen' },
+  { title: 'One shared operational view', value: 'Completes the system with live data, history, alerts, and remote access.', technical: 'Cloud Platform', icon: 'cloud', final: true },
 ];
 ---
 
-<section class="bg-brand-paper" aria-labelledby="capabilities-title">
+<section id="capability-system" class="overflow-hidden bg-brand-paper" aria-labelledby="capabilities-title">
   <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28">
     <div class="max-w-3xl">
-      <h2 id="capabilities-title" class="text-balance text-4xl font-semibold leading-[1.03] tracking-[-0.035em] text-brand-ink sm:text-6xl">
-        From physical signals to useful action.
-      </h2>
-      <p class="mt-5 max-w-2xl text-lg leading-relaxed text-neutral-600">
-        Four outcomes, engineered as one system around the problem you need to solve.
-      </p>
+      <h2 id="capabilities-title" class="text-balance text-4xl font-semibold leading-[1.03] tracking-[-0.035em] text-brand-ink sm:text-6xl">Six pieces. One working system.</h2>
+      <p class="mt-5 max-w-2xl text-lg leading-relaxed text-neutral-600">Each piece solves a different part of the operation. The value appears when they connect.</p>
     </div>
 
-    <ul class="mt-12 grid gap-px overflow-hidden rounded-2xl border border-brand-line bg-brand-line sm:grid-cols-2">
-      {OUTCOMES.map((outcome, index) => (
-        <li class="bg-white p-6 sm:p-8">
-          <div class="flex items-start gap-5">
-            <span class="grid size-11 shrink-0 place-items-center rounded-lg bg-brand-ink text-brand-orange" aria-hidden="true"><Icon name={outcome.icon} size={21} /></span>
-            <div>
-              <p class="font-mono text-[10px] font-bold tracking-[0.16em] text-neutral-500">0{index + 1}</p>
-              <h3 class="mt-3 text-xl font-semibold tracking-tight text-brand-ink sm:text-2xl">{outcome.title}</h3>
-              <p class="mt-2 text-sm leading-relaxed text-neutral-600">{outcome.scope}</p>
+    <div class="mt-12 lg:px-10">
+      <ol class="puzzle-grid grid gap-3 md:grid-cols-3 md:gap-0" aria-label="Six connected ELG capability building blocks">
+        {PIECES.map((piece, index) => (
+          <li
+            data-puzzle-piece
+            data-final-piece={piece.final ? '' : undefined}
+            class:list={[
+              'puzzle-piece relative isolate min-h-64 p-6 sm:p-7',
+              piece.final ? 'bg-[#d9c7a2] text-neutral-900' : 'bg-white text-brand-ink',
+            ]}
+          >
+            <div class="relative z-10 flex h-full flex-col">
+              <div data-puzzle-icon class:list={['grid size-12 place-items-center rounded-xl', piece.final ? 'bg-neutral-800 text-[#d9c7a2]' : 'bg-brand-mist text-neutral-700']} aria-hidden="true">
+                <Icon name={piece.icon} size={23} />
+              </div>
+              <p class:list={['mt-7 font-mono text-[10px] font-bold uppercase tracking-[0.16em]', piece.final ? 'text-neutral-700' : 'text-neutral-500']}>0{index + 1} / {piece.technical}</p>
+              <h3 class="mt-2 text-xl font-semibold leading-tight tracking-[-0.02em] sm:text-2xl">{piece.title}</h3>
+              <p class:list={['mt-3 text-sm leading-relaxed', piece.final ? 'text-neutral-700' : 'text-neutral-600']}>{piece.value}</p>
+              {piece.final && <p class="mt-auto pt-6 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-neutral-800">Final piece: system complete</p>}
             </div>
-          </div>
-        </li>
-      ))}
-    </ul>
-    <a href="/solutions" class="mt-8 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-orange-800 underline-offset-4 hover:underline">Explore all solutions <span aria-hidden="true">→</span></a>
+          </li>
+        ))}
+      </ol>
+    </div>
+
+    <div class="mt-10 flex flex-col gap-5 border-t border-brand-line pt-7 sm:flex-row sm:items-center sm:justify-between">
+      <p class="max-w-2xl text-lg font-semibold tracking-tight text-brand-ink">ELG connects the pieces so your team manages one outcome, not six suppliers.</p>
+      <a href="/solutions" class="inline-flex min-h-11 shrink-0 items-center gap-2 text-sm font-semibold text-orange-800 underline-offset-4 hover:underline">Explore all solutions <span aria-hidden="true">→</span></a>
+    </div>
   </div>
 </section>
+
+<style>
+  .puzzle-piece {
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+  }
+
+  @media (min-width: 768px) {
+    .puzzle-piece {
+      border-radius: 0;
+      margin: -0.5px;
+    }
+    .puzzle-piece:nth-child(1) { border-radius: 14px 0 0 0; }
+    .puzzle-piece:nth-child(3) { border-radius: 0 14px 0 0; }
+    .puzzle-piece:nth-child(4) { border-radius: 0 0 0 14px; }
+    .puzzle-piece:nth-child(6) { border-radius: 0 0 14px 0; }
+    .puzzle-piece:not(:nth-child(3n))::after {
+      content: '';
+      position: absolute;
+      z-index: 20;
+      right: -15px;
+      top: calc(50% - 15px);
+      width: 30px;
+      height: 30px;
+      border: 1px solid #e5e7eb;
+      border-left: 0;
+      border-radius: 0 999px 999px 0;
+      background: inherit;
+    }
+    .puzzle-piece:nth-child(-n+3)::before {
+      content: '';
+      position: absolute;
+      z-index: 20;
+      bottom: -15px;
+      left: calc(50% - 15px);
+      width: 30px;
+      height: 30px;
+      border: 1px solid #e5e7eb;
+      border-top: 0;
+      border-radius: 0 0 999px 999px;
+      background: inherit;
+    }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+
+  const section = document.getElementById('capability-system');
+  if (section) {
+    const media = gsap.matchMedia();
+    media.add('(prefers-reduced-motion: no-preference)', () => {
+      const pieces = section.querySelectorAll('[data-puzzle-piece]:not([data-final-piece])');
+      const finalPiece = section.querySelector('[data-final-piece]');
+      const icons = section.querySelectorAll('[data-puzzle-icon]');
+      let played = false;
+      const observer = new IntersectionObserver(([entry]) => {
+        if (!entry.isIntersecting || played) return;
+        played = true;
+        const timeline = gsap.timeline({ defaults: { ease: 'power2.out' } });
+        timeline
+          .from(pieces, { y: 18, scale: 0.97, duration: 0.45, stagger: 0.07 })
+          .from(icons, { rotation: -8, scale: 0.82, duration: 0.35, stagger: 0.05, ease: 'back.out(1.4)' }, 0.12);
+        if (finalPiece) timeline.from(finalPiece, { x: 54, y: 24, scale: 0.92, duration: 0.75, ease: 'back.out(1.25)' }, 0.48);
+        observer.disconnect();
+      }, { threshold: 0.2 });
+      observer.observe(section);
+      return () => observer.disconnect();
+    });
+  }
+</script>
