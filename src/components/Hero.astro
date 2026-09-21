@@ -14,7 +14,7 @@ const STACK = [
   <div class="relative mx-auto grid min-h-[100dvh] max-w-7xl items-center gap-12 px-4 pb-16 pt-24 sm:px-6 sm:pt-28 lg:grid-cols-12 lg:gap-10">
     <div class="lg:col-span-6">
       <p data-hero-copy class="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-neutral-600">Embedded systems for the real world</p>
-      <h1 id="home-title" data-hero-copy class="mt-5 max-w-3xl text-balance text-5xl font-semibold leading-[0.98] tracking-[-0.045em] text-brand-ink sm:text-6xl lg:text-7xl">We turn difficult real-world problems into reliable technology.</h1>
+      <h1 id="home-title" data-hero-copy class="mt-5 max-w-3xl text-balance text-5xl font-semibold leading-[0.98] tracking-[-0.045em] text-brand-ink sm:text-6xl lg:text-7xl">Understand the <span class="text-brand-ember">real problem.</span> Engineer the <span class="text-brand-ember">ecosystem.</span></h1>
       <p data-hero-copy class="mt-6 max-w-xl text-lg leading-relaxed text-neutral-600">ELG understands the operating problem first, then engineers every required layer as one working ecosystem.</p>
       <div data-hero-copy class="mt-8 flex flex-wrap gap-3">
         <a href="/contact" class="group inline-flex min-h-11 items-center gap-2 rounded-full bg-brand-ink px-7 py-3 text-sm font-semibold text-white transition duration-200 hover:-translate-y-px hover:bg-brand-ember active:scale-[0.98]">Tell us the problem <span aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">→</span></a>
@@ -53,11 +53,11 @@ const STACK = [
         <div>
           <div class="flex items-center justify-between gap-3">
             <p class="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-neutral-600">03 / Full-stack ecosystem</p>
-            <p class="font-mono text-[9px] text-neutral-500">Select a layer</p>
+            <p class="font-mono text-[9px] text-neutral-600">Select a layer</p>
           </div>
           <div class="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3" role="group" aria-label="Explore ELG ecosystem layers">
             {STACK.map((layer, index) => (
-              <button type="button" data-stack-select={layer.id} data-detail={layer.detail} aria-pressed={index === 0 ? 'true' : 'false'} class="stack-select min-h-11 rounded-lg border border-brand-line bg-white px-3 py-2 text-left font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-neutral-600 transition duration-200 hover:-translate-y-px hover:border-brand-orange hover:text-brand-ember aria-pressed:border-brand-orange aria-pressed:bg-brand-orange aria-pressed:text-white">{layer.label}</button>
+              <button type="button" data-stack-select={layer.id} data-detail={layer.detail} aria-pressed={index === 0 ? 'true' : 'false'} class="stack-select min-h-11 rounded-lg border border-brand-line bg-white px-3 py-2 text-left font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-neutral-600 transition duration-200 hover:-translate-y-px hover:border-brand-orange hover:text-brand-ember aria-pressed:border-brand-ember aria-pressed:bg-brand-ember aria-pressed:text-white">{layer.label}</button>
             ))}
           </div>
           <div class="mt-3 rounded-xl border border-brand-line bg-white p-4" aria-live="polite">
