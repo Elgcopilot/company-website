@@ -94,32 +94,12 @@ const PIECES: { title: string; value: string; technical: string; icon: IconName;
     animation: rim-circuit 2.4s linear infinite;
     filter: drop-shadow(0 0 6px rgb(217 95 22 / 0.7));
   }
-  .puzzle-assembly::after {
-    content: '';
-    position: absolute;
-    z-index: 40;
-    inset: -7px;
-    border: 3px solid #d95f16;
-    border-radius: 20px;
-    opacity: 0;
-    pointer-events: none;
-  }
-  .puzzle-assembly.is-complete::after {
-    animation: rim-flash 1.1s cubic-bezier(0.16, 1, 0.3, 1) 2;
-  }
   @property --rim-angle {
     syntax: '<angle>';
     inherits: false;
     initial-value: 0deg;
   }
   @keyframes rim-circuit { to { --rim-angle: 360deg; } }
-  @keyframes rim-flash {
-    0% { opacity: 0; transform: scale(0.982); box-shadow: 0 0 0 rgb(217 95 22 / 0); }
-    22% { opacity: 1; transform: scale(1.008); box-shadow: 0 0 46px rgb(217 95 22 / 0.95); }
-    55% { opacity: 0.25; transform: scale(1.016); box-shadow: 0 0 10px rgb(217 95 22 / 0.25); }
-    78% { opacity: 1; transform: scale(1.004); box-shadow: 0 0 30px rgb(217 95 22 / 0.8); }
-    100% { opacity: 0; transform: scale(1.02); box-shadow: 0 0 4px rgb(217 95 22 / 0); }
-  }
   .assembly-progress {
     height: 3px;
     border-radius: 999px;
@@ -171,19 +151,22 @@ const PIECES: { title: string; value: string; technical: string; icon: IconName;
       background: inherit;
     }
   }
-  @media (min-width: 1024px) and (min-height: 720px) {
-    .capability-scroll-stage { min-height: 165vh; }
+  @media (min-width: 1024px) {
     .capability-sticky {
-      position: sticky;
-      top: 64px;
       display: flex;
       min-height: calc(100vh - 64px);
       flex-direction: column;
       justify-content: center;
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+    }
+    .puzzle-piece {
+      min-height: clamp(11.5rem, 23vh, 14.5rem);
+      padding: 1.25rem;
     }
   }
   @media (prefers-reduced-motion: reduce) {
-    .puzzle-assembly::before, .puzzle-assembly::after { display: none; }
+    .puzzle-assembly::before { display: none; }
   }
 </style>
 
@@ -196,46 +179,72 @@ const PIECES: { title: string; value: string; technical: string; icon: IconName;
   const section = document.getElementById('capability-system');
   if (section) {
     const media = gsap.matchMedia();
-    const buildAssembly = (isStickyStage: boolean) => {
-      const pieces = section.querySelectorAll('[data-puzzle-piece]:not([data-final-piece])');
-      const finalPiece = section.querySelector('[data-final-piece]');
+    const buildAssembly = (isPinnedStage: boolean) => {
+      const pieces = section.querySelectorAll('[data-puzzle-piece]');
       const icons = section.querySelectorAll('[data-puzzle-icon]');
       const assembly = section.querySelector('[data-puzzle-assembly]');
       const state = section.querySelector('[data-assembly-state]');
       const progress = section.querySelector('[data-assembly-progress]');
+      const sticky = section.querySelector('.capability-sticky');
       let complete = false;
       const setComplete = (next: boolean) => {
         if (complete === next) return;
         complete = next;
-        assembly?.classList.toggle('is-complete', next);
+        if (next && assembly) {
+          assembly.classList.remove('is-complete');
+          void (assembly as HTMLElement).offsetWidth;
+          assembly.classList.add('is-complete');
+        } else {
+          assembly?.classList.remove('is-complete');
+        }
         if (state) state.textContent = next ? 'Connected: ecosystem complete' : 'Scroll to assemble';
       };
-      const spread = isStickyStage ? 1 : 0.55;
+      const desktopOffsets = [
+        { x: -240, y: -125, rotation: -8 },
+        { x: 0, y: -175, rotation: 5 },
+        { x: 240, y: -125, rotation: 8 },
+        { x: -240, y: 125, rotation: 7 },
+        { x: 0, y: 175, rotation: -5 },
+        { x: 280, y: 145, rotation: 10 },
+      ];
+      const compactOffsets = desktopOffsets.map(({ x, y, rotation }) => ({ x: x * 0.42, y: y * 0.42, rotation: rotation * 0.6 }));
+      const offsets = isPinnedStage ? desktopOffsets : compactOffsets;
       const timeline = gsap.timeline({
         defaults: { ease: 'none' },
         scrollTrigger: {
-          trigger: isStickyStage ? section.querySelector('.capability-scroll-stage') : section,
-          start: isStickyStage ? 'top top+=64' : 'top 85%',
-          end: isStickyStage ? 'bottom bottom' : 'center 45%',
-          scrub: 0.9,
+          trigger: section,
+          start: isPinnedStage ? 'top top+=64' : 'top 88%',
+          end: isPinnedStage ? '+=1500' : 'center 42%',
+          pin: isPinnedStage ? sticky : false,
+          pinSpacing: isPinnedStage,
+          anticipatePin: isPinnedStage ? 1 : 0,
+          scrub: isPinnedStage ? 1.4 : 0.9,
           invalidateOnRefresh: true,
-          onUpdate: (self) => setComplete(self.progress > 0.975),
+          onUpdate: (self) => setComplete(self.progress >= 0.875),
           onLeave: () => setComplete(true),
           onEnterBack: () => setComplete(true),
           onLeaveBack: () => setComplete(false),
         },
       });
       timeline
-        .from(pieces, { x: (index) => (index % 3 === 0 ? -230 : index % 3 === 2 ? 230 : index % 2 ? 60 : -60) * spread, y: (index) => (index < 3 ? -140 : 140) * spread, rotation: (index) => index % 2 ? 8 : -8, scale: 0.8, stagger: 0.035 })
-        .from(icons, { rotation: -14, scale: 0.72, stagger: 0.035 }, 0.12);
-      if (finalPiece) timeline.from(finalPiece, { x: 260 * spread, y: 150 * spread, rotation: 11, scale: 0.68, ease: 'power2.out' }, 0.68);
-      if (progress) timeline.fromTo(progress, { scaleX: 0 }, { scaleX: 1, ease: 'none' }, 0);
+        .fromTo(
+          pieces,
+          {
+            x: (index) => offsets[index]?.x ?? 0,
+            y: (index) => offsets[index]?.y ?? 0,
+            rotation: (index) => offsets[index]?.rotation ?? 0,
+            scale: (index) => index === 5 ? 0.72 : 0.8,
+          },
+          { x: 0, y: 0, rotation: 0, scale: 1, duration: 0.84 },
+        )
+        .fromTo(icons, { rotation: -12, scale: 0.76 }, { rotation: 0, scale: 1, duration: 0.36 }, 0.38);
+      if (progress) timeline.fromTo(progress, { scaleX: 0 }, { scaleX: 1, duration: 0.84, ease: 'none' }, 0);
+      timeline.to({}, { duration: 0.12 });
     };
-    media.add('(min-width: 1024px) and (min-height: 720px) and (prefers-reduced-motion: no-preference)', () => {
+    media.add('(min-width: 1024px) and (prefers-reduced-motion: no-preference)', () => {
       buildAssembly(true);
     });
-    media.add('(prefers-reduced-motion: no-preference)', () => {
-      if (window.matchMedia('(min-width: 1024px) and (min-height: 720px)').matches) return;
+    media.add('(max-width: 1023px) and (prefers-reduced-motion: no-preference)', () => {
       buildAssembly(false);
     });
   }
