@@ -1,10 +1,13 @@
 ---
-const STEPS = [
-  { number: '01', title: 'Understand', text: 'See the people, process, equipment, data, and constraints.' },
-  { number: '02', title: 'Find', text: 'Identify the bottleneck worth solving.' },
-  { number: '03', title: 'Design', text: 'Define the smallest complete system that creates value.' },
-  { number: '04', title: 'Build', text: 'Engineer hardware and software as one system.' },
-  { number: '05', title: 'Prove', text: 'Deploy, measure, learn, and strengthen the capability.' },
+import Icon from './Icon.astro';
+import type { IconName } from './icons';
+
+const STEPS: { number: string; title: string; text: string; icon: IconName }[] = [
+  { number: '01', title: 'Understand', text: 'See the people, process, equipment, data, and constraints.', icon: 'layers' },
+  { number: '02', title: 'Find', text: 'Identify the bottleneck worth solving.', icon: 'gauge' },
+  { number: '03', title: 'Design', text: 'Define the smallest complete system that creates value.', icon: 'box' },
+  { number: '04', title: 'Build', text: 'Engineer hardware and software as one system.', icon: 'cog' },
+  { number: '05', title: 'Prove', text: 'Deploy, measure, learn, and strengthen the capability.', icon: 'shield' },
 ];
 ---
 
@@ -27,7 +30,10 @@ const STEPS = [
           <li data-how-piece style={`--i:${index}`} class:list={['process-piece relative min-h-52 border border-white/15 bg-brand-coal p-6', index === 0 && 'md:rounded-l-xl', index === STEPS.length - 1 && 'md:rounded-r-xl']}>
             <div class="relative z-10 flex h-full flex-col">
               <p class="font-mono text-[10px] font-bold tracking-[0.16em] text-brand-orange">{step.number}</p>
-              <h3 class="mt-8 text-xl font-semibold tracking-tight">{step.title}</h3>
+              <div data-how-icon class="mt-6 grid size-11 shrink-0 place-items-center rounded-lg border border-white/15 bg-white/5 text-brand-orange" aria-hidden="true">
+                <Icon name={step.icon} size={22} />
+              </div>
+              <h3 class="mt-4 text-xl font-semibold tracking-tight">{step.title}</h3>
               <p class="mt-2 text-sm leading-relaxed text-neutral-400">{step.text}</p>
             </div>
           </li>
@@ -63,6 +69,15 @@ const STEPS = [
     border-color: rgb(217 95 22 / 0.75);
     background: #171713;
   }
+  .process-piece:hover [data-how-icon] svg {
+    animation: icon-nudge 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes icon-nudge {
+    0% { transform: translateY(0) rotate(0); }
+    35% { transform: translateY(-3px) rotate(-8deg); }
+    70% { transform: translateY(1px) rotate(5deg); }
+    100% { transform: translateY(0) rotate(0); }
+  }
   @media (min-width: 768px) {
     .process-piece { margin: -0.5px; }
     .process-piece:not(:last-child)::after {
@@ -94,23 +109,50 @@ const STEPS = [
       transform: none;
       transition: none;
     }
+    .process-piece:hover [data-how-icon] svg {
+      animation: none;
+    }
   }
 </style>
 
 <script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
   const section = document.getElementById('how-elg-works');
-  if (section && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          section.classList.add('how-assembled');
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.2 },
-    );
-    observer.observe(section);
-  } else {
-    section?.classList.add('how-assembled');
+  if (section) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      section.classList.add('how-assembled');
+    } else {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            section.classList.add('how-assembled');
+            observer.disconnect();
+          }
+        },
+        { threshold: 0.2 },
+      );
+      observer.observe(section);
+
+      // Scroll-linked icon micro-motion: icons drift and tilt gently
+      // as the section travels through the viewport (transform only).
+      const media = gsap.matchMedia();
+      media.add('(prefers-reduced-motion: no-preference)', () => {
+        const icons = section.querySelectorAll('[data-how-icon]');
+        gsap.fromTo(
+          icons,
+          { y: 7, rotation: -5 },
+          {
+            y: -7,
+            rotation: 5,
+            ease: 'none',
+            stagger: 0.03,
+            scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: 1.2 },
+          },
+        );
+      });
+    }
   }
 </script>
