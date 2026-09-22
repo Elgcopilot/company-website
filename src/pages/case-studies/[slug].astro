@@ -68,13 +68,13 @@ const relatedFill = related.length >= 3 ? related : [...related, ...all.filter((
       </div>
       {d.galleryImages.length > 0 ? (
         <div class="gallery-viewer mt-5" data-reveal data-gallery="1">
-          <div class="relative overflow-hidden rounded-2xl border border-white/10">
+          <div class="gallery-stage relative h-[62vh] min-h-[420px] max-h-[760px] overflow-hidden rounded-2xl border border-white/10 bg-black sm:h-[68vh]">
             {d.galleryImages.map((src, i) => (
               <img
                 src={src}
                 alt={`Field evidence ${String(i + 1).padStart(2, '0')} — ${d.clientPartner ?? d.title}`}
                 loading={i === 0 ? 'eager' : 'lazy'}
-                class="gallery-main aspect-[4/3] w-full object-cover sm:aspect-[16/8]"
+                class="gallery-main absolute inset-0 h-full w-full object-contain"
                 data-main={i}
                 style={i === 0 ? undefined : 'display:none'}
               />
@@ -127,7 +127,7 @@ const relatedFill = related.length >= 3 ? related : [...related, ...all.filter((
       </div>
       ) : (
         <figure class="relative mt-5 overflow-hidden rounded-2xl border border-white/10" data-reveal>
-          <img src={d.featuredImage} alt={d.title} class="aspect-[16/10] w-full object-cover sm:aspect-[16/8]" />
+          <img src={d.featuredImage} alt={d.title} class="max-h-[760px] w-full object-contain" />
           <span class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-black/25" aria-hidden="true"></span>
           {d.isPlaceholderImage && (
             <span class="absolute left-4 top-4 rounded-lg bg-brand-ink/85 px-2.5 py-1 text-[11px] font-medium text-white">[Placeholder Asset] Production photography lands here.</span>
