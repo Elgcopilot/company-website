@@ -1,0 +1,218 @@
+---
+import Icon from './Icon.astro';
+import type { IconName } from './icons';
+
+const LAYERS: { id: string; label: string; detail: string; icon: IconName }[] = [
+  { id: 'hardware', label: 'Hardware', detail: 'Sense and control the physical system.', icon: 'box' },
+  { id: 'firmware', label: 'Firmware', detail: 'Respond predictably when timing cannot slip.', icon: 'gauge' },
+  { id: 'embedded', label: 'Embedded', detail: 'Process locally and remain resilient when links fail.', icon: 'chip' },
+  { id: 'connectivity', label: 'Connectivity', detail: 'Move information reliably across devices and sites.', icon: 'link' },
+  { id: 'cloud', label: 'Cloud', detail: 'Unify live data, history, alerts, and remote access.', icon: 'cloud' },
+  { id: 'interface', label: 'Interface', detail: 'Help people understand the system and take action.', icon: 'screen' },
+];
+---
+
+<figure id="hero-system-artifact" class="system-artifact relative mx-auto w-full max-w-2xl overflow-hidden rounded-2xl border border-brand-line bg-brand-paper shadow-[0_30px_80px_-52px_rgb(17_17_15/0.48)]" aria-labelledby="artifact-caption">
+  <figcaption id="artifact-caption" class="flex items-center justify-between gap-4 border-b border-brand-line px-5 py-4 font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-neutral-600 sm:px-6">
+    <span>Why first. Every layer engineered.</span>
+    <span class="hidden items-center gap-2 text-brand-ember sm:flex"><span class="size-1.5 rounded-full bg-brand-orange"></span> Explore the stack</span>
+  </figcaption>
+
+  <div class="artifact-canvas relative p-4 sm:p-6">
+    <svg class="signal-map pointer-events-none absolute inset-0 size-full" viewBox="0 0 720 500" preserveAspectRatio="none" aria-hidden="true">
+      <path pathLength="1" class="signal-track" d="M128 112 C228 112 200 208 298 208 L425 208 C500 208 482 386 588 386" />
+      <path pathLength="1" class="signal-live" d="M128 112 C228 112 200 208 298 208 L425 208 C500 208 482 386 588 386" />
+    </svg>
+
+    <div class="artifact-story relative z-10 grid gap-4 lg:grid-cols-[0.82fr_1.36fr_0.82fr] lg:items-center">
+      <section data-artifact-part="problem" class="artifact-node rounded-xl border border-brand-line bg-white p-4 sm:p-5" aria-labelledby="artifact-problem-title">
+        <p class="font-mono text-[9px] font-bold uppercase tracking-[0.15em] text-brand-ember">01 / Operating reality</p>
+        <h2 id="artifact-problem-title" class="mt-2 text-xl font-semibold leading-tight tracking-[-0.025em] text-brand-ink">What must improve?</h2>
+        <ul class="mt-4 space-y-2 text-sm leading-snug text-neutral-600">
+          <li class="flex items-center gap-2"><span class="size-1.5 rounded-full bg-brand-orange"></span>People &amp; workflow</li>
+          <li class="flex items-center gap-2"><span class="size-1.5 rounded-full bg-brand-orange"></span>Equipment &amp; environment</li>
+          <li class="flex items-center gap-2"><span class="size-1.5 rounded-full bg-brand-orange"></span>Data &amp; constraints</li>
+        </ul>
+      </section>
+
+      <section data-artifact-part="engine" class="artifact-engine rounded-2xl bg-brand-ink p-4 text-white sm:p-5" aria-labelledby="artifact-engine-title">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <p class="font-mono text-[9px] font-bold uppercase tracking-[0.15em] text-brand-orange">02 / ELG diagnostic lens</p>
+            <h2 id="artifact-engine-title" class="mt-2 text-lg font-semibold tracking-tight">Find what the outcome actually requires.</h2>
+          </div>
+          <span class="grid size-9 shrink-0 place-items-center rounded-full border border-white/15 text-brand-orange" aria-hidden="true"><Icon name="gauge" size={18} /></span>
+        </div>
+
+        <ol class="mt-4 grid grid-cols-3 gap-1.5 text-center text-[10px] font-semibold leading-tight">
+          <li class="rounded-lg border border-white/15 px-1.5 py-2">Understand</li>
+          <li class="rounded-lg border border-white/15 px-1.5 py-2">Find bottleneck</li>
+          <li class="rounded-lg border border-white/15 px-1.5 py-2">Define outcome</li>
+        </ol>
+
+        <div class="mt-5 flex items-end justify-between gap-3">
+          <div>
+            <p class="font-mono text-[9px] font-bold uppercase tracking-[0.15em] text-neutral-400">03 / Full-stack ecosystem</p>
+            <p class="mt-1 text-xs text-neutral-400">Select a layer to inspect its role.</p>
+          </div>
+          <span class="font-mono text-[9px] text-brand-orange">ONE SYSTEM</span>
+        </div>
+
+        <div class="stack-scene mt-3" role="group" aria-label="Explore ELG engineering layers">
+          {LAYERS.map((layer, index) => (
+            <button
+              type="button"
+              class="stack-layer"
+              data-layer={layer.id}
+              data-label={layer.label}
+              data-detail={layer.detail}
+              aria-pressed={index === 0 ? 'true' : 'false'}
+              style={`--layer:${index}`}
+            >
+              <span class="grid size-7 place-items-center rounded-md bg-white/10 text-brand-orange" aria-hidden="true"><Icon name={layer.icon} size={15} /></span>
+              <span>{layer.label}</span>
+            </button>
+          ))}
+        </div>
+
+        <div class="mt-3 rounded-lg border border-white/15 bg-white/[0.06] px-3 py-2.5" aria-live="polite">
+          <p class="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-[#f08a4a]" data-stack-title>Hardware</p>
+          <p class="mt-1 text-xs leading-relaxed text-neutral-200" data-stack-detail>{LAYERS[0].detail}</p>
+        </div>
+      </section>
+
+      <section data-artifact-part="outcome" class="artifact-node rounded-xl border border-brand-orange/40 bg-white p-4 sm:p-5" aria-labelledby="artifact-outcome-title">
+        <p class="font-mono text-[9px] font-bold uppercase tracking-[0.15em] text-brand-ember">04 / Field outcome</p>
+        <h2 id="artifact-outcome-title" class="mt-2 text-xl font-semibold leading-tight tracking-[-0.025em] text-brand-ink">One reliable system.</h2>
+        <p class="mt-3 text-sm leading-relaxed text-neutral-600">One accountable engineering partner from physical signal to operational decision.</p>
+        <div class="mt-4 flex items-center gap-2 font-mono text-[9px] font-bold uppercase tracking-[0.12em] text-brand-ember">
+          <span class="size-2 rounded-full bg-brand-orange"></span>Built for the real world
+        </div>
+      </section>
+    </div>
+  </div>
+</figure>
+
+<style>
+  .artifact-canvas {
+    background-image:
+      linear-gradient(rgb(17 17 15 / 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(17 17 15 / 0.035) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+  .signal-map { display: none; }
+  .signal-track,
+  .signal-live {
+    fill: none;
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+  }
+  .signal-track { stroke: #d5d1c7; }
+  .signal-live {
+    stroke: #d95f16;
+    stroke-linecap: round;
+    stroke-dasharray: 0.01 1;
+    pathLength: 1;
+  }
+  .artifact-node,
+  .artifact-engine {
+    transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms ease;
+  }
+  .artifact-node:hover { transform: translateY(-3px); box-shadow: 0 18px 38px -30px rgb(17 17 15 / 0.5); }
+  .stack-scene {
+    position: relative;
+    height: 12.5rem;
+    perspective: 900px;
+    transform-style: preserve-3d;
+    pointer-events: none;
+  }
+  .stack-layer {
+    position: absolute;
+    left: calc(var(--layer) * 3.1%);
+    right: calc((5 - var(--layer)) * 2.2%);
+    top: calc(var(--layer) * 1.65rem);
+    z-index: calc(10 - var(--layer));
+    display: flex;
+    min-height: 2.8rem;
+    align-items: center;
+    gap: 0.6rem;
+    border: 1px solid rgb(255 255 255 / 0.18);
+    border-radius: 0.65rem;
+    padding: 0.55rem 0.7rem;
+    background: #1a1a17;
+    color: #d4d4d4;
+    font-family: "JetBrains Mono Variable", monospace;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-align: left;
+    text-transform: uppercase;
+    transform: rotateX(54deg) rotateZ(-3deg) translateZ(calc(var(--layer) * -2px));
+    transform-origin: center bottom;
+    transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), border-color 200ms ease, background-color 200ms ease, color 200ms ease;
+    cursor: pointer;
+    pointer-events: auto;
+  }
+  .stack-layer:hover,
+  .stack-layer:focus-visible,
+  .stack-layer[aria-pressed='true'] {
+    z-index: 20;
+    border-color: #d95f16;
+    background: #2b1a10;
+    color: white;
+    transform: rotateX(48deg) rotateZ(-1deg) translate3d(0, -8px, 22px);
+  }
+  .stack-layer:focus-visible { outline: 2px solid #f4f2ec; outline-offset: 2px; }
+  @media (min-width: 1024px) {
+    .signal-map { display: block; }
+    .artifact-story { min-height: 31rem; }
+  }
+  @media (max-width: 1023px) {
+    .stack-scene { height: auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; perspective: none; }
+    .stack-layer { position: static; min-height: 2.75rem; transform: none; }
+    .stack-layer:hover,
+    .stack-layer:focus-visible,
+    .stack-layer[aria-pressed='true'] { transform: translateY(-2px); }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .signal-live { animation: signal-travel 2.4s linear infinite; }
+  }
+  @keyframes signal-travel {
+    from { stroke-dashoffset: 0; }
+    to { stroke-dashoffset: -1; }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+
+  const artifact = document.getElementById('hero-system-artifact');
+  if (artifact) {
+    const buttons = artifact.querySelectorAll<HTMLButtonElement>('[data-layer]');
+    const title = artifact.querySelector<HTMLElement>('[data-stack-title]');
+    const detail = artifact.querySelector<HTMLElement>('[data-stack-detail]');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const activate = (button: HTMLButtonElement) => {
+      buttons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+      if (title) title.textContent = button.dataset.label || '';
+      if (detail) detail.textContent = button.dataset.detail || '';
+      if (!reduce && detail) gsap.fromTo(detail, { y: 5, autoAlpha: 0.55 }, { y: 0, autoAlpha: 1, duration: 0.28, ease: 'power2.out' });
+    };
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => activate(button));
+      button.addEventListener('pointerenter', () => activate(button));
+      button.addEventListener('focus', () => activate(button));
+    });
+
+    if (!reduce) {
+      const timeline = gsap.timeline({ defaults: { ease: 'power2.out' } });
+      timeline
+        .from(artifact.querySelector('[data-artifact-part="problem"]'), { x: -18, autoAlpha: 0, duration: 0.45 })
+        .from(artifact.querySelector('[data-artifact-part="engine"]'), { y: 16, autoAlpha: 0, duration: 0.5 }, 0.12)
+        .from(buttons, { y: 12, autoAlpha: 0, duration: 0.35, stagger: 0.055 }, 0.32)
+        .from(artifact.querySelector('[data-artifact-part="outcome"]'), { x: 18, autoAlpha: 0, duration: 0.45 }, 0.58);
+    }
+  }
+</script>
