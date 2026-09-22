@@ -25,6 +25,7 @@ const PIECES: { title: string; value: string; technical: string; icon: IconName;
         <span data-assembly-state>Scroll to assemble</span>
         <span class="hidden items-center gap-2 md:flex"><span class="size-1.5 rounded-full bg-brand-orange"></span> Problem to complete ecosystem</span>
       </div>
+      <div class="assembly-progress mb-5" aria-hidden="true"><span data-assembly-progress></span></div>
       <div class="puzzle-assembly relative rounded-2xl" data-puzzle-assembly>
       <ol class="puzzle-grid relative z-10 grid gap-3 md:grid-cols-3 md:gap-0" aria-label="Six connected ELG capability building blocks">
         {PIECES.map((piece, index) => (
@@ -104,7 +105,7 @@ const PIECES: { title: string; value: string; technical: string; icon: IconName;
     pointer-events: none;
   }
   .puzzle-assembly.is-complete::after {
-    animation: rim-flash 1.05s cubic-bezier(0.16, 1, 0.3, 1) 1;
+    animation: rim-flash 1.1s cubic-bezier(0.16, 1, 0.3, 1) 2;
   }
   @property --rim-angle {
     syntax: '<angle>';
@@ -113,9 +114,25 @@ const PIECES: { title: string; value: string; technical: string; icon: IconName;
   }
   @keyframes rim-circuit { to { --rim-angle: 360deg; } }
   @keyframes rim-flash {
-    0% { opacity: 0; transform: scale(0.985); box-shadow: 0 0 0 rgb(217 95 22 / 0); }
-    25% { opacity: 1; transform: scale(1.006); box-shadow: 0 0 34px rgb(217 95 22 / 0.9); }
-    100% { opacity: 0; transform: scale(1.018); box-shadow: 0 0 4px rgb(217 95 22 / 0); }
+    0% { opacity: 0; transform: scale(0.982); box-shadow: 0 0 0 rgb(217 95 22 / 0); }
+    22% { opacity: 1; transform: scale(1.008); box-shadow: 0 0 46px rgb(217 95 22 / 0.95); }
+    55% { opacity: 0.25; transform: scale(1.016); box-shadow: 0 0 10px rgb(217 95 22 / 0.25); }
+    78% { opacity: 1; transform: scale(1.004); box-shadow: 0 0 30px rgb(217 95 22 / 0.8); }
+    100% { opacity: 0; transform: scale(1.02); box-shadow: 0 0 4px rgb(217 95 22 / 0); }
+  }
+  .assembly-progress {
+    height: 3px;
+    border-radius: 999px;
+    background: #d5d1c7;
+    overflow: hidden;
+  }
+  .assembly-progress > span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #d95f16, #f2a35e);
+    transform: scaleX(0);
+    transform-origin: left center;
   }
 
   @media (min-width: 768px) {
@@ -179,12 +196,13 @@ const PIECES: { title: string; value: string; technical: string; icon: IconName;
   const section = document.getElementById('capability-system');
   if (section) {
     const media = gsap.matchMedia();
-    media.add('(prefers-reduced-motion: no-preference)', () => {
+    const buildAssembly = (isStickyStage: boolean) => {
       const pieces = section.querySelectorAll('[data-puzzle-piece]:not([data-final-piece])');
       const finalPiece = section.querySelector('[data-final-piece]');
       const icons = section.querySelectorAll('[data-puzzle-icon]');
       const assembly = section.querySelector('[data-puzzle-assembly]');
       const state = section.querySelector('[data-assembly-state]');
+      const progress = section.querySelector('[data-assembly-progress]');
       let complete = false;
       const setComplete = (next: boolean) => {
         if (complete === next) return;
@@ -192,12 +210,13 @@ const PIECES: { title: string; value: string; technical: string; icon: IconName;
         assembly?.classList.toggle('is-complete', next);
         if (state) state.textContent = next ? 'Connected: ecosystem complete' : 'Scroll to assemble';
       };
+      const spread = isStickyStage ? 1 : 0.55;
       const timeline = gsap.timeline({
         defaults: { ease: 'none' },
         scrollTrigger: {
-          trigger: section.querySelector('.capability-scroll-stage'),
-          start: 'top top+=64',
-          end: 'bottom bottom',
+          trigger: isStickyStage ? section.querySelector('.capability-scroll-stage') : section,
+          start: isStickyStage ? 'top top+=64' : 'top 85%',
+          end: isStickyStage ? 'bottom bottom' : 'center 45%',
           scrub: 0.9,
           invalidateOnRefresh: true,
           onUpdate: (self) => setComplete(self.progress > 0.975),
@@ -207,9 +226,17 @@ const PIECES: { title: string; value: string; technical: string; icon: IconName;
         },
       });
       timeline
-        .from(pieces, { x: (index) => index % 3 === 0 ? -180 : index % 3 === 2 ? 180 : index % 2 ? 42 : -42, y: (index) => index < 3 ? -115 : 115, rotation: (index) => index % 2 ? 7 : -7, scale: 0.84, stagger: 0.035 })
+        .from(pieces, { x: (index) => (index % 3 === 0 ? -230 : index % 3 === 2 ? 230 : index % 2 ? 60 : -60) * spread, y: (index) => (index < 3 ? -140 : 140) * spread, rotation: (index) => index % 2 ? 8 : -8, scale: 0.8, stagger: 0.035 })
         .from(icons, { rotation: -14, scale: 0.72, stagger: 0.035 }, 0.12);
-      if (finalPiece) timeline.from(finalPiece, { x: 240, y: 125, rotation: 10, scale: 0.72, ease: 'power2.out' }, 0.68);
+      if (finalPiece) timeline.from(finalPiece, { x: 260 * spread, y: 150 * spread, rotation: 11, scale: 0.68, ease: 'power2.out' }, 0.68);
+      if (progress) timeline.fromTo(progress, { scaleX: 0 }, { scaleX: 1, ease: 'none' }, 0);
+    };
+    media.add('(min-width: 1024px) and (min-height: 720px) and (prefers-reduced-motion: no-preference)', () => {
+      buildAssembly(true);
+    });
+    media.add('(prefers-reduced-motion: no-preference)', () => {
+      if (window.matchMedia('(min-width: 1024px) and (min-height: 720px)').matches) return;
+      buildAssembly(false);
     });
   }
 </script>
