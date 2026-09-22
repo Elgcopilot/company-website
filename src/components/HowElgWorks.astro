@@ -30,7 +30,7 @@ const STEPS: { number: string; title: string; text: string; icon: IconName }[] =
           <li data-how-piece style={`--i:${index}`} class:list={['process-piece relative min-h-52 border border-white/15 bg-brand-coal p-6', index === 0 && 'md:rounded-l-xl', index === STEPS.length - 1 && 'md:rounded-r-xl']}>
             <div class="relative z-10 flex h-full flex-col">
               <p class="font-mono text-[10px] font-bold tracking-[0.16em] text-brand-orange">{step.number}</p>
-              <div data-how-icon class="mt-6 grid size-11 shrink-0 place-items-center rounded-lg border border-white/15 bg-white/5 text-brand-orange" aria-hidden="true">
+              <div data-how-icon data-icon-kind={step.icon} class="step-icon mt-6 grid size-11 shrink-0 place-items-center rounded-lg border border-white/15 bg-white/5 text-brand-orange" aria-hidden="true">
                 <Icon name={step.icon} size={22} />
               </div>
               <h3 class="mt-4 text-xl font-semibold tracking-tight">{step.title}</h3>
@@ -69,14 +69,65 @@ const STEPS: { number: string; title: string; text: string; icon: IconName }[] =
     border-color: rgb(217 95 22 / 0.75);
     background: #171713;
   }
-  .process-piece:hover [data-how-icon] svg {
-    animation: icon-nudge 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  .step-icon {
+    transition: border-color 220ms ease-out, background-color 220ms ease-out;
   }
-  @keyframes icon-nudge {
-    0% { transform: translateY(0) rotate(0); }
-    35% { transform: translateY(-3px) rotate(-8deg); }
-    70% { transform: translateY(1px) rotate(5deg); }
-    100% { transform: translateY(0) rotate(0); }
+  .process-piece:hover .step-icon,
+  .process-piece:focus-within .step-icon {
+    border-color: rgb(217 95 22 / 0.65);
+    background: rgb(217 95 22 / 0.09);
+  }
+  .step-icon svg,
+  .step-icon svg * {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .step-icon.is-active[data-icon-kind='layers'] svg path:first-child {
+    animation: layers-rise 520ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .step-icon.is-active[data-icon-kind='layers'] svg path:last-child {
+    animation: layers-settle 520ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .step-icon.is-active[data-icon-kind='gauge'] svg path:nth-child(2) {
+    animation: gauge-sweep 560ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform-origin: 12px 15px;
+  }
+  .step-icon.is-active[data-icon-kind='box'] svg path:last-child {
+    animation: box-fold 520ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .step-icon.is-active[data-icon-kind='cog'] svg {
+    animation: cog-turn 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .step-icon.is-active[data-icon-kind='shield'] svg path:last-child {
+    stroke-dasharray: 12;
+    animation: check-draw 520ms ease-out;
+  }
+  @keyframes layers-rise {
+    0% { transform: translateY(3px); }
+    55% { transform: translateY(-3px); }
+    100% { transform: translateY(0); }
+  }
+  @keyframes layers-settle {
+    0% { transform: translateY(-2px); }
+    65% { transform: translateY(2px); }
+    100% { transform: translateY(0); }
+  }
+  @keyframes gauge-sweep {
+    0% { transform: rotate(-42deg); }
+    70% { transform: rotate(8deg); }
+    100% { transform: rotate(0); }
+  }
+  @keyframes box-fold {
+    0% { transform: scaleY(0.25); opacity: 0.25; }
+    100% { transform: scaleY(1); opacity: 1; }
+  }
+  @keyframes cog-turn {
+    0% { transform: rotate(-35deg) scale(0.88); }
+    100% { transform: rotate(0) scale(1); }
+  }
+  @keyframes check-draw {
+    from { stroke-dashoffset: 12; }
+    to { stroke-dashoffset: 0; }
   }
   @media (min-width: 768px) {
     .process-piece { margin: -0.5px; }
@@ -109,17 +160,14 @@ const STEPS: { number: string; title: string; text: string; icon: IconName }[] =
       transform: none;
       transition: none;
     }
-    .process-piece:hover [data-how-icon] svg {
-      animation: none;
+    .step-icon svg,
+    .step-icon svg * {
+      animation: none !important;
     }
   }
 </style>
 
 <script>
-  import gsap from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-  gsap.registerPlugin(ScrollTrigger);
   const section = document.getElementById('how-elg-works');
   if (section) {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -136,22 +184,25 @@ const STEPS: { number: string; title: string; text: string; icon: IconName }[] =
       );
       observer.observe(section);
 
-      // Scroll-linked icon micro-motion: icons drift and tilt gently
-      // as the section travels through the viewport (transform only).
-      const media = gsap.matchMedia();
-      media.add('(prefers-reduced-motion: no-preference)', () => {
-        const icons = section.querySelectorAll('[data-how-icon]');
-        gsap.fromTo(
-          icons,
-          { y: 7, rotation: -5 },
-          {
-            y: -7,
-            rotation: 5,
-            ease: 'none',
-            stagger: 0.03,
-            scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: 1.2 },
-          },
-        );
+      const icons = section.querySelectorAll<HTMLElement>('[data-how-icon]');
+      const playIcon = (icon: HTMLElement) => {
+        icon.classList.remove('is-active');
+        void icon.offsetWidth;
+        icon.classList.add('is-active');
+      };
+
+      // Each icon plays once as its step enters, then replays on pointer focus.
+      const iconObserver = new IntersectionObserver(
+        (entries) => entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          playIcon(entry.target as HTMLElement);
+          iconObserver.unobserve(entry.target);
+        }),
+        { threshold: 0.7 },
+      );
+      icons.forEach((icon) => {
+        iconObserver.observe(icon);
+        icon.closest('[data-how-piece]')?.addEventListener('pointerenter', () => playIcon(icon));
       });
     }
   }
