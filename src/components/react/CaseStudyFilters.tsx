@@ -57,8 +57,11 @@ export default function CaseStudyFilters({ items }: { items: HubCard[] }) {
         ? 'border-brand-ink bg-brand-ink text-white shadow-sm'
         : 'border-brand-line bg-white text-neutral-600 hover:border-brand-ink hover:text-brand-ink'
     }`;
+  const cardImage = (src: string) => src.includes('/images/case-studies/field/')
+    ? src.replace(/\/[^/]+$/, '/card.webp')
+    : src;
   return (
-    <div data-reveal>
+    <div data-static-list>
       <div className="rounded-2xl border border-brand-line bg-white p-4 sm:p-5">
         <div className="grid gap-4 md:grid-cols-2">
           <div>
@@ -102,11 +105,12 @@ export default function CaseStudyFilters({ items }: { items: HubCard[] }) {
         </div>
       ) : (
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <h2 className="sr-only">Case studies</h2>
           {filtered.map((c) => (
             <article key={c.slug} className="group flex h-full flex-col overflow-hidden rounded-2xl border border-brand-line bg-white transition-all duration-300 hover:-translate-y-1 hover:border-brand-ink/20 hover:shadow-[0_24px_48px_-24px_rgb(0_0_0/0.25)]">
-              <a href={`/case-studies/${c.slug}`} className="flex h-full flex-col" aria-label={`Read case study: ${c.title}`}>
+              <a href={`/case-studies/${c.slug}`} className="flex h-full flex-col">
                 <div className="relative aspect-[16/9] overflow-hidden bg-brand-mist">
-                  <img src={c.featuredImage} alt={c.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]" />
+                  <img src={cardImage(c.featuredImage)} alt={c.title} loading="lazy" decoding="async" className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]" />
                   <span className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true" />
                   {c.isPlaceholderImage && (
                     <span className="absolute left-3 top-3 rounded-lg bg-brand-ink/85 px-2 py-1 text-[11px] font-medium text-white">[Placeholder Asset]</span>
@@ -124,7 +128,7 @@ export default function CaseStudyFilters({ items }: { items: HubCard[] }) {
                   <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-neutral-600">{c.subtitle}</p>
                   {c.environmentConstraints.length > 0 && (
                     <p className="mt-3 font-mono text-[11px] leading-relaxed text-neutral-500">
-                      <span className="font-semibold text-neutral-400">Field:</span> {c.environmentConstraints.slice(0, 2).join(' · ')}
+                      <span className="font-semibold text-neutral-600">Field:</span> {c.environmentConstraints.slice(0, 2).join(' · ')}
                     </p>
                   )}
                   <p className="mt-4 flex items-center justify-between border-t border-brand-line pt-4 text-sm">

@@ -16,6 +16,12 @@ const entry = all.find((s) => s.slug === slug)!;
 const { Content } = await entry.render();
 const d = entry.data;
 const modName = (m: string) => CAPABILITY_MODULES.find((c) => c.slug === m)?.name ?? m;
+const galleryImages = d.galleryFolder && d.galleryCount
+  ? Array.from({ length: d.galleryCount }, (_, index) => `${d.galleryFolder}/${String(index + 1).padStart(2, '0')}.jpg`)
+  : d.galleryImages;
+const galleryThumb = (src: string) => src.includes('/images/case-studies/field/')
+  ? src.replace(/\/([^/]+)$/, '/thumbs/$1')
+  : src;
 const related = all.filter((s) => s.slug !== slug && (s.data.industry === d.industry || s.data.projectType === d.projectType)).slice(0, 3);
 const relatedFill = related.length >= 3 ? related : [...related, ...all.filter((s) => s.slug !== slug && !related.includes(s))].slice(0, 3);
 ---
@@ -60,32 +66,31 @@ const relatedFill = related.length >= 3 ? related : [...related, ...all.filter((
     <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
       <div class="flex flex-wrap items-end justify-between gap-3" data-reveal>
         <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-400">
-          Field gallery — {d.galleryImages.length > 0 ? `${d.galleryImages.length} photos` : 'photos'} from the deployment
+          Field gallery — {galleryImages.length > 0 ? `${galleryImages.length} photos` : 'photos'} from the deployment
         </p>
-        {d.galleryImages.length > 1 && (
+        {galleryImages.length > 1 && (
           <p class="font-mono text-[11px] text-neutral-400">Select any frame below to inspect</p>
         )}
       </div>
-      {d.galleryImages.length > 0 ? (
+      {galleryImages.length > 0 ? (
         <div class="gallery-viewer mt-5" data-reveal data-gallery="1">
           <div class="gallery-stage relative h-[62vh] min-h-[420px] max-h-[760px] overflow-hidden rounded-2xl border border-white/10 bg-black sm:h-[68vh]">
-            {d.galleryImages.map((src, i) => (
-              <img
-                src={src}
-                alt={`Field evidence ${String(i + 1).padStart(2, '0')} — ${d.clientPartner ?? d.title}`}
-                loading={i === 0 ? 'eager' : 'lazy'}
-                class="gallery-main absolute inset-0 h-full w-full object-contain"
-                data-main={i}
-                style={i === 0 ? undefined : 'display:none'}
-              />
-            ))}
+            <img
+              src={galleryImages[0]}
+              alt={`Field evidence 01 — ${d.clientPartner ?? d.title}`}
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+              class="gallery-main absolute inset-0 h-full w-full object-contain"
+              data-main
+            />
             {/* Contrast scrim: stronger at bottom for metric pills, soft at top */}
             <span class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-black/25" aria-hidden="true"></span>
             {d.isPlaceholderImage && (
               <span class="absolute left-4 top-4 rounded-lg bg-brand-ink/85 px-2.5 py-1 text-[11px] font-medium text-white">[Placeholder Asset] Production photography lands here.</span>
             )}
             <span class="pointer-events-none absolute left-4 top-4 flex items-center gap-3 font-mono text-[11px] text-white">
-              <span class="rounded-lg bg-brand-ember px-2 py-1 font-bold drop-shadow" data-count>01 / {String(d.galleryImages.length).padStart(2, '0')}</span>
+              <span class="rounded-lg bg-brand-ember px-2 py-1 font-bold drop-shadow" data-count>01 / {String(galleryImages.length).padStart(2, '0')}</span>
               <span class="max-w-[60vw] truncate rounded-lg bg-black/55 px-2.5 py-1 backdrop-blur">{d.clientPartner ?? d.title}</span>
             </span>
             {d.metrics.length > 0 && (
@@ -109,16 +114,18 @@ const relatedFill = related.length >= 3 ? related : [...related, ...all.filter((
           ))}
         </dl>
       )}
-      {d.galleryImages.length > 1 && (
+      {galleryImages.length > 1 && (
         <div class="mt-3 flex gap-3 overflow-x-auto pb-1" role="group" aria-label="Choose a field photo">
-          {d.galleryImages.map((src, i) => (
+          {galleryImages.map((src, i) => (
             <button
               type="button"
               data-thumb={i}
+              data-src={src}
+              data-alt={`Field evidence ${String(i + 1).padStart(2, '0')} — ${d.clientPartner ?? d.title}`}
               class="gallery-thumb relative block h-16 w-24 shrink-0 cursor-pointer overflow-hidden rounded-lg border border-white/15 transition-all duration-200 ease-crisp sm:h-[72px] sm:w-28"
               aria-pressed={i === 0 ? 'true' : 'false'}
             >
-              <img src={src} alt="" aria-hidden="true" tabindex="-1" loading="lazy" class="pointer-events-none h-full w-full object-cover" />
+              <img src={galleryThumb(src)} alt="" aria-hidden="true" tabindex="-1" loading="lazy" decoding="async" class="pointer-events-none h-full w-full object-cover" />
               <span class="pointer-events-none absolute bottom-1 left-1 rounded bg-black/60 px-1.5 py-0.5 font-mono text-[9px] font-bold text-white">{String(i + 1).padStart(2, '0')}</span>
             </button>
           ))}
@@ -143,16 +150,17 @@ const relatedFill = related.length >= 3 ? related : [...related, ...all.filter((
       // the active thumb and updates the counter. Instant swap, motion-safe.
       (function () {
         document.querySelectorAll('[data-gallery]').forEach(function (viewer) {
-          var mains = viewer.querySelectorAll('[data-main]');
+          var main = viewer.querySelector('[data-main]');
           var thumbs = viewer.querySelectorAll('[data-thumb]');
           var count = viewer.querySelector('[data-count]');
-          var total = String(mains.length).padStart(2, '0');
+          var total = String(thumbs.length).padStart(2, '0');
           thumbs.forEach(function (btn) {
             btn.addEventListener('click', function () {
               var idx = btn.getAttribute('data-thumb');
-              mains.forEach(function (img, i) {
-                img.style.display = String(i) === idx ? 'block' : 'none';
-              });
+              if (main) {
+                main.setAttribute('src', btn.getAttribute('data-src') || '');
+                main.setAttribute('alt', btn.getAttribute('data-alt') || '');
+              }
               thumbs.forEach(function (t) {
                 var on = t.getAttribute('data-thumb') === idx;
                 t.setAttribute('aria-pressed', on ? 'true' : 'false');

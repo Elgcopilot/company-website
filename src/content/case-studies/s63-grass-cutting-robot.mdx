@@ -1,49 +1,57 @@
 ---
-title: "S63 Project — Tera Tail Back-Light Control Board"
-subtitle: "Custom rear-light control for race machines — high-brightness tail control proven at track speed."
+title: "S63 Motorsport Telemetry Platform"
+subtitle: "Vehicle telemetry, live video, and trackside diagnostics developed and proven in competition."
 clientPartner: "S63 Project"
 industry: "Automotive & Motorsport"
-projectType: "Custom Hardware Board"
-capabilityModules: ["embedded-linux", "rtos-firmware"]
+projectType: "Mission-Critical Telemetry"
+capabilityModules: ["rtos-firmware", "iot-connectivity", "embedded-linux", "cloud-backend", "ux-ui"]
 status: "Field Deployed"
 environmentConstraints:
-  - "High vibration at race speed"
-  - "Outdoor rain, dust, and heat"
-  - "12V vehicle power with load-dump transients"
+  - "High vibration and heat at race pace"
+  - "Crowded trackside radio environment"
+  - "Fast installation and troubleshooting between sessions"
+  - "Live data required by engineers in the pit"
 deliverables:
-  - "Tera tail back-light control board"
-  - "High-brightness LED drive with race-day visibility tuning"
-  - "Rugged wiring and trackside installation support"
+  - "Vehicle data acquisition and GPS integration"
+  - "Trackside connectivity and live video"
+  - "Telemetry monitoring dashboard"
+  - "Race-day installation and engineering support"
 metrics:
-  - label: "Visibility"
+  - label: "Operating environment"
     value: "Race-proven"
-    subtext: "Tail-light conspicuity at competition speed."
+    subtext: "Used during live competition sessions."
     verified: false
-featuredImage: "/images/case-studies/pdf/s63-grass-cutting-robot-top.jpg"
+  - label: "Engineering view"
+    value: "Live telemetry"
+    subtext: "Vehicle status available trackside."
+    verified: false
+featuredImage: "/images/case-studies/field/s63-grass-cutting-robot/01.jpg"
 isPlaceholderImage: false
-galleryImages:
-  - "/images/case-studies/pdf/s63-grass-cutting-robot-top.jpg"
-  - "/images/case-studies/pdf/s63-grass-cutting-robot-main-v2.jpg"
-  - "/images/case-studies/pdf/s63-grass-cutting-robot-bottom.jpg"
-  - "/images/case-studies/pdf/s63-grass-cutting-robot-4.jpg"
-  - "/images/case-studies/pdf/s63-grass-cutting-robot-5.jpg"
+galleryFolder: "/images/case-studies/field/s63-grass-cutting-robot"
+galleryCount: 10
 publishedAt: 2024-12-01
-isFeatured: false
+isFeatured: true
 architectureLayers:
   - layerName: "Physical & Sensors"
-    description: "Custom tail-light control board with high-current LED drive."
+    description: "Vehicle-side acquisition hardware connected to race-car signals and GPS."
+  - layerName: "Firmware & Real-Time OS"
+    description: "Deterministic sampling and local health monitoring during sessions."
   - layerName: "Embedded Linux & Edge Logic"
-    description: "Trackside-proven control behavior tuned for race visibility."
+    description: "Trackside buffering, diagnostics, and live stream preparation."
+  - layerName: "Cloud Ingestion & Analytics"
+    description: "Telemetry transport and storage for live and post-session analysis."
+  - layerName: "Mission Control & HMI"
+    description: "Engineer-facing monitoring for vehicle status, video, and diagnostics."
 ---
 
 ## The engineering challenge
 
-A race machine's tail light is a safety system: at closing speeds on a wet track, the rider behind must see braking and running states instantly. The S63 project's Tera tail needed a control board that drives high-brightness LEDs reliably through vibration, rain, and noisy 12V vehicle power.
+Race engineering decisions happen under time pressure. The S63 program needed vehicle data, GPS, video, and diagnostics to remain visible to the pit team despite vibration, heat, and crowded trackside connectivity.
 
 ## What ELG engineered
 
-ELG designed the Tera tail back-light control board — power conditioning for vehicle transients, high-current LED drive stages, and control behavior tuned for maximum conspicuity at speed. Trackside photos show the lit tail assembly and the finished board installed on the machine.
+ELG integrated the vehicle-side acquisition hardware, embedded software, communications, and monitoring interfaces into one trackside telemetry platform. The system was installed, tested, and supported during live competition sessions.
 
 ## Why it matters to your business
 
-Small rugged control boards are ELG's bread and butter: power-tolerant design, bright outputs, and installation that survives the field. If your product needs to be seen — or to signal — in harsh conditions, this is the pattern.
+The same architecture applies anywhere a moving machine must report reliable data through difficult conditions: capture locally, preserve context, communicate resiliently, and give operators one clear view.

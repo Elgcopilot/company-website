@@ -64,9 +64,11 @@ const caseStudies = defineCollection({
     metrics: z.array(metricSchema),
     featuredImage: z.string(),
     isPlaceholderImage: z.boolean().default(false),
-    // Extra field photos (min 3 per case incl. featuredImage). Shown in the
-    // detail-page evidence gallery; first entry should repeat featuredImage.
+    // Field photos can be listed explicitly or generated from a normalized
+    // project directory containing sequential 01.jpg, 02.jpg, etc. files.
     galleryImages: z.array(z.string()).default([]),
+    galleryFolder: z.string().optional(),
+    galleryCount: z.number().int().positive().optional(),
     publishedAt: z.date(),
     isFeatured: z.boolean().default(false),
     // Overview-level layer descriptions only — never per-client internals.

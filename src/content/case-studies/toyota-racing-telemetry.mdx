@@ -1,0 +1,57 @@
+---
+title: "Toyota Racing Telemetry & Driver Monitoring"
+subtitle: "Trackside vehicle data and driver monitoring for live race operations and engineering review."
+clientPartner: "Toyota Gazoo Racing Thailand"
+industry: "Automotive & Motorsport"
+projectType: "Mission-Critical Telemetry"
+capabilityModules: ["rtos-firmware", "iot-connectivity", "embedded-linux", "cloud-backend", "ux-ui"]
+status: "Field Deployed"
+environmentConstraints:
+  - "Live motorsport operations"
+  - "Multiple cars active in one session"
+  - "Vehicle vibration, heat, and electrical noise"
+  - "Trackside teams need immediate data"
+deliverables:
+  - "Vehicle telemetry acquisition"
+  - "Driver and vehicle monitoring dashboard"
+  - "Trackside communications and data services"
+  - "Race-day setup and engineering support"
+metrics:
+  - label: "Operating model"
+    value: "Multi-car"
+    subtext: "Live monitoring across active race vehicles."
+    verified: false
+  - label: "Deployment"
+    value: "Trackside"
+    subtext: "Configured and supported during race operations."
+    verified: false
+featuredImage: "/images/case-studies/field/toyota-racing-telemetry/01.jpg"
+isPlaceholderImage: false
+galleryFolder: "/images/case-studies/field/toyota-racing-telemetry"
+galleryCount: 26
+publishedAt: 2024-11-20
+isFeatured: true
+architectureLayers:
+  - layerName: "Physical & Sensors"
+    description: "Vehicle interfaces and sensors capture race-car and driver signals."
+  - layerName: "Firmware & Real-Time OS"
+    description: "Time-aligned acquisition keeps live measurements coherent."
+  - layerName: "Embedded Linux & Edge Logic"
+    description: "Local diagnostics and buffering support trackside operation."
+  - layerName: "Cloud Ingestion & Analytics"
+    description: "Session data is transported and organized for live and post-race review."
+  - layerName: "Mission Control & HMI"
+    description: "Dashboards give engineers a clear multi-car operational view."
+---
+
+## The engineering challenge
+
+Race teams need useful information while cars are moving, not after the session. The system had to collect vehicle and driver signals across multiple cars and keep engineers informed in a demanding trackside environment.
+
+## What ELG engineered
+
+ELG integrated data acquisition, embedded processing, connectivity, and monitoring dashboards into a trackside system used during Toyota racing operations. The field work included installation, configuration, and live engineering support.
+
+## Why it matters to your business
+
+This is the same full-stack pattern needed for any fleet of high-value machines: reliable capture at the edge, resilient communications, and one interface for immediate operational decisions.

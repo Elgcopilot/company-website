@@ -248,7 +248,7 @@ const isCurrent = (href: string) => pathname.startsWith(href);
         sections.forEach((section) => {
           const heading = section.querySelector('h2');
           const items = Array.from(section.querySelectorAll<HTMLElement>('[data-motion-item], article, figure, ol > li, ul > li'))
-            .filter((item) => !item.closest('#capability-system, #how-elg-works'))
+            .filter((item) => !item.closest('#capability-system, #how-elg-works, [data-static-list]'))
             .slice(0, 8);
           if (heading) gsap.from(heading, { y: 14, autoAlpha: 0, duration: 0.55, ease: 'power2.out', scrollTrigger: { trigger: section, start: 'top 88%', once: true } });
           if (items.length) gsap.from(items, { y: 10, autoAlpha: 0, duration: 0.4, stagger: 0.045, ease: 'power1.out', scrollTrigger: { trigger: section, start: 'top 82%', once: true } });
