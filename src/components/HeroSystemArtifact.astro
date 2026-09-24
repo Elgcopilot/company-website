@@ -57,9 +57,13 @@ const LAYERS: { label: string; role: string; icon: IconName }[] = [
 
 <style>
   .signal-board {
-    --marker: 2rem;
+    --board-x: 1.25rem;
+    --board-y: 1.5rem;
+    --marker: 1.75rem;
     --gutter: 1.25rem;
-    --spine-x: calc(var(--gutter) + var(--marker) / 2);
+    --step: 2.9rem;
+    --rail-x: calc(var(--board-x) + var(--gutter) + var(--marker) / 2);
+    --rail-end: calc(var(--board-y) + var(--step) / 2);
     background-image:
       linear-gradient(rgb(17 17 15 / 0.028) 1px, transparent 1px),
       linear-gradient(90deg, rgb(17 17 15 / 0.028) 1px, transparent 1px);
@@ -68,18 +72,18 @@ const LAYERS: { label: string; role: string; icon: IconName }[] = [
   .spine,
   .pulse {
     position: absolute;
-    left: calc(1.25rem + var(--spine-x));
+    left: var(--rail-x);
     transform: translateX(-50%);
   }
   .spine {
-    top: 2.6rem;
-    bottom: 2.6rem;
+    top: var(--rail-end);
+    bottom: var(--rail-end);
     width: 2px;
     border-radius: 999px;
     background: linear-gradient(#e2ded4, #d5d1c7);
   }
   .pulse {
-    top: 2.6rem;
+    top: var(--rail-end);
     z-index: 0;
     width: 0.55rem;
     height: 0.55rem;
@@ -95,22 +99,36 @@ const LAYERS: { label: string; role: string; icon: IconName }[] = [
     grid-template-columns: var(--marker) 1fr;
     align-items: center;
     gap: 0.75rem;
+    min-height: var(--step);
     padding-left: var(--gutter);
   }
   .cap-dot {
+    display: grid;
     justify-self: center;
-    width: 0.7rem;
-    height: 0.7rem;
+    width: 1.75rem;
+    height: 1.75rem;
+    place-items: center;
+    border: 1px solid #e0dcd2;
+    border-radius: 999px;
+    background: white;
+  }
+  .cap-dot::after {
+    content: '';
+    width: 0.55rem;
+    height: 0.55rem;
     border-radius: 999px;
   }
-  .cap-dot-start {
+  .cap-dot-start::after {
     border: 2px solid #b4aea1;
     background: white;
   }
   .cap-dot-end {
-    border: 2px solid #d95f16;
+    border-color: rgb(217 95 22 / 0.35);
+    background: #fff8f1;
+  }
+  .cap-dot-end::after {
     background: #d95f16;
-    box-shadow: 0 0 0 5px rgb(217 95 22 / 0.12);
+    box-shadow: 0 0 0 4px rgb(217 95 22 / 0.12);
   }
   .cap-text {
     font-size: 1.02rem;
@@ -122,8 +140,8 @@ const LAYERS: { label: string; role: string; icon: IconName }[] = [
   .scope {
     position: relative;
     z-index: 1;
-    margin: 0.85rem 0;
-    padding: 0.55rem 0;
+    margin: 0;
+    padding: 0;
   }
   .scope::before {
     content: '';
@@ -160,7 +178,7 @@ const LAYERS: { label: string; role: string; icon: IconName }[] = [
     grid-template-columns: var(--marker) 1fr auto;
     align-items: center;
     gap: 0.75rem;
-    min-height: 2.9rem;
+    min-height: var(--step);
     padding-left: var(--gutter);
     padding-right: 0.9rem;
     border-radius: 0.65rem;
@@ -201,21 +219,23 @@ const LAYERS: { label: string; role: string; icon: IconName }[] = [
   }
   .layer-row:hover .row-role { color: #9f3f0c; }
   @media (max-width: 480px) {
-    .signal-board { --marker: 1.75rem; --gutter: 0.75rem; }
+    .signal-board { --gutter: 0.75rem; --step: 2.7rem; }
     .cap-text { font-size: 0.94rem; }
     .row-label { font-size: 0.88rem; }
     .row-role { font-size: 0.55rem; letter-spacing: 0.1em; }
-    .layer-row { min-height: 2.7rem; }
+  }
+  @media (min-width: 640px) {
+    .signal-board { --board-x: 1.5rem; }
   }
   @media (prefers-reduced-motion: no-preference) {
     .pulse { animation: pulse-travel 4.2s cubic-bezier(0.45, 0, 0.55, 1) infinite; }
     .row-icon { animation: row-charge 4.2s linear infinite; animation-delay: calc(var(--i) * 0.6s + 0.6s); }
   }
   @keyframes pulse-travel {
-    0% { top: 2.6rem; opacity: 0; }
+    0% { top: var(--rail-end); opacity: 0; }
     8% { opacity: 1; }
     92% { opacity: 1; }
-    100% { top: calc(100% - 2.6rem); opacity: 0; }
+    100% { top: calc(100% - var(--rail-end)); opacity: 0; }
   }
   @keyframes row-charge {
     0% { border-color: #e0dcd2; background: white; color: #d95f16; }
