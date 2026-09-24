@@ -59,9 +59,8 @@ const relatedFill = related.length >= 3 ? related : [...related, ...all.filter((
       </dl>
     </div>
   </section>
-  <!-- Field-gallery hero: main viewer + thumb strip replaces the old static
-       hero photo — visitors browse all project photos without scrolling.
-       Overlay text uses scrim + glass pills for contrast on any photo. -->
+  <!-- Field gallery: the photo remains unobstructed while project metrics sit
+       in their own row below the viewer. -->
   <section class="bg-brand-coal" aria-label="Field gallery">
     <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
       <div class="flex flex-wrap items-end justify-between gap-3" data-reveal>
@@ -84,8 +83,8 @@ const relatedFill = related.length >= 3 ? related : [...related, ...all.filter((
               class="gallery-main absolute inset-0 h-full w-full object-contain"
               data-main
             />
-            {/* Contrast scrim: stronger at bottom for metric pills, soft at top */}
-            <span class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-black/25" aria-hidden="true"></span>
+            {/* A small top fade supports the compact labels without dimming the photo. */}
+            <span class="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/45 to-transparent" aria-hidden="true"></span>
             {d.isPlaceholderImage && (
               <span class="absolute left-4 top-4 rounded-lg bg-brand-ink/85 px-2.5 py-1 text-[11px] font-medium text-white">[Placeholder Asset] Production photography lands here.</span>
             )}
@@ -93,27 +92,17 @@ const relatedFill = related.length >= 3 ? related : [...related, ...all.filter((
               <span class="rounded-lg bg-brand-ember px-2 py-1 font-bold drop-shadow" data-count>01 / {String(galleryImages.length).padStart(2, '0')}</span>
               <span class="max-w-[60vw] truncate rounded-lg bg-black/55 px-2.5 py-1 backdrop-blur">{d.clientPartner ?? d.title}</span>
             </span>
-            {d.metrics.length > 0 && (
-              <div class="absolute inset-x-0 bottom-0 hidden gap-3 p-5 font-mono sm:grid sm:grid-cols-3 sm:p-6">
-                {d.metrics.slice(0, 3).map((m) => (
-                  <div class="rounded-xl border border-white/20 bg-black/55 px-4 py-3 shadow-[0_8px_24px_-12px_rgb(0_0_0/0.8)] backdrop-blur-md">
-                    <p class="text-lg font-bold tracking-tight text-white drop-shadow">{m.value}{!m.verified && <span class="text-brand-orange" aria-hidden="true">*</span>}</p>
-                    <p class="mt-0.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-neutral-200">{m.label}</p>
-                  </div>
-                ))}
-              </div>
-            )}
           </div>
-      {d.metrics.length > 0 && (
-        <dl class="mt-4 grid grid-cols-1 gap-3 font-mono sm:hidden">
-          {d.metrics.slice(0, 3).map((m) => (
-            <div class="rounded-xl border border-white/15 bg-white/[0.04] px-4 py-3">
-              <dd class="text-lg font-bold tracking-tight text-white">{m.value}{!m.verified && <span class="text-brand-orange" aria-hidden="true">*</span>}</dd>
-              <dt class="mt-0.5 text-[10px] uppercase tracking-[0.16em] text-neutral-400">{m.label}</dt>
-            </div>
-          ))}
-        </dl>
-      )}
+          {d.metrics.length > 0 && (
+            <dl class:list={['mt-4 grid gap-3 font-mono', d.metrics.length === 1 ? 'grid-cols-1' : 'sm:grid-cols-2', d.metrics.length >= 3 && 'lg:grid-cols-3']}>
+              {d.metrics.slice(0, 3).map((m) => (
+                <div class="rounded-xl border border-white/15 bg-white/[0.045] px-4 py-3 sm:px-5 sm:py-4">
+                  <dd class="text-lg font-bold tracking-tight text-white">{m.value}{!m.verified && <span class="text-brand-orange" aria-hidden="true">*</span>}</dd>
+                  <dt class="mt-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-neutral-400">{m.label}</dt>
+                </div>
+              ))}
+            </dl>
+          )}
       {galleryImages.length > 1 && (
         <div class="mt-3 flex gap-3 overflow-x-auto pb-1" role="group" aria-label="Choose a field photo">
           {galleryImages.map((src, i) => (
