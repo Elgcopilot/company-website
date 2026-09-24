@@ -10,6 +10,98 @@ const PIECES: { title: string; value: string; technical: string; icon: IconName;
   { title: 'Clear control for people', value: 'Turns complex operations into interfaces teams can understand and use.', technical: 'UX, UI & HMI', icon: 'screen' },
   { title: 'One shared operational view', value: 'Completes the system with live data, history, alerts, and remote access.', technical: 'Cloud Platform', icon: 'cloud', final: true },
 ];
+
+type PuzzleTab = -1 | 0 | 1;
+interface PuzzleEdge {
+  tab: PuzzleTab;
+  center?: number;
+}
+interface PuzzleShape {
+  top: PuzzleEdge;
+  right: PuzzleEdge;
+  bottom: PuzzleEdge;
+  left: PuzzleEdge;
+}
+
+const PUZZLE_SIZE = 100;
+const PUZZLE_CORNER = 12;
+const PUZZLE_NECK = 7;
+const PUZZLE_BULB = 8;
+const PUZZLE_DEPTH = 11;
+
+const formatPoint = (value: number) => Number(value.toFixed(2));
+
+function jigsawEdge(x1: number, y1: number, x2: number, y2: number, edge: PuzzleEdge): string {
+  if (edge.tab === 0) return `L ${x2} ${y2}`;
+
+  const center = edge.center ?? 50;
+  const dx = x2 - x1;
+  const dy = y2 - y1;
+  const length = Math.hypot(dx, dy);
+  const ux = dx / length;
+  const uy = dy / length;
+  const nx = -uy;
+  const ny = ux;
+  const cx = x1 + (dx * center) / 100;
+  const cy = y1 + (dy * center) / 100;
+  const side = edge.tab;
+  const sweep = side < 0 ? 1 : 0;
+  const neckStartX = formatPoint(cx - ux * PUZZLE_NECK);
+  const neckStartY = formatPoint(cy - uy * PUZZLE_NECK);
+  const lobeStartX = formatPoint(cx - ux * PUZZLE_BULB + nx * side * PUZZLE_DEPTH);
+  const lobeStartY = formatPoint(cy - uy * PUZZLE_BULB + ny * side * PUZZLE_DEPTH);
+  const lobeEndX = formatPoint(cx + ux * PUZZLE_BULB + nx * side * PUZZLE_DEPTH);
+  const lobeEndY = formatPoint(cy + uy * PUZZLE_BULB + ny * side * PUZZLE_DEPTH);
+  const neckEndX = formatPoint(cx + ux * PUZZLE_NECK);
+  const neckEndY = formatPoint(cy + uy * PUZZLE_NECK);
+
+  return [
+    `L ${neckStartX} ${neckStartY}`,
+    `C ${formatPoint(neckStartX + ux * 2.2 + nx * side * 2)} ${formatPoint(neckStartY + uy * 2.2 + ny * side * 2)}`,
+    `${formatPoint(lobeStartX - ux * 2.8 + nx * side * 2.8)} ${formatPoint(lobeStartY - uy * 2.8 + ny * side * 2.8)}`,
+    `${lobeStartX} ${lobeStartY}`,
+    `A ${PUZZLE_BULB} ${PUZZLE_BULB} 0 0 ${sweep} ${lobeEndX} ${lobeEndY}`,
+    `C ${formatPoint(lobeEndX + ux * 2.8 + nx * side * 2.8)} ${formatPoint(lobeEndY + uy * 2.8 + ny * side * 2.8)}`,
+    `${formatPoint(neckEndX - ux * 2.2 + nx * side * 2)} ${formatPoint(neckEndY - uy * 2.2 + ny * side * 2)}`,
+    `${neckEndX} ${neckEndY}`,
+    `L ${x2} ${y2}`,
+  ].join(' ');
+}
+
+function puzzlePath(shape: PuzzleShape): string {
+  const edge = PUZZLE_SIZE - PUZZLE_CORNER;
+  return [
+    `M ${PUZZLE_CORNER} 0`,
+    jigsawEdge(PUZZLE_CORNER, 0, edge, 0, shape.top),
+    `Q ${PUZZLE_SIZE} 0 ${PUZZLE_SIZE} ${PUZZLE_CORNER}`,
+    jigsawEdge(PUZZLE_SIZE, PUZZLE_CORNER, PUZZLE_SIZE, edge, shape.right),
+    `Q ${PUZZLE_SIZE} ${PUZZLE_SIZE} ${edge} ${PUZZLE_SIZE}`,
+    jigsawEdge(edge, PUZZLE_SIZE, PUZZLE_CORNER, PUZZLE_SIZE, shape.bottom),
+    `Q 0 ${PUZZLE_SIZE} 0 ${edge}`,
+    jigsawEdge(0, edge, 0, PUZZLE_CORNER, shape.left),
+    `Q 0 0 ${PUZZLE_CORNER} 0`,
+    'Z',
+  ].join(' ');
+}
+
+const straight: PuzzleEdge = { tab: 0 };
+// Desktop 3×2 edges use shared connector centers so tabs and dents align.
+const DESKTOP_SHAPES: PuzzleShape[] = [
+  { top: straight, right: { tab: -1, center: 38 }, bottom: { tab: -1, center: 62 }, left: straight },
+  { top: straight, right: { tab: -1, center: 62 }, bottom: { tab: 1, center: 38 }, left: { tab: 1, center: 62 } },
+  { top: straight, right: straight, bottom: { tab: -1, center: 62 }, left: { tab: 1, center: 38 } },
+  { top: { tab: 1, center: 38 }, right: { tab: -1, center: 62 }, bottom: straight, left: straight },
+  { top: { tab: -1, center: 62 }, right: { tab: 1, center: 38 }, bottom: straight, left: { tab: 1, center: 38 } },
+  { top: { tab: 1, center: 38 }, right: straight, bottom: straight, left: { tab: -1, center: 62 } },
+];
+// Mobile single-column edges form one vertical interlocking chain.
+const MOBILE_JOINTS = [38, 62, 45, 58, 42];
+const MOBILE_SHAPES: PuzzleShape[] = PIECES.map((_, index) => ({
+  top: index === 0 ? straight : { tab: 1, center: 100 - MOBILE_JOINTS[index - 1] },
+  right: straight,
+  bottom: index === PIECES.length - 1 ? straight : { tab: -1, center: MOBILE_JOINTS[index] },
+  left: straight,
+}));
 ---
 
 <section id="capability-system" class="overflow-visible bg-brand-paper" aria-labelledby="capabilities-title">
@@ -27,17 +119,32 @@ const PIECES: { title: string; value: string; technical: string; icon: IconName;
       </div>
       <div class="assembly-progress mb-5" aria-hidden="true"><span data-assembly-progress></span></div>
       <div class="puzzle-assembly relative rounded-2xl" data-puzzle-assembly>
-      <ol class="puzzle-grid relative z-10 grid gap-3 md:grid-cols-3 md:gap-0" aria-label="Six connected ELG capability building blocks">
+      <ol class="puzzle-grid relative z-10 grid gap-0" aria-label="Six connected ELG capability building blocks">
         {PIECES.map((piece, index) => (
           <li
             data-puzzle-piece
             data-final-piece={piece.final ? '' : undefined}
-            class:list={[
-              'puzzle-piece relative isolate min-h-64 p-6 sm:p-7',
-              piece.final ? 'bg-brand-ember text-white' : 'bg-white text-brand-ink',
-            ]}
+            class="puzzle-piece relative isolate min-h-64 p-6 sm:p-7"
           >
-            <div class="relative z-10 flex h-full flex-col">
+            <svg class="pointer-events-none absolute inset-0 h-full w-full overflow-visible md:hidden" viewBox="-14 -14 128 128" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+              <path
+                d={puzzlePath(MOBILE_SHAPES[index])}
+                class={piece.final ? 'fill-brand-ember stroke-[#7A2F08]' : 'fill-white stroke-brand-line'}
+                stroke-width="1.5"
+                stroke-linejoin="round"
+                vector-effect="non-scaling-stroke"
+              />
+            </svg>
+            <svg class="pointer-events-none absolute inset-0 hidden h-full w-full overflow-visible md:block" viewBox="-14 -14 128 128" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+              <path
+                d={puzzlePath(DESKTOP_SHAPES[index])}
+                class={piece.final ? 'fill-brand-ember stroke-[#7A2F08]' : 'fill-white stroke-brand-line'}
+                stroke-width="1.5"
+                stroke-linejoin="round"
+                vector-effect="non-scaling-stroke"
+              />
+            </svg>
+            <div class:list={['relative z-10 flex h-full flex-col', piece.final ? 'text-white' : 'text-brand-ink']}>
               <div data-puzzle-icon class:list={['grid size-12 place-items-center rounded-xl transition-transform duration-300', piece.final ? 'bg-brand-ink text-white' : 'bg-brand-mist text-neutral-700']} aria-hidden="true">
                 <Icon name={piece.icon} size={23} />
               </div>
@@ -62,8 +169,11 @@ const PIECES: { title: string; value: string; technical: string; icon: IconName;
 
 <style>
   .puzzle-piece {
-    border: 1px solid #e5e7eb;
-    border-radius: 14px;
+    overflow: visible;
+    margin: -0.5px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
     transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms ease, filter 300ms ease;
   }
   .puzzle-piece:hover {
@@ -116,39 +226,8 @@ const PIECES: { title: string; value: string; technical: string; icon: IconName;
   }
 
   @media (min-width: 768px) {
-    .puzzle-piece {
-      border-radius: 0;
-      margin: -0.5px;
-    }
-    .puzzle-piece:nth-child(1) { border-radius: 14px 0 0 0; }
-    .puzzle-piece:nth-child(3) { border-radius: 0 14px 0 0; }
-    .puzzle-piece:nth-child(4) { border-radius: 0 0 0 14px; }
-    .puzzle-piece:nth-child(6) { border-radius: 0 0 14px 0; }
-    .puzzle-piece:not(:nth-child(3n))::after {
-      content: '';
-      position: absolute;
-      z-index: 20;
-      right: -15px;
-      top: calc(50% - 15px);
-      width: 30px;
-      height: 30px;
-      border: 1px solid #d5d1c7;
-      border-left: 0;
-      border-radius: 0 999px 999px 0;
-      background: inherit;
-    }
-    .puzzle-piece:nth-child(-n+3)::before {
-      content: '';
-      position: absolute;
-      z-index: 20;
-      bottom: -15px;
-      left: calc(50% - 15px);
-      width: 30px;
-      height: 30px;
-      border: 1px solid #d5d1c7;
-      border-top: 0;
-      border-radius: 0 0 999px 999px;
-      background: inherit;
+    .puzzle-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
   @media (min-width: 1024px) {
